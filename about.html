@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arkinesis — About</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg:      #080b14;
+  --surface: #0d1220;
+  --border:  #1a2540;
+  --accent:  #00e5ff;
+  --accent2: #ff4d6d;
+  --accent3: #a8ff3e;
+  --text:    #c8d8f0;
+  --muted:   #4a5a7a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 52px 1fr 36px;
+}
+
+/* ── Scanline overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,229,255,0.012) 2px,
+    rgba(0,229,255,0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ── */
+header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.2rem 0.5rem;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.logo:hover { background: rgba(0,229,255,0.08); }
+
+.header-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.back-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Main content ── */
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+  width: 100%;
+}
+
+/* ── Hero ── */
+.hero {
+  margin-bottom: 4rem;
+  border-left: 2px solid var(--accent);
+  padding-left: 1.5rem;
+}
+
+.hero-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.hero h1 {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.hero h1 span {
+  color: var(--text);
+  font-weight: 300;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.55em;
+  display: block;
+  letter-spacing: 0.05em;
+  margin-top: 0.3rem;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-top: 1.2rem;
+}
+
+.hero-desc strong {
+  color: var(--accent3);
+  font-weight: 600;
+}
+
+/* ── Sections ── */
+section {
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+p {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.75;
+  margin-bottom: 0.8rem;
+}
+
+/* ── How it works grid ── */
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 1.5rem;
+}
+
+.how-item {
+  background: var(--surface);
+  padding: 1.2rem 1rem;
+  position: relative;
+}
+
+.how-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 0.6rem;
+  user-select: none;
+}
+
+.how-item h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+}
+
+.how-item p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/* ── Para quién ── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (max-width: 540px) {
+  .audience-grid { grid-template-columns: 1fr; }
+}
+
+.audience-card {
+  border: 1px solid var(--border);
+  padding: 1.2rem;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.audience-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+.audience-card.alumnos::before { background: var(--accent); }
+.audience-card.profes::before  { background: var(--accent3); }
+.audience-card.devs::before    { background: var(--accent2); }
+.audience-card.todos::before   { background: var(--muted); }
+
+.audience-card h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.audience-card.alumnos h3 { color: var(--accent); }
+.audience-card.profes h3  { color: var(--accent3); }
+.audience-card.devs h3    { color: var(--accent2); }
+.audience-card.todos h3   { color: var(--muted); }
+
+.audience-card p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/* ── Licencia ── */
+.license-box {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+}
+
+.license-box::before {
+  content: 'CC BY-NC-SA 4.0';
+  position: absolute;
+  top: -0.6rem;
+  left: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--accent3);
+  background: var(--surface);
+  padding: 0 0.5rem;
+  border: 1px solid var(--border);
+}
+
+.license-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.license-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.license-icon {
+  font-size: 1rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.license-item.yes  { color: var(--accent3); }
+.license-item.no   { color: var(--accent2); }
+.license-item.cond { color: var(--accent); }
+
+.license-note {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  font-style: italic;
+}
+
+.license-note strong {
+  color: var(--text);
+  font-style: normal;
+}
+
+/* ── Estructura técnica ── */
+.tree {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  line-height: 1.9;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.2rem 1.4rem;
+  margin-top: 1.2rem;
+  overflow-x: auto;
+}
+
+.tree .dir  { color: var(--accent); }
+.tree .file { color: var(--text); }
+.tree .note { color: var(--muted); font-style: italic; }
+
+/* ── CTA ── */
+.cta-bar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.cta-primary {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  font-weight: 700;
+  transition: opacity 0.2s;
+  text-transform: uppercase;
+}
+.cta-primary:hover { opacity: 0.85; }
+
+.cta-secondary {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.cta-secondary:hover { border-color: var(--accent3); color: var(--accent3); }
+
+/* ── Footer ── */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--muted);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Fade in ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero        { animation: fadeUp 0.5s ease both; }
+section      { animation: fadeUp 0.5s ease both; }
+section:nth-child(2) { animation-delay: 0.08s; }
+section:nth-child(3) { animation-delay: 0.14s; }
+section:nth-child(4) { animation-delay: 0.20s; }
+section:nth-child(5) { animation-delay: 0.26s; }
+section:nth-child(6) { animation-delay: 0.32s; }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">ARKINESIS</a>
+  <span class="header-title">// about</span>
+  <a class="back-btn" href="index.html">← simulador</a>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">// proyecto educativo abierto</div>
+    <h1>ARKINESIS
+      <span>Física interactiva para Bachillerato</span>
+    </h1>
+    <p class="hero-desc">
+      Un visualizador de fenómenos físicos que funciona <strong>sin backend, sin instalación y sin cuenta</strong>.
+      Abre el navegador, mueve los sliders y la física responde en tiempo real.
+      Diseñado para que cualquier alumno, profesor o desarrollador pueda usarlo, adaptarlo y hacerlo crecer.
+    </p>
+  </div>
+
+  <!-- CÓMO FUNCIONA -->
+  <section>
+    <div class="section-label">cómo funciona</div>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <h3>YAML define la física</h3>
+        <p>Variables, rangos, constantes y fórmulas declaradas en un fichero de texto plano.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <h3>El motor genera la UI</h3>
+        <p>Los sliders se crean automáticamente. No hay que tocar HTML para añadir una fórmula nueva.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <h3>El renderer dibuja</h3>
+        <p>Cada fenómeno tiene su propio módulo visual. Canvas 2D, tiempo real, sin librerías externas pesadas.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">04</div>
+        <h3>La URL es el estado</h3>
+        <p>Cualquier configuración de sliders se puede compartir con un enlace. El alumno recibe el enunciado precargado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUIÉN -->
+  <section>
+    <div class="section-label">para quién</div>
+    <div class="audience-grid">
+      <div class="audience-card alumnos">
+        <h3>Alumnos</h3>
+        <p>Explora cómo cambia la física cuando mueves los parámetros. Sin fórmulas muertas en papel.</p>
+      </div>
+      <div class="audience-card profes">
+        <h3>Profesores</h3>
+        <p>Comparte un enlace con los valores del enunciado precargados. Crea tus propios fenómenos en YAML.</p>
+      </div>
+      <div class="audience-card devs">
+        <h3>Desarrolladores</h3>
+        <p>Añade renderers, mejora el motor, bifurca el proyecto. La arquitectura está pensada para crecer.</p>
+      </div>
+      <div class="audience-card todos">
+        <h3>Cualquiera</h3>
+        <p>Ficheros estáticos. Sin cuenta. Sin servidor. Se abre en cualquier navegador moderno.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTRUCTURA -->
+  <section>
+    <div class="section-label">estructura del proyecto</div>
+    <p>El motor es genérico. Cada fórmula es autónoma: un YAML que describe la física y un JS que la dibuja.</p>
+    <div class="tree">
+<span class="dir">arkinesis/</span>
+├── <span class="file">index.html</span>       <span class="note">← shell principal, no hay que tocarla</span>
+├── <span class="file">motor.js</span>         <span class="note">← parsea YAML, genera UI, gestiona URL</span>
+├── <span class="dir">formulas/</span>
+│   ├── <span class="file">campo_magnetico.yaml</span>
+│   ├── <span class="file">gravedad_newton.yaml</span>
+│   └── <span class="file">[nueva_formula].yaml</span>   <span class="note">← añade la tuya aquí</span>
+└── <span class="dir">renderers/</span>
+    ├── <span class="file">campo_magnetico.js</span>
+    ├── <span class="file">gravedad_newton.js</span>
+    └── <span class="file">[nueva_formula].js</span>     <span class="note">← y su renderer aquí</span>
+    </div>
+  </section>
+
+  <!-- LICENCIA -->
+  <section>
+    <div class="section-label">licencia</div>
+    <p>
+      Arkinesis nació como semilla. Puede crecer, bifurcarse y adaptarse —
+      siempre que se mantenga abierto, se cite el origen y no se use para ganar dinero.
+    </p>
+
+    <div class="license-box">
+      <div class="license-items">
+        <div class="license-item yes">
+          <span class="license-icon">✓</span>
+          <span>Uso libre en cualquier contexto educativo</span>
+        </div>
+        <div class="license-item yes">
+          <span class="license-icon">✓</span>
+          <span>Compartir, redistribuir y adaptar</span>
+        </div>
+        <div class="license-item yes">
+          <span class="license-icon">✓</span>
+          <span>Modificar y crear proyectos derivados</span>
+        </div>
+        <div class="license-item no">
+          <span class="license-icon">✗</span>
+          <span>Uso comercial en cualquier forma</span>
+        </div>
+        <div class="license-item cond">
+          <span class="license-icon">→</span>
+          <span>Los derivados heredan esta misma licencia</span>
+        </div>
+        <div class="license-item cond">
+          <span class="license-icon">→</span>
+          <span>Siempre citando Arkinesis como origen</span>
+        </div>
+      </div>
+      <div class="license-note">
+        <strong>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</strong><br>
+        © 2025 V0raOnline — Si construyes sobre esto, menciona de dónde viene. El conocimiento crece cuando se comparte con honestidad.
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="section-label">empezar</div>
+    <p>No hay nada que instalar. Abre el simulador y empieza a mover cosas.</p>
+    <div class="cta-bar">
+      <a class="cta-primary" href="index.html">→ abrir simulador</a>
+      <a class="cta-secondary" href="https://github.com/V0raOnline/arkinesis" target="_blank">github</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>ARKINESIS — V0raOnline — CC BY-NC-SA 4.0</span>
+  <span>física interactiva para bachillerato</span>
+</footer>
+
+</body>
+</html>
