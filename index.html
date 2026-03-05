@@ -45,13 +45,15 @@ header {
 }
 
 .logo {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  padding: 0.2rem 0.5rem;
-  letter-spacing: 0.15em;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+.logo img {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 #formula-titulo {
@@ -65,7 +67,7 @@ header {
 
 select#formula-selector {
   font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
+  font-size: 0.76rem;
   background: var(--bg);
   color: var(--accent);
   border: 1px solid var(--border);
@@ -80,7 +82,7 @@ select#formula-selector:hover { border-color: var(--accent); }
 /* URL share */
 .url-btn {
   font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.90rem;
   background: transparent;
   color: var(--muted);
   border: 1px solid var(--border);
@@ -94,7 +96,7 @@ select#formula-selector:hover { border-color: var(--accent); }
 .url-btn.copied { border-color: var(--accent3); color: var(--accent3); }
 .reset-btn {
   font-family: 'Space Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.90rem;
   background: transparent;
   color: var(--muted);
   border: 1px solid var(--border);
@@ -147,7 +149,7 @@ select#formula-selector:hover { border-color: var(--accent); }
   top: 0.5rem;
   left: 0.7rem;
   font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.80rem;
   color: var(--muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -176,7 +178,7 @@ select#formula-selector:hover { border-color: var(--accent); }
 
 .panel-section h3 {
   font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.80rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
@@ -185,7 +187,7 @@ select#formula-selector:hover { border-color: var(--accent); }
 
 /* Descripción */
 #formula-desc {
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   color: var(--muted);
   line-height: 1.5;
 }
@@ -200,11 +202,11 @@ select#formula-selector:hover { border-color: var(--accent); }
   margin-bottom: 0.35rem;
 }
 
-.slider-name { font-size: 0.78rem; color: var(--text); }
+.slider-name { font-size: 0.86rem; color: var(--text); }
 
 .slider-val {
   font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.80rem;
   color: var(--accent);
 }
 
@@ -232,7 +234,7 @@ input[type=range]::-webkit-slider-thumb {
   border-left: 2px solid rgba(255,107,53,0.5);
   padding: 0.6rem 0.8rem;
   margin-bottom: 0.8rem;
-  font-size: 0.72rem;
+  font-size: 0.90rem;
   color: rgba(200,216,240,0.6);
   line-height: 1.5;
   font-style: italic;
@@ -254,7 +256,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .result-name {
   font-family: 'Space Mono', monospace;
-  font-size: 0.56rem;
+  font-size: 0.68rem;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -263,7 +265,7 @@ input[type=range]::-webkit-slider-thumb {
 
 .result-value {
   font-family: 'Space Mono', monospace;
-  font-size: 0.82rem;
+  font-size: 0.90rem;
   color: var(--accent);
   font-weight: 700;
 }
@@ -271,7 +273,7 @@ input[type=range]::-webkit-slider-thumb {
 .result-item.highlight .result-value { color: var(--accent3); }
 
 .result-unit {
-  font-size: 0.65rem;
+  font-size: 0.76rem;
   font-weight: 400;
   color: var(--muted);
 }
@@ -284,7 +286,7 @@ footer {
   padding: 0 1.5rem;
   border-top: 1px solid var(--border);
   font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.80rem;
   color: var(--muted);
 }
 
@@ -294,30 +296,29 @@ footer {
   align-items: center;
 }
 
-.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.58rem; }
+.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.80rem; }
 .dot { width: 7px; height: 7px; border-radius: 50%; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">ARKINESIS</div>
+  <div class="logo"><img src="logo.png" alt="ARKINESIS"></div>
   <div id="formula-titulo">Cargando…</div>
   <select id="formula-selector"></select>
   <button class="reset-btn" id="btn-reset">↺ reset</button>
   <button class="url-btn" id="btn-copy-url">⎘ copiar enlace</button>
-  <a class="url-btn" href="about.html">about</a>
 </header>
 
 <div class="main">
   <div class="canvas-area">
     <div class="canvases">
       <div class="canvas-box">
-        <div class="canvas-label">Vista <span>3D</span></div>
+        <div class="canvas-label">Vista <span>A</span></div>
         <canvas id="canvas-main"></canvas>
       </div>
       <div class="canvas-box">
-        <div class="canvas-label">Vista <span>plano</span></div>
+        <div class="canvas-label">Vista <span>B</span></div>
         <canvas id="canvas-secondary"></canvas>
       </div>
     </div>

@@ -259,6 +259,7 @@ async function init() {
 const FORMULAS_DISPONIBLES = [
   { id: 'campo_magnetico',  label: 'Campo magnético' },
   { id: 'gravedad_newton',  label: 'Gravitación universal' },
+  { id: 'optica_lente',     label: 'Óptica — Lente delgada' },
   // añadir aquí nuevas fórmulas
 ];
 

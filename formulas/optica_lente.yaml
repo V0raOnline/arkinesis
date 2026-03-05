@@ -1,0 +1,62 @@
+id: optica_lente
+titulo: Óptica geométrica — Lente delgada
+renderer: optica_lente
+descripcion: >
+  Una lente delgada forma una imagen del objeto según la ecuación
+  de Gauss. La distancia focal determina si la lente es convergente
+  (f > 0) o divergente (f < 0). La imagen puede ser real o virtual,
+  derecha o invertida.
+
+variables:
+  f:
+    label: Distancia focal f
+    unidad: cm
+    min: -50
+    max: 50
+    step: 1
+    default: 20
+  so:
+    label: Distancia objeto
+    unidad: cm
+    min: 5
+    max: 120
+    step: 1
+    default: 40
+  ho:
+    label: Altura objeto
+    unidad: cm
+    min: 1
+    max: 20
+    step: 1
+    default: 8
+
+constantes: {}
+
+nota: >
+  ⚠ f > 0 → lente convergente · f < 0 → lente divergente.
+  Imagen real (s_i > 0): se forma al otro lado de la lente, puede proyectarse.
+  Imagen virtual (s_i < 0): se forma en el mismo lado que el objeto, no proyectable.
+
+formulas:
+  - id: si
+    label: Distancia imagen
+    expr: "1 / (1/f - 1/so)"
+    unidad: cm
+    latex: "\\frac{1}{s_i} = \\frac{1}{f} - \\frac{1}{s_o}"
+    destacado: true
+  - id: A
+    label: Ampliación lateral
+    expr: "si / so * -1"
+    unidad: ""
+    latex: "A = -\\frac{s_i}{s_o}"
+    destacado: true
+  - id: hi
+    label: Altura imagen
+    expr: "ho * A"
+    unidad: cm
+    latex: "h_i = h_o \\cdot A"
+  - id: P
+    label: Potencia
+    expr: "1 / (f / 100)"
+    unidad: D
+    latex: "P = \\frac{1}{f}"
