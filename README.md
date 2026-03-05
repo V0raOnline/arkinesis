@@ -1,4 +1,4 @@
-# Física Interactiva — BACH
+# Visualizador de física interactivo - arkinesis
 
 Visualizador interactivo de fenómenos físicos para Bachillerato.  
 Motor genérico alimentado por YAML. Sin backend. GitHub Pages.
