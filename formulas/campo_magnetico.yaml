@@ -1,0 +1,70 @@
+id: campo_magnetico
+titulo: Protón en campo magnético uniforme
+renderer: campo_magnetico
+descripcion: >
+  Una partícula cargada que entra en un campo magnético uniforme
+  describe una trayectoria helicoidal. El radio y el período dependen
+  de la masa, la carga y el campo — no de la velocidad.
+
+variables:
+  B:
+    label: Campo magnético B
+    unidad: T
+    min: 0.1
+    max: 2.0
+    step: 0.05
+    default: 0.5
+  v:
+    label: Velocidad v
+    unidad: "×10⁶ m/s"
+    min: 0.5
+    max: 5.0
+    step: 0.1
+    default: 2.0
+    escala: 1e6
+  theta:
+    label: Ángulo θ con B
+    unidad: "°"
+    min: 0
+    max: 180
+    step: 1
+    default: 60
+
+constantes:
+  m:
+    label: Masa del protón
+    valor: 1.67e-27
+    unidad: kg
+  q:
+    label: Carga del protón
+    valor: 1.6e-19
+    unidad: C
+
+formulas:
+  - id: F
+    label: Fuerza de Lorentz
+    expr: "q * v * B * sin(theta * PI / 180)"
+    unidad: N
+    latex: "F = qvB\\sin\\theta"
+  - id: vperp
+    label: Componente perpendicular
+    expr: "v * sin(theta * PI / 180)"
+    unidad: "m/s"
+    latex: "v_{\\perp} = v\\sin\\theta"
+  - id: vpar
+    label: Componente paralela
+    expr: "v * cos(theta * PI / 180)"
+    unidad: "m/s"
+    latex: "v_{\\parallel} = v\\cos\\theta"
+  - id: r
+    label: Radio de la hélice
+    expr: "m * vperp / (q * B)"
+    unidad: m
+    latex: "r = \\frac{mv_{\\perp}}{qB}"
+    destacado: true
+  - id: T
+    label: Período
+    expr: "2 * PI * m / (q * B)"
+    unidad: s
+    latex: "T = \\frac{2\\pi m}{qB}"
+    destacado: true
