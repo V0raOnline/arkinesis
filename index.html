@@ -80,7 +80,7 @@ select#formula-selector {
 select#formula-selector:hover { border-color: var(--accent); }
 
 /* URL share */
-.url-btn {
+.url-btn, a.url-btn {
   font-family: 'Space Mono', monospace;
   font-size: 0.90rem;
   background: transparent;
@@ -92,8 +92,8 @@ select#formula-selector:hover { border-color: var(--accent); }
   transition: all 0.2s;
   white-space: nowrap;
 }
-.url-btn:hover { border-color: var(--accent3); color: var(--accent3); }
-.url-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+.url-btn:hover, a.url-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+.url-btn.copied, a.url-btn.copied { border-color: var(--accent3); color: var(--accent3); }
 .reset-btn {
   font-family: 'Space Mono', monospace;
   font-size: 0.90rem;
@@ -307,6 +307,7 @@ footer {
   <div id="formula-titulo">Cargando…</div>
   <select id="formula-selector"></select>
   <button class="reset-btn" id="btn-reset">↺ reset</button>
+  <a class="url-btn" href="about.html">? about</a>
   <button class="url-btn" id="btn-copy-url">⎘ copiar enlace</button>
 </header>
 
