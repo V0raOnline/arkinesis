@@ -5,21 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARKINESIS</title>
 
-<!-- js-yaml para parsear los YAML de fórmulas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600;700&display=swap');
 
 :root {
-  --bg:       #080b14;
-  --surface:  #0d1220;
-  --border:   #1a2540;
-  --accent:   #00e5ff;
-  --accent2:  #ff4d6d;
-  --accent3:  #a8ff3e;
-  --text:     #c8d8f0;
-  --muted:    #4a5a7a;
+  --bg:      #080b14;
+  --surface: #0d1220;
+  --border:  #1a2540;
+  --accent:  #00e5ff;
+  --accent2: #ff4d6d;
+  --accent3: #a8ff3e;
+  --text:    #c8d8f0;
+  --muted:   #4a5a7a;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,13 +25,23 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Outfit', sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   display: grid;
   grid-template-rows: 52px 1fr 36px;
-  overflow: hidden;
 }
 
-/* ── Header ──────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,229,255,0.012) 2px, rgba(0,229,255,0.012) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
 header {
   display: flex;
   align-items: center;
@@ -42,243 +49,209 @@ header {
   padding: 0 1.5rem;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  white-space: nowrap;
   flex-shrink: 0;
+  text-decoration: none;
 }
-.logo img {
-  height: 36px;
-  width: auto;
-  display: block;
-}
+.logo img { height: 32px; width: auto; display: block; }
 
-#formula-titulo {
-  font-size: 0.95rem;
-  font-weight: 600;
+.header-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-select#formula-selector {
+.nav-btn {
   font-family: 'Space Mono', monospace;
-  font-size: 0.76rem;
-  background: var(--bg);
-  color: var(--accent);
-  border: 1px solid var(--border);
-  padding: 0.3rem 0.6rem;
-  cursor: pointer;
-  outline: none;
-  letter-spacing: 0.05em;
-}
-
-select#formula-selector:hover { border-color: var(--accent); }
-
-/* URL share */
-.url-btn, a.url-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
+  font-size: 0.6rem;
   background: transparent;
   color: var(--muted);
   border: 1px solid var(--border);
   padding: 0.3rem 0.7rem;
-  cursor: pointer;
-  letter-spacing: 0.08em;
+  text-decoration: none;
   transition: all 0.2s;
   white-space: nowrap;
 }
-.url-btn:hover, a.url-btn:hover { border-color: var(--accent3); color: var(--accent3); }
-.url-btn.copied, a.url-btn.copied { border-color: var(--accent3); color: var(--accent3); }
-.reset-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 0.3rem 0.7rem;
-  cursor: pointer;
-  letter-spacing: 0.08em;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.reset-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── Layout principal ─────────────────────────────────────── */
-.main {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  overflow: hidden;
-}
-
-/* ── Área de canvas ───────────────────────────────────────── */
-.canvas-area {
-  display: grid;
-  grid-template-rows: 1fr;
-  padding: 1rem;
-  gap: 1rem;
-  overflow: hidden;
-}
-
-.canvases {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.canvas-box {
+main {
   position: relative;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.canvas-box canvas {
-  display: block;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
   width: 100%;
-  height: 100%;
 }
 
-.canvas-label {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.7rem;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
-  color: var(--muted);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-
-.canvas-label span { color: var(--accent); }
-
-/* ── Panel derecho ────────────────────────────────────────── */
-.panel {
-  border-left: 1px solid var(--border);
-  background: var(--surface);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.panel::-webkit-scrollbar { width: 4px; }
-.panel::-webkit-scrollbar-track { background: transparent; }
-.panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-.panel-section {
-  padding: 1rem 1.2rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.panel-section h3 {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.9rem;
-}
-
-/* Descripción */
-#formula-desc {
-  font-size: 0.86rem;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-/* Sliders */
-.slider-row { margin-bottom: 1rem; }
-
-.slider-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 0.35rem;
-}
-
-.slider-name { font-size: 0.86rem; color: var(--text); }
-
-.slider-val {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
-  color: var(--accent);
-}
-
-input[type=range] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 2px;
-  background: var(--border);
-  outline: none;
-  cursor: pointer;
-}
-
-input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 11px;
-  height: 11px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--accent);
-}
-
-/* Nota informativa */
-.nota-info {
-  background: rgba(255,107,53,0.06);
-  border-left: 2px solid rgba(255,107,53,0.5);
-  padding: 0.6rem 0.8rem;
-  margin-bottom: 0.8rem;
-  font-size: 0.90rem;
-  color: rgba(200,216,240,0.6);
-  line-height: 1.5;
-  font-style: italic;
-}
-
-/* Resultados */
-#resultados-container { display: grid; gap: 0.6rem; }
-
-.result-item {
-  padding: 0.6rem 0.8rem;
-  background: rgba(255,255,255,0.02);
+.hero {
+  margin-bottom: 3.5rem;
   border-left: 2px solid var(--accent);
+  padding-left: 1.5rem;
+  animation: fadeUp 0.5s ease both;
 }
 
-.result-item.highlight {
-  border-left-color: var(--accent3);
-  background: rgba(168,255,62,0.04);
-}
-
-.result-name {
+.hero-tag {
   font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
+  font-size: 0.58rem;
   color: var(--muted);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.8rem;
 }
 
-.result-value {
+.hero h1 {
   font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
   color: var(--accent);
   font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
-.result-item.highlight .result-value { color: var(--accent3); }
+.hero h1 span {
+  color: var(--text);
+  font-weight: 300;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.5em;
+  display: block;
+  letter-spacing: 0.05em;
+  margin-top: 0.4rem;
+}
 
-.result-unit {
-  font-size: 0.76rem;
-  font-weight: 400;
+.hero-desc {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.7;
+  max-width: 560px;
+  margin-top: 1rem;
+  opacity: 0.8;
+}
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Cards ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  animation: fadeUp 0.5s ease 0.1s both;
+}
+
+.card {
+  background: var(--surface);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+  color: var(--text);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.card:hover::before { transform: scaleX(1); }
+.card:hover { background: rgba(0,229,255,0.03); }
+
+.card-preview {
+  width: 100%;
+  height: 180px;
+  display: block;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.card-body {
+  padding: 1.2rem 1.2rem 1.4rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
-/* ── Footer ───────────────────────────────────────────────── */
+.card-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.card-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+}
+
+.card-formulas {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem;
+  color: var(--muted);
+}
+
+.card-arrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent);
+  transition: transform 0.2s;
+}
+.card:hover .card-arrow { transform: translateX(4px); }
+
 footer {
   display: flex;
   justify-content: space-between;
@@ -286,105 +259,324 @@ footer {
   padding: 0 1.5rem;
   border-top: 1px solid var(--border);
   font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
+  font-size: 0.58rem;
   color: var(--muted);
+  position: relative;
+  z-index: 1;
 }
 
-.legend {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.80rem; }
-.dot { width: 7px; height: 7px; border-radius: 50%; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo"><img src="logo.png" alt="ARKINESIS"></div>
-  <div id="formula-titulo">Cargando…</div>
-  <select id="formula-selector"></select>
-  <button class="reset-btn" id="btn-reset">↺ reset</button>
-  <a class="url-btn" href="about.html">? about</a>
-  <button class="url-btn" id="btn-copy-url">⎘ copiar enlace</button>
+  <a class="logo" href="index.html"><img src="logo.png" alt="ARKINESIS"></a>
+  <span class="header-title">// física interactiva · bachillerato</span>
+  <a class="nav-btn" href="about.html">? about</a>
 </header>
 
-<div class="main">
-  <div class="canvas-area">
-    <div class="canvases">
-      <div class="canvas-box">
-        <div class="canvas-label">Vista <span>A</span></div>
-        <canvas id="canvas-main"></canvas>
-      </div>
-      <div class="canvas-box">
-        <div class="canvas-label">Vista <span>B</span></div>
-        <canvas id="canvas-secondary"></canvas>
-      </div>
-    </div>
+<main>
+
+  <div class="hero">
+    <div class="hero-tag">// elige un fenómeno y empieza a explorar</div>
+    <h1>ARKINESIS
+      <span>Simulador de física interactiva para Bachillerato</span>
+    </h1>
+    <p class="hero-desc">
+      Mueve los sliders. Observa cómo responde la física en tiempo real.
+      Cada simulación incluye visualización animada, fórmulas simbólicas y resolución paso a paso.
+    </p>
   </div>
 
-  <div class="panel">
-    <div class="panel-section">
-      <h3>Descripción</h3>
-      <p id="formula-desc"></p>
-    </div>
+  <div class="section-label">simulaciones disponibles</div>
 
-    <div class="panel-section">
-      <h3>Parámetros</h3>
-      <div id="sliders-container"></div>
-    </div>
+  <div class="cards-grid">
 
-    <div class="panel-section">
-      <h3>Resultados</h3>
-      <div id="nota-container"></div>
-      <div id="resultados-container"></div>
-    </div>
+    <a class="card" href="selector.html?formula=campo_magnetico">
+      <canvas class="card-preview" id="prev-campo"></canvas>
+      <div class="card-body">
+        <div class="card-tag">electromagnetismo</div>
+        <div class="card-title">Campo magnético uniforme</div>
+        <div class="card-desc">
+          Una partícula cargada en un campo magnético describe una trayectoria helicoidal.
+          El radio y el período dependen de la masa, la carga y el campo — no de la velocidad.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">F = qvB·sinθ · r = mv⊥/qB</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="selector.html?formula=gravedad_newton">
+      <canvas class="card-preview" id="prev-gravedad"></canvas>
+      <div class="card-body">
+        <div class="card-tag">gravitación</div>
+        <div class="card-title">Ley de Gravitación Universal</div>
+        <div class="card-desc">
+          Dos masas se atraen con una fuerza inversamente proporcional al cuadrado de la distancia.
+          Visualiza órbitas elípticas y el movimiento del baricentro.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">F = G·m₁·m₂/r² · T = 2π√(r³/Gm₁)</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="selector.html?formula=optica_lente">
+      <canvas class="card-preview" id="prev-optica"></canvas>
+      <div class="card-body">
+        <div class="card-tag">óptica geométrica</div>
+        <div class="card-title">Lente delgada</div>
+        <div class="card-desc">
+          Una lente delgada forma una imagen real o virtual según la posición del objeto.
+          Convergente o divergente, la ecuación de Gauss lo determina todo.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">1/f = 1/sₒ + 1/sᵢ · A = −sᵢ/sₒ</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
   </div>
-</div>
+
+</main>
 
 <footer>
-  <span id="footer-id">ARKINESIS</span>
-  <div class="legend">
-    <div class="legend-item"><div class="dot" style="background:#ff6b35"></div>partícula</div>
-    <div class="legend-item"><div class="dot" style="background:#00e5ff"></div>trayectoria</div>
-    <div class="legend-item"><div class="dot" style="background:#a8ff3e"></div>campo</div>
-    <div class="legend-item"><div class="dot" style="background:#ff4d6d"></div>fuerza/vel</div>
-  </div>
+  <span>ARKINESIS — V0raOnline — CC BY-NC-SA 4.0</span>
+  <span>física interactiva para bachillerato</span>
 </footer>
 
-<!-- Copiar URL -->
 <script>
-document.getElementById('btn-reset').addEventListener('click', () => {
-  if (!window._State || !window._State.formula) return;
-  const formula = window._State.formula;
-  for (const [key, config] of Object.entries(formula.variables)) {
-    window._State.valores[key] = config.default;
-    const slider = document.getElementById('sl-' + key);
-    const valEl  = document.getElementById('val-' + key);
-    if (slider) slider.value = config.default;
-    if (valEl)  valEl.textContent = config.default + ' ' + config.unidad;
-  }
-  // Limpiar params de URL salvo formula
-  const params = new URLSearchParams();
-  params.set('formula', formula.id);
-  history.replaceState(null, '', '?' + params.toString());
-});
+// ── Mini previews animados ────────────────────────────────────────────────
 
-document.getElementById('btn-copy-url').addEventListener('click', () => {
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = document.getElementById('btn-copy-url');
-    btn.textContent = '✓ copiado';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '⎘ copiar enlace';
-      btn.classList.remove('copied');
-    }, 2000);
-  });
+function resizeCanvas(c) {
+  c.width = c.offsetWidth;
+  c.height = c.offsetHeight;
+}
+
+// ── Campo magnético: hélice animada ──────────────────────────────────────
+function drawCampo() {
+  const c = document.getElementById('prev-campo');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  function iso(x, y, z) {
+    return [
+      W/2 + (x - z) * Math.cos(Math.PI/6) * 36,
+      H/2 - y * 36 * 0.65 + (x + z) * Math.sin(Math.PI/6) * 20
+    ];
+  }
+
+  (function tick() {
+    ctx.clearRect(0, 0, W, H);
+    frame++;
+
+    // Puntos campo B
+    ctx.fillStyle = 'rgba(0,229,255,0.15)';
+    for (let xi = -2; xi <= 2; xi++)
+      for (let yi = -1; yi <= 1; yi++) {
+        const [px, py] = iso(xi * 0.5, yi * 0.5, 1.2);
+        ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI*2); ctx.fill();
+      }
+
+    // Hélice completa tenue
+    const N = 180, turns = 2;
+    const r = 0.42, pitch = 0.28;
+    const pts = [];
+    for (let i = 0; i <= N; i++) {
+      const t = (i/N) * turns * 2 * Math.PI;
+      pts.push(iso(r*Math.cos(t), -0.7 + t/(turns*2*Math.PI)*pitch*turns*2.5, r*Math.sin(t)));
+    }
+    ctx.beginPath();
+    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+    ctx.strokeStyle = 'rgba(0,229,255,0.1)'; ctx.lineWidth = 1; ctx.stroke();
+
+    // Trail animado
+    const progress = (frame % 90) / 90;
+    const start = Math.floor(progress * N);
+    const len = 55;
+    ctx.beginPath();
+    for (let i = 0; i <= len; i++) {
+      const idx = (start + i) % N;
+      i === 0 ? ctx.moveTo(pts[idx][0], pts[idx][1]) : ctx.lineTo(pts[idx][0], pts[idx][1]);
+    }
+    ctx.strokeStyle = 'rgba(168,255,62,0.75)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    // Partícula
+    const cur = pts[Math.floor(progress * N)];
+    ctx.beginPath(); ctx.arc(cur[0], cur[1], 4, 0, Math.PI*2);
+    ctx.fillStyle = '#a8ff3e'; ctx.fill();
+    ctx.beginPath(); ctx.arc(cur[0], cur[1], 8, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(168,255,62,0.15)'; ctx.fill();
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+// ── Gravitación: órbita binaria ──────────────────────────────────────────
+function drawGravedad() {
+  const c = document.getElementById('prev-gravedad');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+  const OMEGA = (2 * Math.PI) / (420);
+  const cx = W/2, cy = H/2;
+  const a1 = 26, a2 = 50;
+
+  (function tick() {
+    ctx.clearRect(0, 0, W, H);
+    frame++;
+    const angle = frame * OMEGA;
+
+    // Órbitas guía
+    ctx.beginPath(); ctx.arc(cx, cy, a1, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(0,229,255,0.07)'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, a2, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(168,255,62,0.07)'; ctx.lineWidth = 1; ctx.stroke();
+
+    // Baricentro
+    ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fill();
+
+    // Trails
+    ctx.beginPath();
+    for (let i = 80; i >= 0; i--) {
+      const a = angle + Math.PI - i * OMEGA;
+      i === 80 ? ctx.moveTo(cx+a1*Math.cos(a), cy+a1*Math.sin(a))
+               : ctx.lineTo(cx+a1*Math.cos(a), cy+a1*Math.sin(a));
+    }
+    ctx.strokeStyle = 'rgba(0,229,255,0.25)'; ctx.lineWidth = 1.2; ctx.stroke();
+
+    ctx.beginPath();
+    for (let i = 80; i >= 0; i--) {
+      const a = angle - i * OMEGA;
+      i === 80 ? ctx.moveTo(cx+a2*Math.cos(a), cy+a2*Math.sin(a))
+               : ctx.lineTo(cx+a2*Math.cos(a), cy+a2*Math.sin(a));
+    }
+    ctx.strokeStyle = 'rgba(168,255,62,0.25)'; ctx.lineWidth = 1.2; ctx.stroke();
+
+    // m1
+    const x1 = cx + a1*Math.cos(angle + Math.PI);
+    const y1 = cy + a1*Math.sin(angle + Math.PI);
+    ctx.beginPath(); ctx.arc(x1, y1, 10, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,229,255,0.12)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(x1, y1, 7, 0, Math.PI*2);
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    // m2
+    const x2 = cx + a2*Math.cos(angle);
+    const y2 = cy + a2*Math.sin(angle);
+    ctx.beginPath(); ctx.arc(x2, y2, 6, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(168,255,62,0.12)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(x2, y2, 4, 0, Math.PI*2);
+    ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+// ── Óptica: rayos convergiendo ───────────────────────────────────────────
+function drawOptica() {
+  const c = document.getElementById('prev-optica');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  (function tick() {
+    ctx.clearRect(0, 0, W, H);
+    frame++;
+
+    const lx = W * 0.52, oy = H / 2;
+    const f = 55, so = 90;
+    const si = 1 / (1/f - 1/so);
+    const ox = lx - so;
+    const ix = lx + si;
+    const oh = 28;
+    const ih = oh * (si / so);
+
+    // Eje óptico
+    ctx.beginPath(); ctx.moveTo(20, oy); ctx.lineTo(W-20, oy);
+    ctx.strokeStyle = 'rgba(74,90,122,0.4)'; ctx.lineWidth = 1;
+    ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
+
+    // Focos
+    [lx-f, lx+f].forEach(fx => {
+      ctx.beginPath(); ctx.arc(fx, oy, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+    });
+
+    // Lente
+    ctx.beginPath(); ctx.moveTo(lx, oy-52); ctx.lineTo(lx, oy+52);
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2; ctx.stroke();
+    [[lx,oy-52,-1],[lx,oy+52,1]].forEach(([x,y,d]) => {
+      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-5,y+d*10); ctx.lineTo(x+5,y+d*10);
+      ctx.fillStyle = '#00e5ff'; ctx.fill();
+    });
+
+    // Objeto
+    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, oy-oh);
+    ctx.strokeStyle = '#ff6b35'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox,oy-oh); ctx.lineTo(ox-4,oy-oh+8); ctx.lineTo(ox+4,oy-oh+8);
+    ctx.fillStyle = '#ff6b35'; ctx.fill();
+
+    // Rayos animados (ciclo cada 100 frames)
+    const p = (frame % 100) / 100;
+    const rayos = [
+      { color: '#ff4d6d', y1: oy-oh, yL: oy-oh,            y2: oy+ih },
+      { color: '#00e5ff', y1: oy-oh, yL: oy,                y2: oy+ih },
+      { color: '#a8ff3e', y1: oy-oh, yL: oy-(oh*0.12),     y2: oy+ih },
+    ];
+
+    rayos.forEach(ray => {
+      ctx.strokeStyle = ray.color; ctx.lineWidth = 1;
+      const t1 = Math.min(p * 2, 1);
+      ctx.beginPath();
+      ctx.moveTo(ox, ray.y1);
+      ctx.lineTo(ox + (lx-ox)*t1, ray.y1 + (ray.yL-ray.y1)*t1);
+      ctx.stroke();
+      if (p > 0.5) {
+        const t2 = (p - 0.5) * 2;
+        ctx.beginPath();
+        ctx.moveTo(lx, ray.yL);
+        ctx.lineTo(lx + (ix-lx)*t2, ray.yL + (ray.y2-ray.yL)*t2);
+        ctx.stroke();
+      }
+    });
+
+    // Imagen (aparece al final del ciclo)
+    if (p > 0.88) {
+      ctx.globalAlpha = Math.min((p - 0.88) * 8, 1);
+      ctx.beginPath(); ctx.moveTo(ix, oy); ctx.lineTo(ix, oy+ih);
+      ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ix,oy+ih); ctx.lineTo(ix-4,oy+ih-8); ctx.lineTo(ix+4,oy+ih-8);
+      ctx.fillStyle = '#a8ff3e'; ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+window.addEventListener('load', () => {
+  drawCampo();
+  drawGravedad();
+  drawOptica();
 });
 </script>
 
-<script src="motor.js"></script>
 </body>
 </html>

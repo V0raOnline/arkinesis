@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARKINESIS</title>
+
+<!-- js-yaml para parsear los YAML de fórmulas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg:       #080b14;
+  --surface:  #0d1220;
+  --border:   #1a2540;
+  --accent:   #00e5ff;
+  --accent2:  #ff4d6d;
+  --accent3:  #a8ff3e;
+  --text:     #c8d8f0;
+  --muted:    #4a5a7a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 52px 1fr 36px;
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.logo img { height: 36px; width: auto; display: block; }
+
+#formula-titulo {
+  font-size: 0.95rem;
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+select#formula-selector {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.76rem;
+  background: var(--bg);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  outline: none;
+  letter-spacing: 0.05em;
+}
+select#formula-selector:hover { border-color: var(--accent); }
+
+.url-btn, a.url-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.90rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.url-btn:hover, a.url-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+.url-btn.copied, a.url-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+
+.reset-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.90rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.reset-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.home-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.90rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.home-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  overflow: hidden;
+}
+
+.canvas-area {
+  display: grid;
+  grid-template-rows: 1fr;
+  padding: 1rem;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.canvases {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.canvas-box {
+  position: relative;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.canvas-box canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-label {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.7rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.80rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.canvas-label span { color: var(--accent); }
+
+.panel {
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.panel::-webkit-scrollbar { width: 4px; }
+.panel::-webkit-scrollbar-track { background: transparent; }
+.panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.panel-section {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-section h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.80rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+#formula-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
+
+.slider-row { margin-bottom: 1rem; }
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.35rem;
+}
+
+.slider-name { font-size: 0.86rem; color: var(--text); }
+
+.slider-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.80rem;
+  color: var(--accent);
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.nota-info {
+  background: rgba(255,107,53,0.06);
+  border-left: 2px solid rgba(255,107,53,0.5);
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.90rem;
+  color: rgba(200,216,240,0.6);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+#resultados-container { display: grid; gap: 0.6rem; }
+
+.result-item {
+  padding: 0.6rem 0.8rem;
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid var(--accent);
+}
+.result-item.highlight {
+  border-left-color: var(--accent3);
+  background: rgba(168,255,62,0.04);
+}
+.result-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.2rem;
+}
+.result-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.90rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+.result-item.highlight .result-value { color: var(--accent3); }
+.result-unit { font-size: 0.76rem; font-weight: 400; color: var(--muted); }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.80rem;
+  color: var(--muted);
+}
+
+.legend { display: flex; gap: 1rem; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.80rem; }
+.dot { width: 7px; height: 7px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><img src="logo.png" alt="ARKINESIS"></div>
+  <div id="formula-titulo">Cargando…</div>
+  <select id="formula-selector"></select>
+  <button class="reset-btn" id="btn-reset">↺ reset</button>
+  <a class="home-btn" href="index.html">⌂ inicio</a>
+  <a class="url-btn" href="about.html">? about</a>
+  <button class="url-btn" id="btn-copy-url">⎘ copiar enlace</button>
+</header>
+
+<div class="main">
+  <div class="canvas-area">
+    <div class="canvases">
+      <div class="canvas-box">
+        <div class="canvas-label">Vista <span>A</span></div>
+        <canvas id="canvas-main"></canvas>
+      </div>
+      <div class="canvas-box">
+        <div class="canvas-label">Vista <span>B</span></div>
+        <canvas id="canvas-secondary"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-section">
+      <h3>Descripción</h3>
+      <p id="formula-desc"></p>
+    </div>
+
+    <div class="panel-section">
+      <h3>Parámetros</h3>
+      <div id="sliders-container"></div>
+    </div>
+
+    <div class="panel-section">
+      <h3>Resultados</h3>
+      <div id="nota-container"></div>
+      <div id="resultados-container"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span id="footer-id">ARKINESIS</span>
+  <div class="legend">
+    <div class="legend-item"><div class="dot" style="background:#ff6b35"></div>partícula</div>
+    <div class="legend-item"><div class="dot" style="background:#00e5ff"></div>trayectoria</div>
+    <div class="legend-item"><div class="dot" style="background:#a8ff3e"></div>campo</div>
+    <div class="legend-item"><div class="dot" style="background:#ff4d6d"></div>fuerza/vel</div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('btn-reset').addEventListener('click', () => {
+  if (!window._State || !window._State.formula) return;
+  const formula = window._State.formula;
+  for (const [key, config] of Object.entries(formula.variables)) {
+    window._State.valores[key] = config.default;
+    const slider = document.getElementById('sl-' + key);
+    const valEl  = document.getElementById('val-' + key);
+    if (slider) slider.value = config.default;
+    if (valEl)  valEl.textContent = config.default + ' ' + config.unidad;
+  }
+  const params = new URLSearchParams();
+  params.set('formula', formula.id);
+  history.replaceState(null, '', '?' + params.toString());
+});
+
+document.getElementById('btn-copy-url').addEventListener('click', () => {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = document.getElementById('btn-copy-url');
+    btn.textContent = '✓ copiado';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '⎘ copiar enlace';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+});
+</script>
+
+<script src="motor.js"></script>
+</body>
+</html>
