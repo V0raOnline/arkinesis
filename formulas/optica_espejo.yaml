@@ -1,0 +1,61 @@
+id: optica_espejo
+titulo: Óptica — Espejo esférico
+renderer: optica_espejo
+descripcion: >
+  Un espejo esférico forma imágenes por reflexión. En el espejo cóncavo
+  los rayos convergen hacia el foco real. En el convexo divergen como si
+  procediesen de un foco virtual situado detrás del espejo.
+
+descripcion_corta: >
+  El espejo esférico forma imágenes reales o virtuales según la posición
+  del objeto. La ecuación de Gauss es la misma que en lentes: 1/f = 1/sₒ + 1/sᵢ.
+  El signo de f distingue cóncavo (+) de convexo (−).
+
+formula_simbolica: "1/f = 1/sₒ + 1/sᵢ     A = −sᵢ/sₒ     f = R/2"
+
+formula_resuelta: "sᵢ = {si} cm     A = {A}     R = {R} cm"
+
+variables:
+  so:
+    label: Distancia objeto sₒ
+    unidad: cm
+    min: 5
+    max: 200
+    step: 5
+    default: 90
+  f:
+    label: Focal |f|
+    unidad: cm
+    min: 10
+    max: 100
+    step: 5
+    default: 40
+  ho:
+    label: Altura objeto hₒ
+    unidad: cm
+    min: 5
+    max: 40
+    step: 5
+    default: 20
+
+constantes: {}
+
+formulas:
+  - id: si
+    label: Distancia imagen sᵢ
+    expr: "1 / (1/f - 1/so)"
+    unidad: cm
+    destacado: true
+  - id: A
+    label: Ampliación A
+    expr: "-(1 / (1/f - 1/so)) / so"
+    unidad: ""
+    destacado: true
+  - id: hi
+    label: Altura imagen hᵢ
+    expr: "ho * (-(1 / (1/f - 1/so)) / so)"
+    unidad: cm
+  - id: R
+    label: Radio de curvatura R
+    expr: "f * 2"
+    unidad: cm

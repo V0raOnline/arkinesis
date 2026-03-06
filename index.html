@@ -352,6 +352,23 @@ footer {
       </div>
     </a>
 
+    <!-- Espejo esférico -->
+    <a class="card" href="selector.html?formula=optica_espejo">
+      <canvas class="card-preview" id="prev-espejo"></canvas>
+      <div class="card-body">
+        <div class="card-tag">óptica geométrica</div>
+        <div class="card-title">Espejo esférico</div>
+        <div class="card-desc">
+          El espejo cóncavo forma imágenes reales e invertidas cuando el objeto está más allá del foco.
+          El convexo produce siempre imágenes virtuales y reducidas.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">1/f = 1/sₒ + 1/sᵢ &nbsp;·&nbsp; f = R/2</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
     <!-- Onda armónica -->
     <a class="card" href="selector.html?formula=onda_armonica">
       <canvas class="card-preview" id="prev-onda"></canvas>
@@ -669,10 +686,105 @@ function drawOnda() {
   })();
 }
 
+// ── Preview: Espejo esférico ─────────────────────────────────────────────────
+function drawEspejo() {
+  const c = document.getElementById('prev-espejo');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(26,37,64,0.5)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const ex = W * 0.72, ey = H / 2;
+    const espH = H * 0.36;
+    const R = espH * 2.2;
+
+    // Eje óptico
+    ctx.beginPath(); ctx.moveTo(0,ey); ctx.lineTo(W,ey);
+    ctx.strokeStyle = 'rgba(74,90,122,0.4)'; ctx.lineWidth = 1;
+    ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
+
+    // Espejo cóncavo
+    const angle = Math.asin(espH / R);
+    ctx.beginPath();
+    ctx.arc(ex + Math.sqrt(R*R - espH*espH), ey, R, Math.PI - angle, Math.PI + angle);
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(ex + Math.sqrt(R*R - espH*espH) + 5, ey, R, Math.PI - angle, Math.PI + angle);
+    ctx.strokeStyle = 'rgba(0,229,255,0.12)'; ctx.lineWidth = 5; ctx.stroke();
+
+    const fPx = R / 2 * 0.5;
+    const fX = ex - fPx;
+
+    // Foco
+    ctx.beginPath(); ctx.arc(fX, ey, 3, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,229,255,0.4)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(fX, ey, 1.5, 0, Math.PI*2);
+    ctx.fillStyle = '#00e5ff'; ctx.fill();
+
+    // Objeto animado oscilando
+    const osc = 0.5 + 0.5 * Math.sin(frame * 0.018);
+    const ox = ex - fPx * (1.8 + osc * 1.2);
+    const oh = espH * 0.45;
+
+    ctx.strokeStyle = '#ff6b35'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(ox, ey); ctx.lineTo(ox, ey - oh); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox, ey-oh); ctx.lineTo(ox-4, ey-oh+8); ctx.lineTo(ox+4, ey-oh+8);
+    ctx.fillStyle = '#ff6b35'; ctx.fill();
+
+    // Rayos
+    const so = (ex - ox);
+    const f = fPx;
+    const si = 1 / (1/f - 1/so);
+    if (isFinite(si) && si > 0) {
+      const ix = ex - si;
+      const ih = oh * (si / so);
+
+      // Rayo 1: paralelo
+      ctx.beginPath(); ctx.moveTo(ox, ey-oh); ctx.lineTo(ex, ey-oh);
+      ctx.strokeStyle = '#ff4d6d'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(ex, ey-oh); ctx.lineTo(ix, ey+ih);
+      ctx.stroke();
+
+      // Rayo 2: por foco
+      const r2y = ey - oh * (ex - fX) / (ex - ox - fX + fX);
+      ctx.beginPath(); ctx.moveTo(ox, ey-oh); ctx.lineTo(ex, ey-oh*(ex-ox)/(ex-fX-1));
+      ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 1; ctx.stroke();
+
+      // Imagen
+      if (ix > 0 && ix < W) {
+        // Pantalla
+        ctx.strokeStyle = 'rgba(168,255,62,0.2)'; ctx.lineWidth = 5;
+        ctx.beginPath(); ctx.moveTo(ix, ey-espH*0.7); ctx.lineTo(ix, ey+espH*0.7); ctx.stroke();
+        ctx.strokeStyle = 'rgba(168,255,62,0.5)'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(ix, ey-espH*0.7); ctx.lineTo(ix, ey+espH*0.7); ctx.stroke();
+
+        ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(ix, ey); ctx.lineTo(ix, ey+ih); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ix, ey+ih); ctx.lineTo(ix-4, ey+ih-8); ctx.lineTo(ix+4, ey+ih-8);
+        ctx.fillStyle = '#a8ff3e'; ctx.fill();
+      }
+    }
+
+    requestAnimationFrame(tick);
+  })();
+}
+
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
   drawOptica();
+  drawEspejo();
   drawOnda();
 });
 </script>
