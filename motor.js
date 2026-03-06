@@ -175,7 +175,8 @@ function actualizarResultados(formula, resultados) {
 // ─── Actualizar título ────────────────────────────────────────────────────────
 function actualizarHeader(formula) {
   document.getElementById('formula-titulo').textContent = formula.titulo;
-  document.getElementById('formula-desc').textContent = formula.descripcion || '';
+  const descEl = document.getElementById('formula-desc');
+  if (descEl) descEl.textContent = formula.descripcion || '';
 }
 
 // ─── Cargar renderer dinámicamente ───────────────────────────────────────────
@@ -223,6 +224,10 @@ async function init() {
     generarSliders(State.formula, State.valores, () => {
       const res = evaluarFormulas(State.formula, State.valores);
       actualizarResultados(State.formula, res);
+      if (window._actualizarCajaInfo) {
+        window._mostrarFormulaSim && window._mostrarFormulaSim();
+        window._actualizarCajaInfo(State.formula, res);
+      }
       updateURL();
     });
 
@@ -248,6 +253,12 @@ async function init() {
 
     // 9. Poblar selector de fórmulas
     poblarSelector(formulaId);
+
+    // 10. Inicializar caja info
+    setTimeout(() => {
+      const resInit = evaluarFormulas(State.formula, State.valores);
+      if (window._actualizarCajaInfo) window._actualizarCajaInfo(State.formula, resInit);
+    }, 0);
 
   } catch (e) {
     console.error('Error iniciando motor:', e);

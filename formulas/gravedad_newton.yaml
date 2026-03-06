@@ -5,6 +5,15 @@ descripcion: >
   Dos masas se atraen con una fuerza proporcional al producto
   de sus masas e inversamente proporcional al cuadrado de la distancia.
 
+descripcion_corta: >
+  Dos masas orbitan su baricentro común bajo atracción gravitatoria.
+  La fuerza depende del producto de masas y del cuadrado de la distancia.
+  El período crece con la distancia y disminuye con la masa central.
+
+formula_simbolica: "F = G·m₁·m₂ / r²     T = 2π·√(r³ / G·m₁)"
+
+formula_resuelta: "F = {F} N     T = {T} s     v = {v_orb} m/s"
+
 variables:
   m1:
     label: Masa 1

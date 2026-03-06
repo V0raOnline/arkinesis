@@ -7,6 +7,15 @@ descripcion: >
   (f > 0) o divergente (f < 0). La imagen puede ser real o virtual,
   derecha o invertida.
 
+descripcion_corta: >
+  Una lente delgada forma una imagen real o virtual según la posición
+  del objeto respecto al foco. La potencia (dioptrías) mide la capacidad
+  de refracción. La ampliación indica tamaño y orientación de la imagen.
+
+formula_simbolica: "1/f = 1/sₒ + 1/sᵢ     A = −sᵢ/sₒ     P = 1/f"
+
+formula_resuelta: "1/{f} = 1/{so} + 1/sᵢ → sᵢ = {si} cm     A = {A}     P = {P} D"
+
 variables:
   f:
     label: Distancia focal f

@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARKINESIS</title>
-
-<!-- js-yaml para parsear los YAML de fórmulas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
@@ -34,11 +32,12 @@ body {
   overflow: hidden;
 }
 
+/* ── Header ── */
 header {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0 1.5rem;
+  gap: 0.6rem;
+  padding: 0 1.2rem;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
@@ -46,13 +45,12 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  white-space: nowrap;
   flex-shrink: 0;
 }
-.logo img { height: 36px; width: auto; display: block; }
+.logo img { height: 34px; width: auto; display: block; }
 
 #formula-titulo {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 600;
   flex: 1;
   white-space: nowrap;
@@ -62,102 +60,75 @@ header {
 
 select#formula-selector {
   font-family: 'Space Mono', monospace;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   background: var(--bg);
   color: var(--accent);
   border: 1px solid var(--border);
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 0.5rem;
   cursor: pointer;
   outline: none;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 select#formula-selector:hover { border-color: var(--accent); }
 
-.url-btn, a.url-btn {
+.hdr-btn {
   font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
+  font-size: 0.68rem;
   background: transparent;
   color: var(--muted);
   border: 1px solid var(--border);
-  padding: 0.3rem 0.7rem;
+  padding: 0.28rem 0.65rem;
   cursor: pointer;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   transition: all 0.2s;
   white-space: nowrap;
   text-decoration: none;
 }
-.url-btn:hover, a.url-btn:hover { border-color: var(--accent3); color: var(--accent3); }
-.url-btn.copied, a.url-btn.copied { border-color: var(--accent3); color: var(--accent3); }
+.hdr-btn:hover         { border-color: var(--accent3); color: var(--accent3); }
+.hdr-btn.reset:hover   { border-color: var(--accent2); color: var(--accent2); }
+.hdr-btn.home:hover    { border-color: var(--accent);  color: var(--accent); }
+.hdr-btn.copied        { border-color: var(--accent3); color: var(--accent3); }
 
-.reset-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 0.3rem 0.7rem;
-  cursor: pointer;
-  letter-spacing: 0.08em;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.reset-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-
-.home-btn {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 0.3rem 0.7rem;
-  cursor: pointer;
-  letter-spacing: 0.08em;
-  transition: all 0.2s;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.home-btn:hover { border-color: var(--accent); color: var(--accent); }
-
+/* ── Main layout ── */
 .main {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 290px;
   overflow: hidden;
 }
 
+/* ── Canvas area ── */
 .canvas-area {
   display: grid;
-  grid-template-rows: 1fr;
-  padding: 1rem;
-  gap: 1rem;
+  grid-template-rows: 1fr 130px;
+  padding: 0.8rem;
+  gap: 0.8rem;
   overflow: hidden;
 }
 
 .canvases {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.8rem;
+  min-height: 0;
 }
 
 .canvas-box {
   position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
-  border-radius: 2px;
   overflow: hidden;
 }
-
 .canvas-box canvas {
   display: block;
   width: 100%;
   height: 100%;
 }
-
 .canvas-label {
   position: absolute;
   top: 0.5rem;
   left: 0.7rem;
   font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
+  font-size: 0.75rem;
   color: var(--muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -165,6 +136,92 @@ select#formula-selector:hover { border-color: var(--accent); }
 }
 .canvas-label span { color: var(--accent); }
 
+/* ── Caja inferior ── */
+.info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  min-height: 0;
+}
+
+.info-box {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0.7rem 0.9rem;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.info-box-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.info-desc {
+  font-size: 0.76rem;
+  color: var(--text);
+  line-height: 1.5;
+  opacity: 0.75;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.info-formula-simbolica {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+/* Caja derecha — solución */
+.info-box-right {
+  justify-content: center;
+}
+
+.formula-display {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.76rem;
+  color: var(--accent);
+  line-height: 1.7;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.formula-display.solucion {
+  color: var(--accent3);
+}
+
+.btn-solucion {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.2rem 0.55rem;
+  cursor: pointer;
+  letter-spacing: 0.07em;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.btn-solucion:hover        { border-color: var(--accent3); color: var(--accent3); }
+.btn-solucion.activo       { border-color: var(--accent3); color: var(--accent3); }
+
+/* ── Panel derecho ── */
 .panel {
   border-left: 1px solid var(--border);
   background: var(--surface);
@@ -177,35 +234,29 @@ select#formula-selector:hover { border-color: var(--accent); }
 .panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 .panel-section {
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1.1rem;
   border-bottom: 1px solid var(--border);
 }
-
 .panel-section h3 {
   font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
+  font-size: 0.72rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.85rem;
 }
 
-#formula-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
-
-.slider-row { margin-bottom: 1rem; }
-
+.slider-row { margin-bottom: 0.9rem; }
 .slider-header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.3rem;
 }
-
-.slider-name { font-size: 0.86rem; color: var(--text); }
-
+.slider-name { font-size: 0.84rem; color: var(--text); }
 .slider-val {
   font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
+  font-size: 0.76rem;
   color: var(--accent);
 }
 
@@ -219,8 +270,7 @@ input[type=range] {
 }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 11px;
-  height: 11px;
+  width: 11px; height: 11px;
   background: var(--accent);
   border-radius: 50%;
   box-shadow: 0 0 6px var(--accent);
@@ -229,18 +279,18 @@ input[type=range]::-webkit-slider-thumb {
 .nota-info {
   background: rgba(255,107,53,0.06);
   border-left: 2px solid rgba(255,107,53,0.5);
-  padding: 0.6rem 0.8rem;
-  margin-bottom: 0.8rem;
-  font-size: 0.90rem;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.76rem;
   color: rgba(200,216,240,0.6);
   line-height: 1.5;
   font-style: italic;
 }
 
-#resultados-container { display: grid; gap: 0.6rem; }
+#resultados-container { display: grid; gap: 0.5rem; }
 
 .result-item {
-  padding: 0.6rem 0.8rem;
+  padding: 0.5rem 0.7rem;
   background: rgba(255,255,255,0.02);
   border-left: 2px solid var(--accent);
 }
@@ -250,35 +300,35 @@ input[type=range]::-webkit-slider-thumb {
 }
 .result-name {
   font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
 }
 .result-value {
   font-family: 'Space Mono', monospace;
-  font-size: 0.90rem;
+  font-size: 0.86rem;
   color: var(--accent);
   font-weight: 700;
 }
 .result-item.highlight .result-value { color: var(--accent3); }
-.result-unit { font-size: 0.76rem; font-weight: 400; color: var(--muted); }
+.result-unit { font-size: 0.72rem; font-weight: 400; color: var(--muted); }
 
+/* ── Footer ── */
 footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
+  padding: 0 1.2rem;
   border-top: 1px solid var(--border);
   font-family: 'Space Mono', monospace;
-  font-size: 0.80rem;
+  font-size: 0.68rem;
   color: var(--muted);
 }
-
-.legend { display: flex; gap: 1rem; align-items: center; }
-.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.80rem; }
-.dot { width: 7px; height: 7px; border-radius: 50%; }
+.legend { display: flex; gap: 0.8rem; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; }
+.dot { width: 6px; height: 6px; border-radius: 50%; }
 </style>
 </head>
 <body>
@@ -287,13 +337,15 @@ footer {
   <div class="logo"><img src="logo.png" alt="ARKINESIS"></div>
   <div id="formula-titulo">Cargando…</div>
   <select id="formula-selector"></select>
-  <button class="reset-btn" id="btn-reset">↺ reset</button>
-  <a class="home-btn" href="index.html">⌂ inicio</a>
-  <a class="url-btn" href="about.html">? about</a>
-  <button class="url-btn" id="btn-copy-url">⎘ copiar enlace</button>
+  <button class="hdr-btn reset" id="btn-reset">↺ reset</button>
+  <button class="hdr-btn" id="btn-copy-url">⎘ copiar enlace</button>
+  <a class="hdr-btn home" href="index.html">⌂ inicio</a>
+  <a class="hdr-btn" href="about.html">? about</a>
 </header>
 
 <div class="main">
+
+  <!-- Canvas + caja info -->
   <div class="canvas-area">
     <div class="canvases">
       <div class="canvas-box">
@@ -305,25 +357,40 @@ footer {
         <canvas id="canvas-secondary"></canvas>
       </div>
     </div>
+
+    <!-- Fila inferior -->
+    <div class="info-row">
+
+      <!-- Izquierda: descripción + fórmula simbólica -->
+      <div class="info-box">
+        <div class="info-box-label">descripción</div>
+        <div class="info-desc" id="info-desc-text"></div>
+        <div class="info-formula-simbolica" id="info-formula-sim"></div>
+      </div>
+
+      <!-- Derecha: fórmula con valores -->
+      <div class="info-box info-box-right">
+        <div class="info-box-label">fórmula</div>
+        <button class="btn-solucion" id="btn-solucion">mostrar solución</button>
+        <div class="formula-display" id="formula-display"></div>
+      </div>
+
+    </div>
   </div>
 
+  <!-- Panel -->
   <div class="panel">
-    <div class="panel-section">
-      <h3>Descripción</h3>
-      <p id="formula-desc"></p>
-    </div>
-
     <div class="panel-section">
       <h3>Parámetros</h3>
       <div id="sliders-container"></div>
     </div>
-
     <div class="panel-section">
       <h3>Resultados</h3>
       <div id="nota-container"></div>
       <div id="resultados-container"></div>
     </div>
   </div>
+
 </div>
 
 <footer>
@@ -337,6 +404,87 @@ footer {
 </footer>
 
 <script>
+// ── formatNum (duplicada de motor.js para uso independiente) ────────────────
+function formatNum(n) {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  const abs = Math.abs(n);
+  if (abs === 0) return '0';
+  const exp = Math.floor(Math.log10(abs));
+  if (Math.abs(exp) >= 3) {
+    const m = (n / Math.pow(10, exp)).toFixed(2);
+    const sup = String(exp).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹⁻'['0123456789-'.indexOf(c)] || c).join('');
+    return `${m} × 10${sup}`;
+  }
+  return n.toPrecision(3);
+}
+
+// ── Estado solución ───────────────────────────────────────────────────────────
+let _solucionVisible = false;
+let _ultimaFormulaSim = '';
+let _ultimaFormulaRes = '';
+
+function mostrarFormulaSim() {
+  _solucionVisible = false;
+  const el = document.getElementById('formula-display');
+  const btn = document.getElementById('btn-solucion');
+  if (el) { el.textContent = _ultimaFormulaSim; el.classList.remove('solucion'); }
+  if (btn) { btn.textContent = 'mostrar solución'; btn.classList.remove('activo'); }
+}
+
+function actualizarCajaInfo(formula, resultados) {
+  // Descripción
+  const descEl = document.getElementById('info-desc-text');
+  if (descEl) descEl.textContent = formula.descripcion_corta || formula.descripcion || '';
+
+  // Fórmula simbólica
+  const simEl = document.getElementById('info-formula-sim');
+  _ultimaFormulaSim = formula.formula_simbolica || '';
+  if (simEl) simEl.textContent = _ultimaFormulaSim;
+
+  // Fórmula resuelta — sustituir {id} por valores (resultados + sliders)
+  let resuelta = formula.formula_resuelta || '';
+  if (resuelta) {
+    const valores = (window._State && window._State.valores) || {};
+    resuelta = resuelta.replace(/\{(\w+)\}/g, (_, id) => {
+      // Primero busca en resultados calculados, luego en valores de sliders
+      const fromRes = resultados && resultados[id];
+      if (fromRes !== null && fromRes !== undefined) return formatNum(fromRes);
+      const fromSlider = valores[id];
+      if (fromSlider !== null && fromSlider !== undefined) return formatNum(fromSlider);
+      return '—';
+    });
+  }
+  _ultimaFormulaRes = resuelta;
+
+  // Si la solución estaba visible, actualizar en tiempo real
+  if (_solucionVisible) {
+    const el = document.getElementById('formula-display');
+    if (el) el.textContent = _ultimaFormulaRes;
+  } else {
+    const el = document.getElementById('formula-display');
+    if (el) el.textContent = _ultimaFormulaSim;
+  }
+}
+
+// Botón mostrar solución
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('btn-solucion');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      _solucionVisible = !_solucionVisible;
+      if (_solucionVisible) {
+        const el = document.getElementById('formula-display');
+        if (el) { el.textContent = _ultimaFormulaRes; el.classList.add('solucion'); }
+        btn.textContent = 'ocultar solución';
+        btn.classList.add('activo');
+      } else {
+        mostrarFormulaSim();
+      }
+    });
+  }
+});
+
+// Reset
 document.getElementById('btn-reset').addEventListener('click', () => {
   if (!window._State || !window._State.formula) return;
   const formula = window._State.formula;
@@ -347,11 +495,13 @@ document.getElementById('btn-reset').addEventListener('click', () => {
     if (slider) slider.value = config.default;
     if (valEl)  valEl.textContent = config.default + ' ' + config.unidad;
   }
+  mostrarFormulaSim();
   const params = new URLSearchParams();
   params.set('formula', formula.id);
   history.replaceState(null, '', '?' + params.toString());
 });
 
+// Copiar enlace
 document.getElementById('btn-copy-url').addEventListener('click', () => {
   navigator.clipboard.writeText(window.location.href).then(() => {
     const btn = document.getElementById('btn-copy-url');
@@ -363,6 +513,10 @@ document.getElementById('btn-copy-url').addEventListener('click', () => {
     }, 2000);
   });
 });
+
+// Exponer para motor.js
+window._actualizarCajaInfo = actualizarCajaInfo;
+window._mostrarFormulaSim  = mostrarFormulaSim;
 </script>
 
 <script src="motor.js"></script>

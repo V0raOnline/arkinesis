@@ -6,6 +6,15 @@ descripcion: >
   describe una trayectoria helicoidal. El radio y el período dependen
   de la masa, la carga y el campo — no de la velocidad.
 
+descripcion_corta: >
+  Partícula cargada en campo magnético uniforme B.
+  La componente perpendicular de la velocidad genera movimiento circular.
+  La paralela genera traslación — resultado: hélice.
+
+formula_simbolica: "r = m·v⊥ / (q·B)     T = 2π·m / (q·B)"
+
+formula_resuelta: "r = {r} m     T = {T} s     F = {F} N"
+
 variables:
   B:
     label: Campo magnético B
