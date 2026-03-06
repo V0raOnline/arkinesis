@@ -344,6 +344,22 @@ footer {
       </div>
     </a>
 
+    <a class="card" href="selector.html?formula=onda_armonica">
+      <canvas class="card-preview" id="preview-onda"></canvas>
+      <div class="card-body">
+        <div class="card-tag">ondas</div>
+        <div class="card-title">Onda armónica</div>
+        <div class="card-desc">
+          Propagación sinusoidal en el espacio y el tiempo. Amplitud, longitud de onda,
+          frecuencia y velocidad. El MAS de cada partícula del medio.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">y = A·sin(ωt − kx) · v = λ·f</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 
 </main>
@@ -571,10 +587,72 @@ function drawOptica() {
   })();
 }
 
+// ── Preview: Onda armónica ───────────────────────────────────────────────────
+function drawOnda() {
+  const canvas = document.getElementById('preview-onda');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width  = canvas.parentElement.clientWidth;
+  canvas.height = canvas.parentElement.clientHeight;
+  const W = canvas.width, H = canvas.height;
+  let frame = 0;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    const A = 0.38 * H;
+    const lambda = W * 0.38;
+    const omega  = 2 * Math.PI * 0.6;
+    const k      = 2 * Math.PI / lambda;
+    const t      = frame / 60;
+    const cy     = H / 2;
+
+    // Grid
+    ctx.strokeStyle = 'rgba(26,37,64,0.5)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 32) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 32) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    // Eje
+    ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy);
+    ctx.strokeStyle = 'rgba(74,90,122,0.4)'; ctx.lineWidth = 1;
+    ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
+
+    // Onda
+    ctx.beginPath();
+    for (let px = 0; px < W; px++) {
+      const y = A * Math.sin(omega * t - k * px);
+      const py = cy - y;
+      px === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
+    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 7;
+    ctx.stroke(); ctx.shadowBlur = 0;
+
+    // Partícula observada
+    const xP = W * 0.6;
+    const yP = cy - A * Math.sin(omega * t - k * xP);
+    ctx.beginPath(); ctx.arc(xP, yP, 6, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,107,53,0.2)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(xP, yP, 3.5, 0, Math.PI*2);
+    ctx.fillStyle = '#ff6b35';
+    ctx.shadowColor = '#ff6b35'; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0;
+
+    // Línea vertical partícula
+    ctx.beginPath(); ctx.moveTo(xP, cy - A - 6); ctx.lineTo(xP, cy + A + 6);
+    ctx.strokeStyle = 'rgba(255,107,53,0.25)'; ctx.lineWidth = 1;
+    ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
+
+    requestAnimationFrame(tick);
+  })();
+}
+
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
   drawOptica();
+  drawOnda();
 });
 </script>
 

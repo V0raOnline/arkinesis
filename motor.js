@@ -271,6 +271,7 @@ const FORMULAS_DISPONIBLES = [
   { id: 'campo_magnetico',  label: 'Campo magnético' },
   { id: 'gravedad_newton',  label: 'Gravitación universal' },
   { id: 'optica_lente',     label: 'Óptica — Lente delgada' },
+  { id: 'onda_armonica',    label: 'Onda armónica' },
   // añadir aquí nuevas fórmulas
 ];
 

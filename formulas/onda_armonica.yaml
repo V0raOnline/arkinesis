@@ -1,0 +1,77 @@
+id: onda_armonica
+titulo: Onda armónica
+renderer: onda_armonica
+descripcion: >
+  Una onda armónica es una perturbación que se propaga en el espacio
+  con forma sinusoidal. La ecuación y(x,t) = A·sin(2π/T·t − 2π/λ·x)
+  describe el desplazamiento de cada punto del medio en función del tiempo.
+
+descripcion_corta: >
+  Perturbación sinusoidal que se propaga transportando energía sin
+  transportar materia. Cada punto del medio oscila en MAS alrededor
+  de su posición de equilibrio con amplitud A y período T.
+
+formula_simbolica: "y(x,t) = A·sin(2π/T·t − 2π/λ·x)     v = λ·f"
+
+formula_resuelta: "v = {v} m/s     λ = {lambda} m     T = {T} s     f = {f} Hz"
+
+variables:
+  A:
+    label: Amplitud A
+    unidad: m
+    min: 0.1
+    max: 2.0
+    step: 0.1
+    default: 1.0
+  lambda:
+    label: Longitud de onda λ
+    unidad: m
+    min: 0.5
+    max: 10.0
+    step: 0.5
+    default: 4.0
+  f:
+    label: Frecuencia f
+    unidad: Hz
+    min: 0.1
+    max: 5.0
+    step: 0.1
+    default: 1.0
+  x0:
+    label: Posición observada x₀
+    unidad: m
+    min: 0
+    max: 10
+    step: 0.5
+    default: 2.0
+
+constantes: {}
+
+formulas:
+  - id: T
+    label: Período
+    expr: "1 / f"
+    unidad: s
+    latex: "T = \\frac{1}{f}"
+    destacado: true
+  - id: v
+    label: Velocidad de propagación
+    expr: "lambda * f"
+    unidad: "m/s"
+    latex: "v = \\lambda \\cdot f"
+    destacado: true
+  - id: omega
+    label: Frecuencia angular
+    expr: "2 * PI * f"
+    unidad: "rad/s"
+    latex: "\\omega = 2\\pi f"
+  - id: k
+    label: Número de onda
+    expr: "2 * PI / lambda"
+    unidad: "rad/m"
+    latex: "k = \\frac{2\\pi}{\\lambda}"
+  - id: y0
+    label: Desplazamiento en x₀
+    expr: "A * sin(2 * PI * f * 0 - 2 * PI / lambda * x0)"
+    unidad: m
+    latex: "y(x_0, 0) = A\\sin(-kx_0)"
