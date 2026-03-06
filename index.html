@@ -296,6 +296,7 @@ footer {
 
   <div class="cards-grid">
 
+    <!-- Campo magnético -->
     <a class="card" href="selector.html?formula=campo_magnetico">
       <canvas class="card-preview" id="prev-campo"></canvas>
       <div class="card-body">
@@ -306,12 +307,13 @@ footer {
           El radio y el período dependen de la masa, la carga y el campo — no de la velocidad.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">F = qvB·sinθ · r = mv⊥/qB</span>
+          <span class="card-formulas">F = qvB·sinθ &nbsp;·&nbsp; r = mv⊥/qB</span>
           <span class="card-arrow">→</span>
         </div>
       </div>
     </a>
 
+    <!-- Gravitación -->
     <a class="card" href="selector.html?formula=gravedad_newton">
       <canvas class="card-preview" id="prev-gravedad"></canvas>
       <div class="card-body">
@@ -322,12 +324,13 @@ footer {
           Visualiza órbitas elípticas y el movimiento del baricentro.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">F = G·m₁·m₂/r² · T = 2π√(r³/Gm₁)</span>
+          <span class="card-formulas">F = G·m₁·m₂/r² &nbsp;·&nbsp; T = 2π√(r³/Gm₁)</span>
           <span class="card-arrow">→</span>
         </div>
       </div>
     </a>
 
+    <!-- Óptica lente -->
     <a class="card" href="selector.html?formula=optica_lente">
       <canvas class="card-preview" id="prev-optica"></canvas>
       <div class="card-body">
@@ -338,14 +341,15 @@ footer {
           Convergente o divergente, la ecuación de Gauss lo determina todo.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">1/f = 1/sₒ + 1/sᵢ · A = −sᵢ/sₒ</span>
+          <span class="card-formulas">1/f = 1/sₒ + 1/sᵢ &nbsp;·&nbsp; A = −sᵢ/sₒ</span>
           <span class="card-arrow">→</span>
         </div>
       </div>
     </a>
 
+    <!-- Onda armónica -->
     <a class="card" href="selector.html?formula=onda_armonica">
-      <canvas class="card-preview" id="preview-onda"></canvas>
+      <canvas class="card-preview" id="prev-onda"></canvas>
       <div class="card-body">
         <div class="card-tag">ondas</div>
         <div class="card-title">Onda armónica</div>
@@ -354,7 +358,7 @@ footer {
           frecuencia y velocidad. El MAS de cada partícula del medio.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">y = A·sin(ωt − kx) · v = λ·f</span>
+          <span class="card-formulas">y = A·sin(ωt − kx) &nbsp;·&nbsp; v = λ·f</span>
           <span class="card-arrow">→</span>
         </div>
       </div>
@@ -370,14 +374,12 @@ footer {
 </footer>
 
 <script>
-// ── Mini previews animados ────────────────────────────────────────────────
-
 function resizeCanvas(c) {
   c.width = c.offsetWidth;
   c.height = c.offsetHeight;
 }
 
-// ── Campo magnético: hélice animada ──────────────────────────────────────
+// ── Preview: Campo magnético ──────────────────────────────────────────────────
 function drawCampo() {
   const c = document.getElementById('prev-campo');
   if (!c) return;
@@ -394,52 +396,61 @@ function drawCampo() {
   }
 
   (function tick() {
-    ctx.clearRect(0, 0, W, H);
     frame++;
+    ctx.clearRect(0, 0, W, H);
 
-    // Puntos campo B
-    ctx.fillStyle = 'rgba(0,229,255,0.15)';
-    for (let xi = -2; xi <= 2; xi++)
-      for (let yi = -1; yi <= 1; yi++) {
-        const [px, py] = iso(xi * 0.5, yi * 0.5, 1.2);
-        ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI*2); ctx.fill();
+    // Grid
+    ctx.strokeStyle = 'rgba(26,37,64,0.6)';
+    ctx.lineWidth = 0.5;
+    for (let i = -2; i <= 2; i++) {
+      ctx.beginPath();
+      let [ax,ay] = iso(i,-1.2,-2), [bx,by] = iso(i,-1.2,2);
+      ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+      [ax,ay] = iso(-2,-1.2,i); [bx,by] = iso(2,-1.2,i);
+      ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+    }
+
+    // Campo B (puntos)
+    ctx.fillStyle = 'rgba(168,255,62,0.4)';
+    for (let xi = -1.5; xi <= 1.5; xi += 1.5) {
+      for (let zi = -1.5; zi <= 1.5; zi += 1.5) {
+        const [px,py] = iso(xi, 0.2, zi);
+        ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI*2); ctx.fill();
       }
+    }
 
-    // Hélice completa tenue
-    const N = 180, turns = 2;
-    const r = 0.42, pitch = 0.28;
+    // Hélice
+    const rN = 0.45, turns = 2, N = 200;
     const pts = [];
     for (let i = 0; i <= N; i++) {
-      const t = (i/N) * turns * 2 * Math.PI;
-      pts.push(iso(r*Math.cos(t), -0.7 + t/(turns*2*Math.PI)*pitch*turns*2.5, r*Math.sin(t)));
+      const t = (i/N)*turns*2*Math.PI;
+      pts.push(iso(rN*Math.cos(t), -1.0+(t/(turns*2*Math.PI))*2.2, rN*Math.sin(t)));
     }
-    ctx.beginPath();
-    pts.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
-    ctx.strokeStyle = 'rgba(0,229,255,0.1)'; ctx.lineWidth = 1; ctx.stroke();
 
-    // Trail animado
-    const progress = (frame % 90) / 90;
-    const start = Math.floor(progress * N);
-    const len = 55;
-    ctx.beginPath();
-    for (let i = 0; i <= len; i++) {
-      const idx = (start + i) % N;
-      i === 0 ? ctx.moveTo(pts[idx][0], pts[idx][1]) : ctx.lineTo(pts[idx][0], pts[idx][1]);
-    }
-    ctx.strokeStyle = 'rgba(168,255,62,0.75)'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Trail
+    const prog = (frame % 90) / 90;
+    const end = Math.floor(prog * N);
+    ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+    for (let i=1;i<=end;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.strokeStyle='rgba(0,229,255,0.15)'; ctx.lineWidth=6; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+    for (let i=1;i<=end;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.strokeStyle='#00e5ff'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]);
+    for (let i=1;i<=N;i++) ctx.lineTo(pts[i][0],pts[i][1]);
+    ctx.strokeStyle='rgba(0,229,255,0.08)'; ctx.lineWidth=1; ctx.stroke();
 
-    // Partícula
-    const cur = pts[Math.floor(progress * N)];
-    ctx.beginPath(); ctx.arc(cur[0], cur[1], 4, 0, Math.PI*2);
-    ctx.fillStyle = '#a8ff3e'; ctx.fill();
-    ctx.beginPath(); ctx.arc(cur[0], cur[1], 8, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(168,255,62,0.15)'; ctx.fill();
+    const [px,py] = pts[end];
+    ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,107,53,0.2)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(px,py,3.5,0,Math.PI*2);
+    ctx.fillStyle='#ff6b35'; ctx.shadowColor='#ff6b35'; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
 
     requestAnimationFrame(tick);
   })();
 }
 
-// ── Gravitación: órbita binaria ──────────────────────────────────────────
+// ── Preview: Gravitación ──────────────────────────────────────────────────────
 function drawGravedad() {
   const c = document.getElementById('prev-gravedad');
   if (!c) return;
@@ -447,63 +458,62 @@ function drawGravedad() {
   const ctx = c.getContext('2d');
   const W = c.width, H = c.height;
   let frame = 0;
-  const OMEGA = (2 * Math.PI) / (420);
-  const cx = W/2, cy = H/2;
-  const a1 = 26, a2 = 50;
 
   (function tick() {
-    ctx.clearRect(0, 0, W, H);
     frame++;
-    const angle = frame * OMEGA;
+    ctx.clearRect(0, 0, W, H);
 
-    // Órbitas guía
-    ctx.beginPath(); ctx.arc(cx, cy, a1, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(0,229,255,0.07)'; ctx.lineWidth = 1; ctx.stroke();
-    ctx.beginPath(); ctx.arc(cx, cy, a2, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(168,255,62,0.07)'; ctx.lineWidth = 1; ctx.stroke();
+    // Grid
+    ctx.strokeStyle = 'rgba(26,37,64,0.5)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const cx = W/2, cy = H/2;
+    const m1 = 5.97e24, m2 = 7.34e24, G = 6.674e-11;
+    const r = 3.84e8;
+    const T = 2 * Math.PI * Math.sqrt(r*r*r / (G*(m1+m2)));
+    const prog = (frame / 60) / T * (2*Math.PI);
 
     // Baricentro
-    ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fill();
+    const xb1 = -(m2/(m1+m2)) * r;
+    const xb2 =  (m1/(m1+m2)) * r;
+    const sc = 52 / r;
 
-    // Trails
-    ctx.beginPath();
-    for (let i = 80; i >= 0; i--) {
-      const a = angle + Math.PI - i * OMEGA;
-      i === 80 ? ctx.moveTo(cx+a1*Math.cos(a), cy+a1*Math.sin(a))
-               : ctx.lineTo(cx+a1*Math.cos(a), cy+a1*Math.sin(a));
-    }
-    ctx.strokeStyle = 'rgba(0,229,255,0.25)'; ctx.lineWidth = 1.2; ctx.stroke();
+    const x1 = cx + xb1*sc*Math.cos(prog),   y1 = cy + xb1*sc*Math.sin(prog);
+    const x2 = cx + xb2*sc*Math.cos(prog+Math.PI), y2 = cy + xb2*sc*Math.sin(prog+Math.PI);
 
-    ctx.beginPath();
-    for (let i = 80; i >= 0; i--) {
-      const a = angle - i * OMEGA;
-      i === 80 ? ctx.moveTo(cx+a2*Math.cos(a), cy+a2*Math.sin(a))
-               : ctx.lineTo(cx+a2*Math.cos(a), cy+a2*Math.sin(a));
-    }
-    ctx.strokeStyle = 'rgba(168,255,62,0.25)'; ctx.lineWidth = 1.2; ctx.stroke();
+    // Órbitas
+    ctx.beginPath(); ctx.arc(cx, cy, Math.abs(xb1)*sc, 0, Math.PI*2);
+    ctx.strokeStyle='rgba(0,229,255,0.12)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, Math.abs(xb2)*sc, 0, Math.PI*2);
+    ctx.strokeStyle='rgba(168,255,62,0.12)'; ctx.lineWidth=1; ctx.stroke();
 
-    // m1
-    const x1 = cx + a1*Math.cos(angle + Math.PI);
-    const y1 = cy + a1*Math.sin(angle + Math.PI);
-    ctx.beginPath(); ctx.arc(x1, y1, 10, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(0,229,255,0.12)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(x1, y1, 7, 0, Math.PI*2);
-    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Baricentro
+    ctx.beginPath(); ctx.arc(cx,cy,2,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.fill();
 
-    // m2
-    const x2 = cx + a2*Math.cos(angle);
-    const y2 = cy + a2*Math.sin(angle);
-    ctx.beginPath(); ctx.arc(x2, y2, 6, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(168,255,62,0.12)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(x2, y2, 4, 0, Math.PI*2);
-    ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 1.5; ctx.stroke();
+    // Masa 1
+    const r1g = ctx.createRadialGradient(x1,y1,0,x1,y1,12);
+    r1g.addColorStop(0,'rgba(0,229,255,0.9)'); r1g.addColorStop(1,'rgba(0,229,255,0)');
+    ctx.beginPath(); ctx.arc(x1,y1,12,0,Math.PI*2);
+    ctx.fillStyle=r1g; ctx.fill();
+    ctx.beginPath(); ctx.arc(x1,y1,5,0,Math.PI*2);
+    ctx.fillStyle='#00e5ff'; ctx.shadowColor='#00e5ff'; ctx.shadowBlur=10; ctx.fill(); ctx.shadowBlur=0;
+
+    // Masa 2
+    const r2g = ctx.createRadialGradient(x2,y2,0,x2,y2,18);
+    r2g.addColorStop(0,'rgba(168,255,62,0.9)'); r2g.addColorStop(1,'rgba(168,255,62,0)');
+    ctx.beginPath(); ctx.arc(x2,y2,18,0,Math.PI*2);
+    ctx.fillStyle=r2g; ctx.fill();
+    ctx.beginPath(); ctx.arc(x2,y2,8,0,Math.PI*2);
+    ctx.fillStyle='#a8ff3e'; ctx.shadowColor='#a8ff3e'; ctx.shadowBlur=12; ctx.fill(); ctx.shadowBlur=0;
 
     requestAnimationFrame(tick);
   })();
 }
 
-// ── Óptica: rayos convergiendo ───────────────────────────────────────────
+// ── Preview: Óptica lente ─────────────────────────────────────────────────────
 function drawOptica() {
   const c = document.getElementById('prev-optica');
   if (!c) return;
@@ -513,95 +523,98 @@ function drawOptica() {
   let frame = 0;
 
   (function tick() {
-    ctx.clearRect(0, 0, W, H);
     frame++;
+    ctx.clearRect(0, 0, W, H);
 
-    const lx = W * 0.52, oy = H / 2;
+    // Grid
+    ctx.strokeStyle = 'rgba(26,37,64,0.4)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const lx = W/2, oy = H/2;
     const f = 55, so = 90;
     const si = 1 / (1/f - 1/so);
     const ox = lx - so;
     const ix = lx + si;
-    const oh = 28;
-    const ih = oh * (si / so);
+    const oh = 28, ih = oh * (si/so);
 
     // Eje óptico
-    ctx.beginPath(); ctx.moveTo(20, oy); ctx.lineTo(W-20, oy);
-    ctx.strokeStyle = 'rgba(74,90,122,0.4)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(20,oy); ctx.lineTo(W-20,oy);
+    ctx.strokeStyle='rgba(74,90,122,0.4)'; ctx.lineWidth=1;
     ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
 
     // Focos
     [lx-f, lx+f].forEach(fx => {
-      ctx.beginPath(); ctx.arc(fx, oy, 2.5, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+      ctx.beginPath(); ctx.arc(fx,oy,2.5,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.fill();
     });
 
     // Lente
-    ctx.beginPath(); ctx.moveTo(lx, oy-52); ctx.lineTo(lx, oy+52);
-    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(lx,oy-52); ctx.lineTo(lx,oy+52);
+    ctx.strokeStyle='#00e5ff'; ctx.lineWidth=2; ctx.stroke();
     [[lx,oy-52,-1],[lx,oy+52,1]].forEach(([x,y,d]) => {
       ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-5,y+d*10); ctx.lineTo(x+5,y+d*10);
-      ctx.fillStyle = '#00e5ff'; ctx.fill();
+      ctx.fillStyle='#00e5ff'; ctx.fill();
     });
 
     // Objeto
-    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(ox, oy-oh);
-    ctx.strokeStyle = '#ff6b35'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox,oy); ctx.lineTo(ox,oy-oh);
+    ctx.strokeStyle='#ff6b35'; ctx.lineWidth=2; ctx.stroke();
     ctx.beginPath(); ctx.moveTo(ox,oy-oh); ctx.lineTo(ox-4,oy-oh+8); ctx.lineTo(ox+4,oy-oh+8);
-    ctx.fillStyle = '#ff6b35'; ctx.fill();
+    ctx.fillStyle='#ff6b35'; ctx.fill();
 
-    // Rayos animados (ciclo cada 100 frames)
+    // Rayos animados
     const p = (frame % 100) / 100;
     const rayos = [
-      { color: '#ff4d6d', y1: oy-oh, yL: oy-oh,            y2: oy+ih },
-      { color: '#00e5ff', y1: oy-oh, yL: oy,                y2: oy+ih },
-      { color: '#a8ff3e', y1: oy-oh, yL: oy-(oh*0.12),     y2: oy+ih },
+      { color:'#ff4d6d', y1:oy-oh, yL:oy-oh,        y2:oy+ih },
+      { color:'#00e5ff', y1:oy-oh, yL:oy,            y2:oy+ih },
+      { color:'#a8ff3e', y1:oy-oh, yL:oy-(oh*0.12),  y2:oy+ih },
     ];
 
     rayos.forEach(ray => {
-      ctx.strokeStyle = ray.color; ctx.lineWidth = 1;
-      const t1 = Math.min(p * 2, 1);
+      ctx.strokeStyle=ray.color; ctx.lineWidth=1;
+      const t1 = Math.min(p*2, 1);
       ctx.beginPath();
       ctx.moveTo(ox, ray.y1);
-      ctx.lineTo(ox + (lx-ox)*t1, ray.y1 + (ray.yL-ray.y1)*t1);
+      ctx.lineTo(ox+(lx-ox)*t1, ray.y1+(ray.yL-ray.y1)*t1);
       ctx.stroke();
       if (p > 0.5) {
-        const t2 = (p - 0.5) * 2;
+        const t2 = (p-0.5)*2;
         ctx.beginPath();
         ctx.moveTo(lx, ray.yL);
-        ctx.lineTo(lx + (ix-lx)*t2, ray.yL + (ray.y2-ray.yL)*t2);
+        ctx.lineTo(lx+(ix-lx)*t2, ray.yL+(ray.y2-ray.yL)*t2);
         ctx.stroke();
       }
     });
 
-    // Imagen (aparece al final del ciclo)
     if (p > 0.88) {
-      ctx.globalAlpha = Math.min((p - 0.88) * 8, 1);
-      ctx.beginPath(); ctx.moveTo(ix, oy); ctx.lineTo(ix, oy+ih);
-      ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.globalAlpha = Math.min((p-0.88)*8, 1);
+      ctx.beginPath(); ctx.moveTo(ix,oy); ctx.lineTo(ix,oy+ih);
+      ctx.strokeStyle='#a8ff3e'; ctx.lineWidth=2; ctx.stroke();
       ctx.beginPath(); ctx.moveTo(ix,oy+ih); ctx.lineTo(ix-4,oy+ih-8); ctx.lineTo(ix+4,oy+ih-8);
-      ctx.fillStyle = '#a8ff3e'; ctx.fill();
-      ctx.globalAlpha = 1;
+      ctx.fillStyle='#a8ff3e'; ctx.fill();
+      ctx.globalAlpha=1;
     }
 
     requestAnimationFrame(tick);
   })();
 }
 
-// ── Preview: Onda armónica ───────────────────────────────────────────────────
+// ── Preview: Onda armónica ────────────────────────────────────────────────────
 function drawOnda() {
-  const canvas = document.getElementById('preview-onda');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  canvas.width  = canvas.parentElement.clientWidth;
-  canvas.height = canvas.parentElement.clientHeight;
-  const W = canvas.width, H = canvas.height;
+  const c = document.getElementById('prev-onda');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
   let frame = 0;
 
   (function tick() {
     frame++;
     ctx.clearRect(0, 0, W, H);
 
-    const A = 0.38 * H;
+    const A      = 0.38 * H;
     const lambda = W * 0.38;
     const omega  = 2 * Math.PI * 0.6;
     const k      = 2 * Math.PI / lambda;
@@ -611,38 +624,38 @@ function drawOnda() {
     // Grid
     ctx.strokeStyle = 'rgba(26,37,64,0.5)';
     ctx.lineWidth = 0.5;
-    for (let x = 0; x < W; x += 32) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for (let y = 0; y < H; y += 32) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
 
     // Eje
-    ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy);
-    ctx.strokeStyle = 'rgba(74,90,122,0.4)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(W,cy);
+    ctx.strokeStyle='rgba(74,90,122,0.4)'; ctx.lineWidth=1;
     ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
 
     // Onda
     ctx.beginPath();
     for (let px = 0; px < W; px++) {
-      const y = A * Math.sin(omega * t - k * px);
+      const y = A * Math.sin(omega*t - k*px);
       const py = cy - y;
-      px === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      px === 0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
     }
-    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
-    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 7;
-    ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.strokeStyle='#00e5ff'; ctx.lineWidth=2;
+    ctx.shadowColor='#00e5ff'; ctx.shadowBlur=7;
+    ctx.stroke(); ctx.shadowBlur=0;
 
     // Partícula observada
-    const xP = W * 0.6;
-    const yP = cy - A * Math.sin(omega * t - k * xP);
-    ctx.beginPath(); ctx.arc(xP, yP, 6, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,107,53,0.2)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(xP, yP, 3.5, 0, Math.PI*2);
-    ctx.fillStyle = '#ff6b35';
-    ctx.shadowColor = '#ff6b35'; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0;
+    const xP = W * 0.62;
+    const yP = cy - A * Math.sin(omega*t - k*xP);
 
-    // Línea vertical partícula
-    ctx.beginPath(); ctx.moveTo(xP, cy - A - 6); ctx.lineTo(xP, cy + A + 6);
-    ctx.strokeStyle = 'rgba(255,107,53,0.25)'; ctx.lineWidth = 1;
+    // Línea vertical
+    ctx.beginPath(); ctx.moveTo(xP, cy-A-6); ctx.lineTo(xP, cy+A+6);
+    ctx.strokeStyle='rgba(255,107,53,0.25)'; ctx.lineWidth=1;
     ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
+
+    ctx.beginPath(); ctx.arc(xP,yP,6,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,107,53,0.2)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(xP,yP,3.5,0,Math.PI*2);
+    ctx.fillStyle='#ff6b35'; ctx.shadowColor='#ff6b35'; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
 
     requestAnimationFrame(tick);
   })();
