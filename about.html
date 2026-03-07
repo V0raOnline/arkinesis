@@ -195,16 +195,51 @@ p {
   margin-bottom: 0.8rem;
 }
 
-/* ── URL preview dentro de celda 04 ── */
-.url-preview {
-  margin-top: 0.8rem;
+/* ── URL preview en caja lateral ── */
+.how-item-url {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 2;
+}
+
+@media (min-width: 640px) {
+  .how-item-url { grid-column: span 1; }
+}
+
+.url-preview-big {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.2rem 1rem;
+  gap: 0.6rem;
+}
+
+.url-preview-label {
   font-family: 'Space Mono', monospace;
-  font-size: 0.55rem;
-  line-height: 1.6;
-  word-break: break-all;
-  padding: 0.5rem 0.6rem;
+  font-size: 0.52rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.url-preview-code {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  line-height: 2;
+  padding: 0.8rem 1rem;
   background: var(--bg);
   border: 1px solid var(--border);
+}
+
+.url-preview-legend {
+  display: flex;
+  gap: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
 }
 
 .url-base    { color: var(--muted); }
@@ -342,6 +377,48 @@ p {
 
 .params-table tr:hover td { background: rgba(0,229,255,0.02); }
 
+.params-table td.range {
+  color: var(--accent3);
+  font-size: 0.62rem;
+  white-space: nowrap;
+}
+
+.params-table td.unit {
+  color: var(--muted);
+  font-size: 0.6rem;
+  white-space: nowrap;
+}
+
+.params-table td[rowspan] {
+  vertical-align: middle;
+  border-right: 2px solid var(--border);
+}
+
+/* ── Teacher tip ── */
+.teacher-tip {
+  margin-top: 1.2rem;
+  padding: 0.8rem 1rem 0.8rem 1.2rem;
+  border-left: 2px solid var(--accent3);
+  background: var(--surface);
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+}
+
+.tip-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent3);
+  flex-shrink: 0;
+  border: 1px solid var(--accent3);
+  padding: 0.1rem 0.4rem;
+}
+
 .param {
   display: inline-block;
   color: var(--accent2);
@@ -395,7 +472,7 @@ p {
   margin-bottom: 0;
 }
 
-/* ── Para quién ── */
+/* ── Para quien ── */
 .audience-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -512,7 +589,7 @@ p {
   font-style: normal;
 }
 
-/* ── Estructura técnica ── */
+/* ── Estructura tecnica ── */
 .tree {
   font-family: 'Space Mono', monospace;
   font-size: 0.7rem;
@@ -602,7 +679,7 @@ section:nth-child(6) { animation-delay: 0.32s; }
 <header>
   <a class="logo" href="index.html">ARKINESIS</a>
   <span class="header-title">// about</span>
-  <a class="back-btn" href="index.html">← inicio</a>
+  <a class="back-btn" href="index.html">&#8592; inicio</a>
 </header>
 
 <main>
@@ -611,48 +688,64 @@ section:nth-child(6) { animation-delay: 0.32s; }
   <div class="hero">
     <div class="hero-tag">// proyecto educativo abierto</div>
     <h1>ARKINESIS
-      <span>Física interactiva para Bachillerato</span>
+      <span>F&iacute;sica interactiva para Bachillerato</span>
     </h1>
     <p class="hero-desc">
-      Un visualizador de fenómenos físicos que funciona <strong>sin backend, sin instalación y sin cuenta</strong>.
-      Abre el navegador, mueve los sliders y la física responde en tiempo real.
-      Diseñado para que cualquier alumno, profesor o desarrollador pueda usarlo, adaptarlo y hacerlo crecer.
+      Un visualizador de fen&oacute;menos f&iacute;sicos que funciona <strong>sin backend, sin instalaci&oacute;n y sin cuenta</strong>.
+      Abre el navegador, mueve los sliders y la f&iacute;sica responde en tiempo real.
+      Dise&ntilde;ado para que cualquier alumno, profesor o desarrollador pueda usarlo, adaptarlo y hacerlo crecer.
     </p>
     <!-- AX0 -->
     <div style="display:flex; align-items:center; gap:1.2rem; margin-top:2rem; padding:1rem 1.2rem; border:1px solid var(--border); background:var(--surface); max-width:420px;">
       <img src="AX0.png" alt="AX0" style="height:72px; width:auto; filter:drop-shadow(0 0 10px rgba(0,229,255,0.35)); flex-shrink:0;">
       <div>
-        <div style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:0.4rem;">AX0 — mascota del proyecto</div>
-        <div style="font-size:0.8rem; color:var(--muted); line-height:1.5;">Un ajolote bioluminiscente con circuitos bajo la piel. Como él, Arkinesis regenera, aprende y nunca deja de ser curioso.</div>
+        <div style="font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:0.4rem;">AX0 &mdash; mascota del proyecto</div>
+        <div style="font-size:0.8rem; color:var(--muted); line-height:1.5;">Un ajolote bioluminiscente con circuitos bajo la piel. Como &eacute;l, Arkinesis regenera, aprende y nunca deja de ser curioso.</div>
       </div>
     </div>
   </div>
 
-  <!-- CÓMO FUNCIONA -->
+  <!-- COMO FUNCIONA -->
   <section>
-    <div class="section-label">cómo funciona</div>
+    <div class="section-label">c&oacute;mo funciona</div>
     <div class="how-grid">
       <div class="how-item">
         <div class="how-num">01</div>
-        <h3>YAML define la física</h3>
-        <p>Variables, rangos, constantes y fórmulas declaradas en un fichero de texto plano.</p>
+        <h3>YAML define la f&iacute;sica</h3>
+        <p>Variables, rangos, constantes y f&oacute;rmulas declaradas en un fichero de texto plano.</p>
       </div>
       <div class="how-item">
         <div class="how-num">02</div>
         <h3>El motor genera la UI</h3>
-        <p>Los sliders se crean automáticamente. No hay que tocar HTML para añadir una fórmula nueva.</p>
+        <p>Los sliders se crean autom&aacute;ticamente. No hay que tocar HTML para a&ntilde;adir una f&oacute;rmula nueva.</p>
       </div>
       <div class="how-item">
         <div class="how-num">03</div>
         <h3>El renderer dibuja</h3>
-        <p>Cada fenómeno tiene su propio módulo visual. Canvas 2D, tiempo real, sin librerías externas pesadas.</p>
+        <p>Cada fen&oacute;meno tiene su propio m&oacute;dulo visual. Canvas 2D, tiempo real, sin librer&iacute;as externas pesadas.</p>
       </div>
       <div class="how-item">
         <div class="how-num">04</div>
         <h3>La URL es el estado</h3>
-        <p>Cualquier configuración de sliders se puede compartir con un enlace. El alumno recibe el enunciado precargado.</p>
-        <div class="url-preview">
-          <span class="url-base">selector.html?formula=</span><span class="url-formula">campo_magnetico</span><span class="url-sep">&amp;</span><span class="url-key">B</span><span class="url-eq">=</span><span class="url-val">0.5</span><span class="url-sep">&amp;</span><span class="url-key">v</span><span class="url-eq">=</span><span class="url-val">2e6</span><span class="url-sep">&amp;</span><span class="url-key">theta</span><span class="url-eq">=</span><span class="url-val">45</span>
+        <p>Cualquier configuraci&oacute;n de sliders se puede compartir con un enlace. El alumno recibe el enunciado precargado.</p>
+      </div>
+      <div class="how-item how-item-url">
+        <div class="url-preview-big">
+          <div class="url-preview-label">ejemplo de enlace de ejercicio</div>
+          <div class="url-preview-code">
+            <div><span class="url-base">selector.html</span></div>
+            <div><span class="url-sep">?formula=</span><span class="url-formula">campo_magnetico</span></div>
+            <div><span class="url-sep">&amp;</span><span class="url-key">B</span><span class="url-eq">=</span><span class="url-val">0.5</span></div>
+            <div><span class="url-sep">&amp;</span><span class="url-key">v</span><span class="url-eq">=</span><span class="url-val">2000000</span></div>
+            <div><span class="url-sep">&amp;</span><span class="url-key">theta</span><span class="url-eq">=</span><span class="url-val">45</span></div>
+            <div><span class="url-sep">&amp;</span><span class="url-key">q</span><span class="url-eq">=</span><span class="url-val">1.6e-19</span></div>
+            <div><span class="url-sep">&amp;</span><span class="url-key">m</span><span class="url-eq">=</span><span class="url-val">9.1e-31</span></div>
+          </div>
+          <div class="url-preview-legend">
+            <span class="url-formula">&#9632; m&oacute;dulo</span>
+            <span class="url-key">&#9632; par&aacute;metro</span>
+            <span class="url-val">&#9632; valor</span>
+          </div>
         </div>
       </div>
     </div>
@@ -662,7 +755,7 @@ section:nth-child(6) { animation-delay: 0.32s; }
   <section>
     <div class="section-label">compartir ejercicios</div>
     <p>
-      Cualquier configuración del simulador genera una URL única. El profesor prepara el enunciado,
+      Cualquier configuraci&oacute;n del simulador genera una URL &uacute;nica. El profesor prepara el enunciado,
       copia el enlace y el alumno lo abre con todos los valores ya cargados.
     </p>
 
@@ -671,91 +764,137 @@ section:nth-child(6) { animation-delay: 0.32s; }
         <div class="share-step-num">1</div>
         <div>
           <div class="share-step-title">Configura los sliders</div>
-          <div class="share-step-desc">Ajusta los parámetros del fenómeno hasta los valores del enunciado que quieres proponer.</div>
+          <div class="share-step-desc">Ajusta los par&aacute;metros del fen&oacute;meno hasta los valores del enunciado. Los valores deben estar dentro de los rangos de cada m&oacute;dulo &mdash; consulta la tabla de abajo.</div>
         </div>
       </div>
       <div class="share-step">
         <div class="share-step-num">2</div>
         <div>
           <div class="share-step-title">Copia el enlace</div>
-          <div class="share-step-desc">El botón <span class="inline-badge">⎘ copiar enlace</span> en la barra inferior del simulador genera la URL con todos los valores codificados.</div>
+          <div class="share-step-desc">Usa el bot&oacute;n <span class="inline-badge">copiar enlace</span> en la barra superior del simulador. La URL se copia al portapapeles con todos los valores codificados.</div>
         </div>
       </div>
       <div class="share-step">
         <div class="share-step-num">3</div>
         <div>
-          <div class="share-step-title">Compártela</div>
-          <div class="share-step-desc">Pega el enlace en el aula virtual, en un correo o en la pizarra. Al abrirlo, el simulador carga exactamente esa configuración.</div>
+          <div class="share-step-title">Comp&aacute;rtela</div>
+          <div class="share-step-desc">Pega el enlace en el aula virtual, en un correo o en la pizarra. Al abrirlo, el simulador carga exactamente esa configuraci&oacute;n.</div>
         </div>
       </div>
     </div>
 
     <div class="share-url-block">
-      <div class="share-url-label">anatomía de una URL de ejercicio</div>
+      <div class="share-url-label">anatom&iacute;a de una URL de ejercicio</div>
       <div class="share-url-example">
         <span class="url-base">selector.html?formula=</span><span class="url-formula">campo_magnetico</span><span class="url-sep">&amp;</span><span class="url-key">B</span><span class="url-eq">=</span><span class="url-val">0.5</span><span class="url-sep">&amp;</span><span class="url-key">v</span><span class="url-eq">=</span><span class="url-val">2000000</span><span class="url-sep">&amp;</span><span class="url-key">theta</span><span class="url-eq">=</span><span class="url-val">45</span><span class="url-sep">&amp;</span><span class="url-key">q</span><span class="url-eq">=</span><span class="url-val">1.6e-19</span><span class="url-sep">&amp;</span><span class="url-key">m</span><span class="url-eq">=</span><span class="url-val">9.1e-31</span>
       </div>
       <div class="share-url-legend">
-        <span class="url-formula">■ fórmula</span>
-        <span class="url-key">■ parámetro</span>
-        <span class="url-val">■ valor</span>
+        <span class="url-formula">&#9632; f&oacute;rmula</span>
+        <span class="url-key">&#9632; par&aacute;metro</span>
+        <span class="url-val">&#9632; valor</span>
       </div>
     </div>
 
     <div class="params-table-wrap">
-      <div class="params-table-label">parámetros disponibles por módulo</div>
+      <div class="params-table-label">par&aacute;metros disponibles por m&oacute;dulo</div>
       <table class="params-table">
         <thead>
           <tr>
             <th>formula=</th>
-            <th>parámetros</th>
+            <th>par&aacute;metro</th>
+            <th>rango</th>
+            <th>unidad</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="url-formula">campo_magnetico</td>
-            <td><span class="param">B</span> <span class="param">v</span> <span class="param">theta</span> <span class="param">q</span> <span class="param">m</span></td>
+            <td class="url-formula" rowspan="3">campo_magnetico</td>
+            <td><span class="param">B</span></td><td class="range">0.1 &ndash; 2.0</td><td class="unit">T</td>
           </tr>
           <tr>
-            <td class="url-formula">gravedad_newton</td>
-            <td><span class="param">m1</span> <span class="param">m2</span> <span class="param">r</span> <span class="param">e</span></td>
+            <td><span class="param">v</span></td><td class="range">0.5 &ndash; 5.0</td><td class="unit">&times;10&sup6; m/s</td>
           </tr>
           <tr>
-            <td class="url-formula">optica_lente</td>
-            <td><span class="param">f</span> <span class="param">so</span> <span class="param">ho</span></td>
+            <td><span class="param">theta</span></td><td class="range">0 &ndash; 180</td><td class="unit">&deg;</td>
           </tr>
           <tr>
-            <td class="url-formula">optica_espejo</td>
-            <td><span class="param">f</span> <span class="param">so</span> <span class="param">ho</span> <span class="param">tipo</span></td>
+            <td class="url-formula" rowspan="4">gravedad_newton</td>
+            <td><span class="param">m1</span></td><td class="range">0.1 &ndash; 200.0</td><td class="unit">&times;10&sup2;&sup4; kg</td>
           </tr>
           <tr>
-            <td class="url-formula">onda_armonica</td>
-            <td><span class="param">A</span> <span class="param">lambda</span> <span class="param">f</span> <span class="param">x0</span></td>
+            <td><span class="param">m2</span></td><td class="range">0.1 &ndash; 200.0</td><td class="unit">&times;10&sup2;&sup4; kg</td>
+          </tr>
+          <tr>
+            <td><span class="param">r</span></td><td class="range">1 &ndash; 100</td><td class="unit">&times;10&sup8; m</td>
+          </tr>
+          <tr>
+            <td><span class="param">e</span></td><td class="range">0.0 &ndash; 0.95</td><td class="unit">&mdash;</td>
+          </tr>
+          <tr>
+            <td class="url-formula" rowspan="3">optica_lente</td>
+            <td><span class="param">f</span></td><td class="range">&minus;100 &ndash; +100</td><td class="unit">cm</td>
+          </tr>
+          <tr>
+            <td><span class="param">so</span></td><td class="range">5 &ndash; 200</td><td class="unit">cm</td>
+          </tr>
+          <tr>
+            <td><span class="param">ho</span></td><td class="range">1 &ndash; 30</td><td class="unit">cm</td>
+          </tr>
+          <tr>
+            <td class="url-formula" rowspan="4">optica_espejo</td>
+            <td><span class="param">so</span></td><td class="range">5 &ndash; 300</td><td class="unit">cm</td>
+          </tr>
+          <tr>
+            <td><span class="param">f</span></td><td class="range">10 &ndash; 150</td><td class="unit">cm</td>
+          </tr>
+          <tr>
+            <td><span class="param">ho</span></td><td class="range">1 &ndash; 40</td><td class="unit">cm</td>
+          </tr>
+          <tr>
+            <td><span class="param">tipo</span></td><td class="range">concavo / convexo</td><td class="unit">&mdash;</td>
+          </tr>
+          <tr>
+            <td class="url-formula" rowspan="4">onda_armonica</td>
+            <td><span class="param">A</span></td><td class="range">0.1 &ndash; 5.0</td><td class="unit">m</td>
+          </tr>
+          <tr>
+            <td><span class="param">lambda</span></td><td class="range">0.1 &ndash; 20.0</td><td class="unit">m</td>
+          </tr>
+          <tr>
+            <td><span class="param">f</span></td><td class="range">0.1 &ndash; 200.0</td><td class="unit">Hz</td>
+          </tr>
+          <tr>
+            <td><span class="param">x0</span></td><td class="range">0 &ndash; 20</td><td class="unit">m</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <div class="teacher-tip">
+      <span class="tip-label">truco</span>
+      La URL es texto plano. Puedes copiarla, abrirla en cualquier editor de texto y modificar los valores directamente &mdash; sin necesidad de abrir el simulador. &Uacute;til para preparar series de ejercicios en bloque.
+    </div>
   </section>
 
-  <!-- PARA QUIÉN -->
+  <!-- PARA QUIEN -->
   <section>
-    <div class="section-label">para quién</div>
+    <div class="section-label">para qui&eacute;n</div>
     <div class="audience-grid">
       <div class="audience-card alumnos">
         <h3>Alumnos</h3>
-        <p>Explora cómo cambia la física cuando mueves los parámetros. Sin fórmulas muertas en papel.</p>
+        <p>Explora c&oacute;mo cambia la f&iacute;sica cuando mueves los par&aacute;metros. Sin f&oacute;rmulas muertas en papel.</p>
       </div>
       <div class="audience-card profes">
         <h3>Profesores</h3>
-        <p>Comparte un enlace con los valores del enunciado precargados. Crea tus propios fenómenos en YAML.</p>
+        <p>Comparte un enlace con los valores del enunciado precargados. Crea tus propios fen&oacute;menos en YAML.</p>
       </div>
       <div class="audience-card devs">
         <h3>Desarrolladores</h3>
-        <p>Añade renderers, mejora el motor, bifurca el proyecto. La arquitectura está pensada para crecer.</p>
+        <p>A&ntilde;ade renderers, mejora el motor, bifurca el proyecto. La arquitectura est&aacute; pensada para crecer.</p>
       </div>
       <div class="audience-card todos">
         <h3>Cualquiera</h3>
-        <p>Ficheros estáticos. Sin cuenta. Sin servidor. Se abre en cualquier navegador moderno.</p>
+        <p>Ficheros est&aacute;ticos. Sin cuenta. Sin servidor. Se abre en cualquier navegador moderno.</p>
       </div>
     </div>
   </section>
@@ -763,19 +902,19 @@ section:nth-child(6) { animation-delay: 0.32s; }
   <!-- ESTRUCTURA -->
   <section>
     <div class="section-label">estructura del proyecto</div>
-    <p>El motor es genérico. Cada fórmula es autónoma: un YAML que describe la física y un JS que la dibuja.</p>
+    <p>El motor es gen&eacute;rico. Cada f&oacute;rmula es aut&oacute;noma: un YAML que describe la f&iacute;sica y un JS que la dibuja.</p>
     <div class="tree">
 <span class="dir">arkinesis/</span>
-├── <span class="file">index.html</span>       <span class="note">← shell principal, no hay que tocarla</span>
-├── <span class="file">motor.js</span>         <span class="note">← parsea YAML, genera UI, gestiona URL</span>
-├── <span class="dir">formulas/</span>
-│   ├── <span class="file">campo_magnetico.yaml</span>
-│   ├── <span class="file">gravedad_newton.yaml</span>
-│   └── <span class="file">[nueva_formula].yaml</span>   <span class="note">← añade la tuya aquí</span>
-└── <span class="dir">renderers/</span>
-    ├── <span class="file">campo_magnetico.js</span>
-    ├── <span class="file">gravedad_newton.js</span>
-    └── <span class="file">[nueva_formula].js</span>     <span class="note">← y su renderer aquí</span>
+&#9500;&#9472;&#9472; <span class="file">index.html</span>       <span class="note">&larr; shell principal, no hay que tocarla</span>
+&#9500;&#9472;&#9472; <span class="file">motor.js</span>         <span class="note">&larr; parsea YAML, genera UI, gestiona URL</span>
+&#9500;&#9472;&#9472; <span class="dir">formulas/</span>
+&#9474;   &#9500;&#9472;&#9472; <span class="file">campo_magnetico.yaml</span>
+&#9474;   &#9500;&#9472;&#9472; <span class="file">gravedad_newton.yaml</span>
+&#9474;   &#9492;&#9472;&#9472; <span class="file">[nueva_formula].yaml</span>   <span class="note">&larr; a&ntilde;ade la tuya aqu&iacute;</span>
+&#9492;&#9472;&#9472; <span class="dir">renderers/</span>
+    &#9500;&#9472;&#9472; <span class="file">campo_magnetico.js</span>
+    &#9500;&#9472;&#9472; <span class="file">gravedad_newton.js</span>
+    &#9492;&#9472;&#9472; <span class="file">[nueva_formula].js</span>     <span class="note">&larr; y su renderer aqu&iacute;</span>
     </div>
   </section>
 
@@ -783,40 +922,40 @@ section:nth-child(6) { animation-delay: 0.32s; }
   <section>
     <div class="section-label">licencia</div>
     <p>
-      Arkinesis nació como semilla. Puede crecer, bifurcarse y adaptarse —
+      Arkinesis naci&oacute; como semilla. Puede crecer, bifurcarse y adaptarse &mdash;
       siempre que se mantenga abierto, se cite el origen y no se use para ganar dinero.
     </p>
 
     <div class="license-box">
       <div class="license-items">
         <div class="license-item yes">
-          <span class="license-icon">✓</span>
+          <span class="license-icon">&#10003;</span>
           <span>Uso libre en cualquier contexto educativo</span>
         </div>
         <div class="license-item yes">
-          <span class="license-icon">✓</span>
+          <span class="license-icon">&#10003;</span>
           <span>Compartir, redistribuir y adaptar</span>
         </div>
         <div class="license-item yes">
-          <span class="license-icon">✓</span>
+          <span class="license-icon">&#10003;</span>
           <span>Modificar y crear proyectos derivados</span>
         </div>
         <div class="license-item no">
-          <span class="license-icon">✗</span>
+          <span class="license-icon">&#10007;</span>
           <span>Uso comercial en cualquier forma</span>
         </div>
         <div class="license-item cond">
-          <span class="license-icon">→</span>
+          <span class="license-icon">&rarr;</span>
           <span>Los derivados heredan esta misma licencia</span>
         </div>
         <div class="license-item cond">
-          <span class="license-icon">→</span>
+          <span class="license-icon">&rarr;</span>
           <span>Siempre citando Arkinesis como origen</span>
         </div>
       </div>
       <div class="license-note">
         <strong>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</strong><br>
-        © 2025 V0raOnline — Si construyes sobre esto, menciona de dónde viene. El conocimiento crece cuando se comparte con honestidad.
+        &copy; 2025 V0raOnline &mdash; Si construyes sobre esto, menciona de d&oacute;nde viene. El conocimiento crece cuando se comparte con honestidad.
       </div>
     </div>
   </section>
@@ -826,7 +965,7 @@ section:nth-child(6) { animation-delay: 0.32s; }
     <div class="section-label">empezar</div>
     <p>No hay nada que instalar. Abre el simulador y empieza a mover cosas.</p>
     <div class="cta-bar">
-      <a class="cta-primary" href="selector.html">→ abrir simulador</a>
+      <a class="cta-primary" href="selector.html">&rarr; abrir simulador</a>
       <a class="cta-secondary" href="https://github.com/V0raOnline/arkinesis" target="_blank">github</a>
     </div>
   </section>
@@ -834,10 +973,10 @@ section:nth-child(6) { animation-delay: 0.32s; }
 </main>
 
 <footer>
-  <span>ARKINESIS — V0raOnline — CC BY-NC-SA 4.0</span>
+  <span>ARKINESIS &mdash; V0raOnline &mdash; CC BY-NC-SA 4.0</span>
   <span style="display:flex; align-items:center; gap:0.5rem;">
     <img src="AX0.png" alt="AX0" style="height:20px; width:auto; opacity:0.5;">
-    AX0 · física interactiva para bachillerato
+    AX0 &middot; f&iacute;sica interactiva para bachillerato
   </span>
 </footer>
 
