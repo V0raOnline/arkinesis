@@ -269,20 +269,27 @@ window.Renderers.onda_armonica = (() => {
       ctx2.fillStyle = '#a8ff3e'; ctx2.fill();
     }
 
-    // Labels
-    ctx2.font = '500 9px Space Mono, monospace';
-    ctx2.fillStyle = 'rgba(255,77,109,0.6)';
-    ctx2.textAlign = 'left';
-    ctx2.fillText('y(x₀=' + x0.toFixed(1) + ', t)', 8, 16);
-
-    ctx2.fillStyle = 'rgba(168,255,62,0.6)';
-    ctx2.fillText('↑ vel. part.', 8, 30);
-
+    // Labels esquina superior — sin solapamiento
+    // Derecha: etiqueta de vista
     ctx2.font = '500 10px Space Mono, monospace';
     ctx2.fillStyle = 'rgba(74,90,122,0.7)';
     ctx2.textAlign = 'right';
-    ctx2.fillText('MAS', W - 10, 18);
+    ctx2.fillText('MAS', W - 10, 16);
+
+    // Izquierda: dos líneas separadas
     ctx2.textAlign = 'left';
+    ctx2.font = '500 9px Space Mono, monospace';
+    ctx2.fillStyle = 'rgba(255,77,109,0.6)';
+    ctx2.fillText('y(x₀=' + x0.toFixed(1) + 'm, t)', 8, 16);
+
+    ctx2.fillStyle = 'rgba(168,255,62,0.6)';
+    ctx2.fillText('↑ vel. instantánea', 8, 30);
+
+    // Aclaración MAS — esquina inferior izquierda
+    ctx2.font = '400 8px Outfit, sans-serif';
+    ctx2.fillStyle = 'rgba(200,216,240,0.25)';
+    ctx2.fillText('MAS: cada punto del medio oscila verticalmente', 8, H - 22);
+    ctx2.fillText('como un resorte — no se desplaza con la onda.', 8, H - 10);
 
     // Valor numérico desplazamiento actual
     ctx2.font = '600 11px Space Mono, monospace';

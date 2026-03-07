@@ -1,4 +1,4 @@
-# Física Interactiva — BACH
+# Física interactiva para Bachillerato
 
 Visualizador interactivo de fenómenos físicos para Bachillerato.  
 Motor genérico alimentado por YAML. Sin backend. GitHub Pages.
@@ -32,6 +32,7 @@ Mueve los sliders a los valores del enunciado y pulsa **⎘ copiar enlace**.
 La URL generada carga la herramienta con esos valores precargados.
 
 Ejemplo:
+
 ```
 https://[usuario].github.io/fisica-interactiva/?formula=campo_magnetico&B=0.5&v=2&theta=60
 ```
@@ -96,6 +97,7 @@ window.Renderers.mi_formula = (() => {
 ### 3. Registrar en motor.js
 
 En `FORMULAS_DISPONIBLES`:
+
 ```javascript
 { id: 'mi_formula', label: 'Nombre en el selector' },
 ```
@@ -103,6 +105,7 @@ En `FORMULAS_DISPONIBLES`:
 ## Versionado del temario
 
 Usa tags de git para versiones por año:
+
 ```
 git tag BACH.2.26
 git tag BACH.1.26
