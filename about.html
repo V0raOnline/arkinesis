@@ -195,6 +195,163 @@ p {
   margin-bottom: 0.8rem;
 }
 
+/* ── URL preview dentro de celda 04 ── */
+.url-preview {
+  margin-top: 0.8rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  line-height: 1.6;
+  word-break: break-all;
+  padding: 0.5rem 0.6rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.url-base    { color: var(--muted); }
+.url-formula { color: var(--accent); }
+.url-sep     { color: var(--muted); }
+.url-key     { color: var(--accent2); }
+.url-eq      { color: var(--muted); }
+.url-val     { color: var(--accent3); }
+
+/* ── Compartir ejercicios ── */
+.share-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.share-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.share-step-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--border);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 0.1rem;
+  min-width: 1.2rem;
+}
+
+.share-step-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+
+.share-step-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.inline-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--accent3);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0.05rem 0.4rem;
+}
+
+.share-url-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.share-url-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
+}
+
+.share-url-example {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  line-height: 1.8;
+  word-break: break-all;
+  margin-bottom: 0.8rem;
+}
+
+.share-url-legend {
+  display: flex;
+  gap: 1.2rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.7rem;
+}
+
+/* ── Params table ── */
+.params-table-wrap {
+  margin-top: 0;
+}
+
+.params-table-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.params-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+}
+
+.params-table th {
+  text-align: left;
+  padding: 0.5rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.params-table td {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  vertical-align: middle;
+}
+
+.params-table tr:hover td { background: rgba(0,229,255,0.02); }
+
+.param {
+  display: inline-block;
+  color: var(--accent2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.4rem;
+  margin: 0.1rem 0.2rem 0.1rem 0;
+  font-size: 0.62rem;
+}
+
 /* ── How it works grid ── */
 .how-grid {
   display: grid;
@@ -494,7 +651,89 @@ section:nth-child(6) { animation-delay: 0.32s; }
         <div class="how-num">04</div>
         <h3>La URL es el estado</h3>
         <p>Cualquier configuración de sliders se puede compartir con un enlace. El alumno recibe el enunciado precargado.</p>
+        <div class="url-preview">
+          <span class="url-base">selector.html?formula=</span><span class="url-formula">campo_magnetico</span><span class="url-sep">&amp;</span><span class="url-key">B</span><span class="url-eq">=</span><span class="url-val">0.5</span><span class="url-sep">&amp;</span><span class="url-key">v</span><span class="url-eq">=</span><span class="url-val">2e6</span><span class="url-sep">&amp;</span><span class="url-key">theta</span><span class="url-eq">=</span><span class="url-val">45</span>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- COMPARTIR EJERCICIOS -->
+  <section>
+    <div class="section-label">compartir ejercicios</div>
+    <p>
+      Cualquier configuración del simulador genera una URL única. El profesor prepara el enunciado,
+      copia el enlace y el alumno lo abre con todos los valores ya cargados.
+    </p>
+
+    <div class="share-steps">
+      <div class="share-step">
+        <div class="share-step-num">1</div>
+        <div>
+          <div class="share-step-title">Configura los sliders</div>
+          <div class="share-step-desc">Ajusta los parámetros del fenómeno hasta los valores del enunciado que quieres proponer.</div>
+        </div>
+      </div>
+      <div class="share-step">
+        <div class="share-step-num">2</div>
+        <div>
+          <div class="share-step-title">Copia el enlace</div>
+          <div class="share-step-desc">El botón <span class="inline-badge">⎘ copiar enlace</span> en la barra inferior del simulador genera la URL con todos los valores codificados.</div>
+        </div>
+      </div>
+      <div class="share-step">
+        <div class="share-step-num">3</div>
+        <div>
+          <div class="share-step-title">Compártela</div>
+          <div class="share-step-desc">Pega el enlace en el aula virtual, en un correo o en la pizarra. Al abrirlo, el simulador carga exactamente esa configuración.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="share-url-block">
+      <div class="share-url-label">anatomía de una URL de ejercicio</div>
+      <div class="share-url-example">
+        <span class="url-base">selector.html?formula=</span><span class="url-formula">campo_magnetico</span><span class="url-sep">&amp;</span><span class="url-key">B</span><span class="url-eq">=</span><span class="url-val">0.5</span><span class="url-sep">&amp;</span><span class="url-key">v</span><span class="url-eq">=</span><span class="url-val">2000000</span><span class="url-sep">&amp;</span><span class="url-key">theta</span><span class="url-eq">=</span><span class="url-val">45</span><span class="url-sep">&amp;</span><span class="url-key">q</span><span class="url-eq">=</span><span class="url-val">1.6e-19</span><span class="url-sep">&amp;</span><span class="url-key">m</span><span class="url-eq">=</span><span class="url-val">9.1e-31</span>
+      </div>
+      <div class="share-url-legend">
+        <span class="url-formula">■ fórmula</span>
+        <span class="url-key">■ parámetro</span>
+        <span class="url-val">■ valor</span>
+      </div>
+    </div>
+
+    <div class="params-table-wrap">
+      <div class="params-table-label">parámetros disponibles por módulo</div>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>formula=</th>
+            <th>parámetros</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="url-formula">campo_magnetico</td>
+            <td><span class="param">B</span> <span class="param">v</span> <span class="param">theta</span> <span class="param">q</span> <span class="param">m</span></td>
+          </tr>
+          <tr>
+            <td class="url-formula">gravedad_newton</td>
+            <td><span class="param">m1</span> <span class="param">m2</span> <span class="param">r</span> <span class="param">e</span></td>
+          </tr>
+          <tr>
+            <td class="url-formula">optica_lente</td>
+            <td><span class="param">f</span> <span class="param">so</span> <span class="param">ho</span></td>
+          </tr>
+          <tr>
+            <td class="url-formula">optica_espejo</td>
+            <td><span class="param">f</span> <span class="param">so</span> <span class="param">ho</span> <span class="param">tipo</span></td>
+          </tr>
+          <tr>
+            <td class="url-formula">onda_armonica</td>
+            <td><span class="param">A</span> <span class="param">lambda</span> <span class="param">f</span> <span class="param">x0</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
