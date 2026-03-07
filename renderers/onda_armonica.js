@@ -270,20 +270,20 @@ window.Renderers.onda_armonica = (() => {
     }
 
     // Labels esquina superior — sin solapamiento
-    // Derecha: etiqueta de vista
+    // Fila 1: MAS centrado/derecha, nada a la izquierda
     ctx2.font = '500 10px Space Mono, monospace';
     ctx2.fillStyle = 'rgba(74,90,122,0.7)';
     ctx2.textAlign = 'right';
     ctx2.fillText('MAS', W - 10, 16);
 
-    // Izquierda: dos líneas separadas
+    // Fila 2 y 3: izquierda, sin competir con MAS
     ctx2.textAlign = 'left';
     ctx2.font = '500 9px Space Mono, monospace';
     ctx2.fillStyle = 'rgba(255,77,109,0.6)';
-    ctx2.fillText('y(x₀=' + x0.toFixed(1) + 'm, t)', 8, 16);
+    ctx2.fillText('y(x₀=' + x0.toFixed(1) + 'm, t)', 8, 30);
 
     ctx2.fillStyle = 'rgba(168,255,62,0.6)';
-    ctx2.fillText('↑ vel. instantánea', 8, 30);
+    ctx2.fillText('↑ vel. instantánea', 8, 44);
 
     // Aclaración MAS — esquina inferior izquierda
     ctx2.font = '400 8px Outfit, sans-serif';

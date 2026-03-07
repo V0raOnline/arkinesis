@@ -495,12 +495,13 @@ function drawGravedad() {
     for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
 
     const cx = W/2, cy = H/2;
-    const m1 = 5.97e24, m2 = 7.34e24, G = 6.674e-11;
-    const r = 3.84e8;
-    const T = 2 * Math.PI * Math.sqrt(r*r*r / (G*(m1+m2)));
-    const prog = (frame / 60) / T * (2*Math.PI);
+    const m1 = 5.97e24, m2 = 7.34e24;
+    // Periodo visual fijo: 8 segundos a 60fps (igual que el renderer)
+    const OMEGA_PREV = (2 * Math.PI) / (8 * 60);
+    const prog = frame * OMEGA_PREV;
 
     // Baricentro
+    const r = 3.84e8; // distancia visual de referencia
     const xb1 = -(m2/(m1+m2)) * r;
     const xb2 =  (m1/(m1+m2)) * r;
     const sc = 52 / r;
