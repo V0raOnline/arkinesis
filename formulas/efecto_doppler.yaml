@@ -1,0 +1,79 @@
+id: efecto_doppler
+titulo: Efecto Doppler
+renderer: efecto_doppler
+descripcion: >
+  Cuando una fuente sonora y un observador están en movimiento relativo,
+  la frecuencia percibida difiere de la emitida. Si se acercan, la frecuencia
+  aumenta; si se alejan, disminuye.
+
+descripcion_corta: >
+  El efecto Doppler describe el cambio de frecuencia percibida cuando fuente
+  u observador se mueven. La fórmula general cubre acercamiento y alejamiento.
+
+formula_simbolica: "f' = f₀ · (v ± vₒ) / (v ∓ vf)"
+
+formula_resuelta: "f' = {fp} Hz     Δf = {df} Hz"
+
+variables:
+  f0:
+    label: Frecuencia emitida f₀
+    unidad: Hz
+    min: 100
+    max: 2000
+    step: 10
+    default: 440
+  vf:
+    label: Velocidad fuente vf
+    unidad: m/s
+    min: 0
+    max: 120
+    step: 1
+    default: 30
+  vo:
+    label: Velocidad observador vₒ
+    unidad: m/s
+    min: 0
+    max: 120
+    step: 1
+    default: 0
+  modo:
+    label: "Fuente: acerca (+1) / aleja (-1)"
+    unidad: ""
+    min: -1
+    max: 1
+    step: 2
+    default: 1
+
+constantes:
+  v:
+    label: Velocidad del sonido
+    valor: 343
+    unidad: m/s
+
+nota: >
+  ⚠ Fórmula válida para fuente y observador en la misma línea.
+  v = 343 m/s (sonido en aire a 20°C).
+  modo = +1 → fuente se acerca al observador · modo = -1 → se aleja.
+
+formulas:
+  - id: fp
+    label: Frecuencia percibida f'
+    expr: "f0 * (v + vo) / (v - modo * vf)"
+    unidad: Hz
+    latex: "f' = f_0 \\cdot \\frac{v + v_o}{v \\mp v_f}"
+    destacado: true
+  - id: df
+    label: Variación Δf
+    expr: "f0 * (v + vo) / (v - modo * vf) - f0"
+    unidad: Hz
+    destacado: true
+  - id: lambda_emit
+    label: Longitud de onda emitida λ₀
+    expr: "v / f0"
+    unidad: m
+    latex: "\\lambda_0 = v / f_0"
+  - id: lambda_perc
+    label: Longitud de onda percibida λ'
+    expr: "(v - modo * vf) / f0"
+    unidad: m
+    latex: "\\lambda' = (v \\mp v_f) / f_0"

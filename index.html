@@ -369,6 +369,23 @@ footer {
       </div>
     </a>
 
+    <!-- Efecto Doppler -->
+    <a class="card" href="selector.html?formula=efecto_doppler">
+      <canvas class="card-preview" id="prev-doppler"></canvas>
+      <div class="card-body">
+        <div class="card-tag">ondas</div>
+        <div class="card-title">Efecto Doppler</div>
+        <div class="card-desc">
+          Cuando una fuente se mueve respecto al observador, la frecuencia percibida
+          cambia. Más agudo al acercarse, más grave al alejarse.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">f' = f₀·(v ± vₒ) / (v ∓ vf)</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
     <!-- Onda armónica -->
     <a class="card" href="selector.html?formula=onda_armonica">
       <canvas class="card-preview" id="prev-onda"></canvas>
@@ -781,11 +798,80 @@ function drawEspejo() {
   })();
 }
 
+// ── Preview: Efecto Doppler ──────────────────────────────────────────────────
+function drawDoppler() {
+  const c = document.getElementById('prev-doppler');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+  const frentes = [];
+  let fuenteX = W * 0.15;
+  let emitCount = 0;
+  const PERIOD = 18;
+  const oy = H * 0.5;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(26,37,64,0.5)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    // Mover fuente
+    fuenteX += 1.1;
+    if (fuenteX > W * 0.88) fuenteX = W * 0.12;
+
+    // Emitir frente
+    emitCount++;
+    if (emitCount >= PERIOD) {
+      frentes.push({ x: fuenteX, y: oy, r: 0 });
+      emitCount = 0;
+    }
+
+    // Expandir y limpiar
+    for (let i = frentes.length - 1; i >= 0; i--) {
+      frentes[i].r += 2.2;
+      if (frentes[i].r > W * 1.1) frentes.splice(i, 1);
+    }
+
+    // Frentes
+    frentes.forEach(f => {
+      const alpha = Math.max(0, 0.5 - f.r / (W * 0.9));
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(0,229,255,${alpha})`;
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+    });
+
+    // Observador
+    const obsX = W * 0.9;
+    ctx.beginPath(); ctx.arc(obsX, oy, 8, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(168,255,62,0.15)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(obsX, oy, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#a8ff3e'; ctx.shadowColor='#a8ff3e'; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
+
+    // Fuente
+    ctx.beginPath(); ctx.arc(fuenteX, oy, 6, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,229,255,0.15)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(fuenteX, oy, 3.5, 0, Math.PI*2);
+    ctx.fillStyle = '#00e5ff'; ctx.shadowColor='#00e5ff'; ctx.shadowBlur=8; ctx.fill(); ctx.shadowBlur=0;
+
+    requestAnimationFrame(tick);
+  })();
+}
+
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
   drawOptica();
   drawEspejo();
+  drawDoppler();
   drawOnda();
 });
 </script>
