@@ -89,6 +89,21 @@ window.Renderers.optica_lente = (() => {
       drawRayos(ctx1, lx, oy, ox, oy - oh, f, so, si, hi, scale, W, H);
     }
 
+    // Pantalla (solo imagen real)
+    if (si !== null && isFinite(si) && si > 0 && Math.abs(si) < 1e6) {
+      const ix = lx + si * scale;
+      const ph = Math.min(H * 0.45, 100);
+      ctx1.beginPath(); ctx1.moveTo(ix - 2, oy - ph); ctx1.lineTo(ix - 2, oy + ph);
+      ctx1.strokeStyle = 'rgba(200,216,240,0.18)'; ctx1.lineWidth = 2; ctx1.stroke();
+      ctx1.beginPath(); ctx1.moveTo(ix + 2, oy - ph); ctx1.lineTo(ix + 2, oy + ph);
+      ctx1.strokeStyle = 'rgba(200,216,240,0.10)'; ctx1.lineWidth = 1.5; ctx1.stroke();
+      ctx1.font = '400 8px Space Mono, monospace';
+      ctx1.fillStyle = 'rgba(200,216,240,0.3)';
+      ctx1.textAlign = 'center';
+      ctx1.fillText('pantalla', ix, oy - ph - 5);
+      ctx1.textAlign = 'left';
+    }
+
     // Labels
     ctx1.font = '500 9px Space Mono, monospace';
     ctx1.fillStyle = 'rgba(200,216,240,0.4)';
@@ -129,14 +144,22 @@ window.Renderers.optica_lente = (() => {
     const fxLeft  = lx - f * scale;   // F  (lado objeto)
 
     const convergente = f > 0;
+    const imagenReal  = si > 0;
 
     // ── RAYO 1: paralelo al eje óptico → refracta ─────────────────────────
     // Tramo objeto → lente: horizontal (rayo físico real)
     drawSegmento(ctx, ox, objTopY, lx, objTopY, '#ff4d6d');
 
     if (convergente) {
-      // Sale convergiendo hacia F' → continúa hasta imagen y más allá (rayo real)
-      extenderHastaX(ctx, lx, objTopY, ix, iy, W, '#ff4d6d', false);
+      if (imagenReal) {
+        // Sólido hasta imagen, luego punteado
+        drawSegmento(ctx, lx, objTopY, ix, iy, '#ff4d6d');
+        const dx = ix - lx, dy = iy - objTopY;
+        const t = (W - ix) / dx;
+        drawSegmentoDashed(ctx, ix, iy, W, iy + dy * t, 'rgba(255,77,109,0.35)');
+      } else {
+        extenderHastaX(ctx, lx, objTopY, ix, iy, W, '#ff4d6d', false);
+      }
     } else {
       // Divergente: el rayo sale divergiendo desde la lente hacia la derecha
       // Dirección: como si viniera del foco virtual F' (izquierda de lente, mismo lado objeto)
@@ -148,24 +171,37 @@ window.Renderers.optica_lente = (() => {
     }
 
     // ── RAYO 2: pasa por el centro óptico → sin desvío ────────────────────
-    // No se desvía: va recto desde el objeto hasta el otro lado (rayo real en ambas direcciones)
     const slope2 = (iy - objTopY) / (ix - ox);
     extenderHastaX(ctx, ox, objTopY, convergente ? W : lx + (lx - ox) * 0.8,
       objTopY + slope2 * ((convergente ? W : lx + (lx - ox) * 0.8) - ox),
       convergente ? W : lx + (lx - ox) * 0.8, '#00e5ff', false);
     if (!convergente) {
-      // Prolongación punteada hacia atrás hasta la imagen virtual
       drawSegmentoDashed(ctx, lx, objTopY + slope2 * (lx - ox), ix, iy, '#00e5ff');
+    }
+    // Rayo 2 convergente: cortar en imagen si real
+    if (convergente && imagenReal) {
+      // extenderHastaX ya llegó hasta W, lo redibujamos solo hasta ix
+      // (el extenderHastaX de arriba ya llegó a W — sobreescribimos el tramo post-imagen)
+      const yAtIx = objTopY + slope2 * (ix - ox);
+      // Redibujar sólido solo hasta ix para limpiar el trazo anterior
+      ctx.beginPath(); ctx.moveTo(ox, objTopY); ctx.lineTo(ix, yAtIx);
+      ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.2; ctx.setLineDash([]); ctx.stroke();
+      // Punteado atenuado desde ix
+      drawSegmentoDashed(ctx, ix, yAtIx, W, yAtIx + slope2 * (W - ix), 'rgba(0,229,255,0.35)');
     }
 
     // ── RAYO 3: pasa por F (lado objeto) → sale paralelo al eje ──────────
     if (convergente) {
-      // Rayo objeto→lente en dirección a F (lado objeto)
       const slopeFoco = (oy - objTopY) / (fxLeft - ox);
       const yAtLente = objTopY + slopeFoco * (lx - ox);
       drawSegmento(ctx, ox, objTopY, lx, yAtLente, '#a8ff3e');
-      // Sale paralelo al eje (rayo real)
-      extenderHastaX(ctx, lx, yAtLente, W, yAtLente, W, '#a8ff3e', false);
+      if (imagenReal) {
+        // Sólido hasta imagen, punteado después
+        drawSegmento(ctx, lx, yAtLente, ix, yAtLente, '#a8ff3e');
+        drawSegmentoDashed(ctx, ix, yAtLente, W, yAtLente, 'rgba(168,255,62,0.35)');
+      } else {
+        extenderHastaX(ctx, lx, yAtLente, W, yAtLente, W, '#a8ff3e', false);
+      }
     } else {
       // Divergente: rayo apunta hacia F' virtual (lado imagen) → sale paralelo
       const slopeFoco = (oy - objTopY) / (fxRight - ox);
