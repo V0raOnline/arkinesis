@@ -131,43 +131,50 @@ window.Renderers.optica_lente = (() => {
     const convergente = f > 0;
 
     // ── RAYO 1: paralelo al eje óptico → refracta ─────────────────────────
-    // Tramo objeto → lente: horizontal
+    // Tramo objeto → lente: horizontal (rayo físico real)
     drawSegmento(ctx, ox, objTopY, lx, objTopY, '#ff4d6d');
 
     if (convergente) {
-      // Sale por F' → hacia imagen
-      extenderHastaX(ctx, lx, objTopY, ix, iy, ix + 80, '#ff4d6d', false);
+      // Sale convergiendo hacia F' → continúa hasta imagen y más allá (rayo real)
+      extenderHastaX(ctx, lx, objTopY, ix, iy, W, '#ff4d6d', false);
     } else {
-      // Divergente: sale como si viniera del foco virtual F' (mismo lado que objeto)
-      // Dirección: desde F' virtual hasta punto en lente
-      const slope = (objTopY - oy) / (lx - fxRight); // pendiente desde F' a punto en lente
-      extenderHastaX(ctx, lx, objTopY, W + 50, objTopY + slope * (W + 50 - lx), W + 50, '#ff4d6d', false);
-      // Línea virtual punteada hacia F'
-      drawSegmentoDashed(ctx, lx, objTopY, fxRight, oy, '#ff4d6d55');
+      // Divergente: el rayo sale divergiendo desde la lente hacia la derecha
+      // Dirección: como si viniera del foco virtual F' (izquierda de lente, mismo lado objeto)
+      // Pendiente = desde F' virtual hasta el punto de incidencia en la lente
+      const slope = (objTopY - oy) / (lx - fxRight);
+      extenderHastaX(ctx, lx, objTopY, W, objTopY + slope * (W - lx), W, '#ff4d6d', false);
+      // Prolongación punteada hacia atrás hasta la imagen virtual
+      drawSegmentoDashed(ctx, lx, objTopY, ix, iy, '#ff4d6d');
     }
 
     // ── RAYO 2: pasa por el centro óptico → sin desvío ────────────────────
-    // Pendiente total: (iy - objTopY) / (ix - ox)
+    // No se desvía: va recto desde el objeto hasta el otro lado (rayo real en ambas direcciones)
     const slope2 = (iy - objTopY) / (ix - ox);
-    // Tramo objeto → lente (continúa recto hasta imagen y más allá)
-    extenderHastaX(ctx, ox, objTopY, ix + 80, objTopY + slope2 * (ix + 80 - ox), ix + 80, '#00e5ff', false);
+    extenderHastaX(ctx, ox, objTopY, convergente ? W : lx + (lx - ox) * 0.8,
+      objTopY + slope2 * ((convergente ? W : lx + (lx - ox) * 0.8) - ox),
+      convergente ? W : lx + (lx - ox) * 0.8, '#00e5ff', false);
+    if (!convergente) {
+      // Prolongación punteada hacia atrás hasta la imagen virtual
+      drawSegmentoDashed(ctx, lx, objTopY + slope2 * (lx - ox), ix, iy, '#00e5ff');
+    }
 
     // ── RAYO 3: pasa por F (lado objeto) → sale paralelo al eje ──────────
     if (convergente) {
-      // Va desde objeto hacia F (lado objeto), pero pasa por la lente primero
-      // Calculamos el punto en la lente: intersección de la línea obj→F con x=lx
+      // Rayo objeto→lente en dirección a F (lado objeto)
       const slopeFoco = (oy - objTopY) / (fxLeft - ox);
       const yAtLente = objTopY + slopeFoco * (lx - ox);
-      // Tramo objeto → lente
       drawSegmento(ctx, ox, objTopY, lx, yAtLente, '#a8ff3e');
-      // Sale paralelo al eje
-      extenderHastaX(ctx, lx, yAtLente, ix + 80, yAtLente, ix + 80, '#a8ff3e', false);
+      // Sale paralelo al eje (rayo real)
+      extenderHastaX(ctx, lx, yAtLente, W, yAtLente, W, '#a8ff3e', false);
     } else {
-      // Divergente: apunta hacia F' (lado imagen, virtual) → sale paralelo
+      // Divergente: rayo apunta hacia F' virtual (lado imagen) → sale paralelo
       const slopeFoco = (oy - objTopY) / (fxRight - ox);
       const yAtLente  = objTopY + slopeFoco * (lx - ox);
       drawSegmento(ctx, ox, objTopY, lx, yAtLente, '#a8ff3e');
-      extenderHastaX(ctx, lx, yAtLente, W + 50, yAtLente, W + 50, '#a8ff3e', false);
+      // Sale paralelo al eje hacia la derecha (rayo real)
+      extenderHastaX(ctx, lx, yAtLente, W, yAtLente, W, '#a8ff3e', false);
+      // Prolongación punteada hacia atrás hasta la imagen virtual
+      drawSegmentoDashed(ctx, lx, yAtLente, ix, iy, '#a8ff3e');
     }
   }
 
@@ -182,9 +189,20 @@ window.Renderers.optica_lente = (() => {
     ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
   }
 
-  // Extiende una línea desde (x1,y1) en dirección hacia (x2,y2) hasta xMax
+  // Dibuja desde (x1,y1) hasta (x2,y2) y luego extiende en la misma dirección hasta xMax
   function extenderHastaX(ctx, x1, y1, x2, y2, xMax, color, dashed) {
-    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    // Calcular el punto real en xMax si la dirección lo alcanza
+    let xFin = x2, yFin = y2;
+    if (Math.abs(dx) > 0.01) {
+      const t = (xMax - x1) / dx;
+      if (t > 1) { // solo extender si xMax está más allá de x2
+        xFin = xMax;
+        yFin = y1 + dy * t;
+      }
+    }
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(xFin, yFin);
     ctx.strokeStyle = color; ctx.lineWidth = 1.2;
     if (dashed) ctx.setLineDash([3,3]);
     ctx.stroke();
@@ -213,7 +231,7 @@ window.Renderers.optica_lente = (() => {
 
     const desc = getCaso(f, so, si, A);
     ctx2.font = '500 10px Outfit, sans-serif';
-    ctx2.fillStyle = 'rgba(200,216,240,0.7)';
+    ctx2.fillStyle = 'rgba(220,232,255,0.9)';
     ctx2.textAlign = 'center';
     const lines = desc.split('\n');
     const cx = W / 2;
@@ -225,7 +243,7 @@ window.Renderers.optica_lente = (() => {
         { color: 'rgba(0,229,255,0.6)',   label: 'F < so < 2F   imagen real, ampliada' },
         { color: 'rgba(255,107,53,0.6)',  label: 'so < F   imagen virtual (lupa)' },
       ];
-      const ly = H * 0.62;
+      const ly = H * 0.76 + 80;
       ctx2.font = '400 11px Outfit, sans-serif';
       leyenda.forEach((item, i) => {
         const y = ly + i * 22;
@@ -237,7 +255,7 @@ window.Renderers.optica_lente = (() => {
       });
     }
 
-    ctx2.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.font = '500 12px Space Mono, monospace';
     ctx2.textAlign = 'right';
     ctx2.fillText('RESUMEN', W - 10, 18);

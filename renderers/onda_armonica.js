@@ -77,7 +77,7 @@ window.Renderers.onda_armonica = (() => {
         // Flecha doble λ
         const xNext = xOrigin + (n + 1) * lambda * pxPerM;
         ctx1.font = '400 10px Outfit, sans-serif';
-        ctx1.fillStyle = 'rgba(0,229,255,0.5)';
+        ctx1.fillStyle = 'rgba(0,229,255,0.85)';
         ctx1.textAlign = 'center';
         ctx1.fillText('λ', (xMark + xNext) / 2, cy + 16);
       }
@@ -147,13 +147,13 @@ window.Renderers.onda_armonica = (() => {
     ctx1.lineTo(cx + 43, arrowY + 4);
     ctx1.fillStyle = 'rgba(168,255,62,0.6)'; ctx1.fill();
     ctx1.font = '500 9px Space Mono, monospace';
-    ctx1.fillStyle = 'rgba(168,255,62,0.7)';
+    ctx1.fillStyle = 'rgba(168,255,62,0.9)';
     ctx1.textAlign = 'left';
     ctx1.fillText('v = ' + (v || 0).toFixed(1) + ' m/s', cx + 55, arrowY + 4);
 
     // Labels esquina
     ctx1.font = '500 10px Space Mono, monospace';
-    ctx1.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx1.fillStyle = 'rgba(200,216,240,0.75)';
     ctx1.textAlign = 'right';
     ctx1.fillText('ONDA', W - 10, 18);
     ctx1.textAlign = 'left';
@@ -200,7 +200,7 @@ window.Renderers.onda_armonica = (() => {
       ctx2.strokeStyle = 'rgba(74,90,122,0.5)'; ctx2.lineWidth = 1; ctx2.setLineDash([]); ctx2.stroke();
       if (n < periodsToShow) {
         ctx2.font = '400 10px Outfit, sans-serif';
-        ctx2.fillStyle = 'rgba(255,77,109,0.5)';
+        ctx2.fillStyle = 'rgba(255,77,109,0.85)';
         ctx2.textAlign = 'center';
         ctx2.fillText('T', (xMark + tOrigin + (n+1) * pxPerT) / 2, cy + 16);
       }
@@ -272,7 +272,7 @@ window.Renderers.onda_armonica = (() => {
     // Labels esquina superior — sin solapamiento
     // Fila 1: MAS centrado/derecha, nada a la izquierda
     ctx2.font = '500 10px Space Mono, monospace';
-    ctx2.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right';
     ctx2.fillText('MAS', W - 10, 16);
 
@@ -286,8 +286,8 @@ window.Renderers.onda_armonica = (() => {
     ctx2.fillText('↑ vel. instantánea', 8, 44);
 
     // Aclaración MAS — esquina inferior izquierda
-    ctx2.font = '400 8px Outfit, sans-serif';
-    ctx2.fillStyle = 'rgba(200,216,240,0.25)';
+    ctx2.font = '400 10px Outfit, sans-serif';
+    ctx2.fillStyle = 'rgba(200,216,240,0.7)';
     ctx2.fillText('MAS: cada punto del medio oscila verticalmente', 8, H - 22);
     ctx2.fillText('como un resorte — no se desplaza con la onda.', 8, H - 10);
 

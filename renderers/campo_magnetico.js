@@ -97,7 +97,7 @@ window.Renderers.campo_magnetico = (() => {
     ctx3.font = '600 11px Space Mono, monospace';
     ctx3.fillStyle = '#a8ff3e';
     const [blx, bly] = iso(1.8, 1.1, -1.5);
-    ctx3.fillText(bPositivo ? 'B (+z)' : 'B (-z)', blx, bly);
+    ctx3.fillText(bPositivo ? 'B (+z)' : 'B (-z)', blx, bly); // ya legible
 
     if (esRectilineo) {
       // ── Movimiento rectilíneo: línea recta paralela a B ──────────────────
@@ -259,8 +259,8 @@ window.Renderers.campo_magnetico = (() => {
       ctxXY.strokeStyle = `rgba(255,107,53,${0.15 + pulse * 0.1})`; ctxXY.lineWidth = 1;
       ctxXY.stroke();
 
-      ctxXY.font = '500 9px Space Mono, monospace';
-      ctxXY.fillStyle = 'rgba(200,216,240,0.5)';
+      ctxXY.font = '500 10px Space Mono, monospace';
+      ctxXY.fillStyle = 'rgba(200,216,240,0.85)';
       ctxXY.textAlign = 'center';
       ctxXY.fillText('sin movimiento en XY', cx, cy + 32);
       ctxXY.fillText('v⊥ = 0 → F = 0', cx, cy + 46);
@@ -318,11 +318,11 @@ window.Renderers.campo_magnetico = (() => {
     }
 
     // Labels
-    ctxXY.font = '500 9px Outfit, sans-serif';
-    ctxXY.fillStyle = 'rgba(200,216,240,0.4)';
+    ctxXY.font = '500 10px Outfit, sans-serif';
+    ctxXY.fillStyle = 'rgba(200,216,240,0.8)';
     ctxXY.fillText('x', W - 14, cy - 5);
     ctxXY.fillText('y', cx + 5, 14);
-    ctxXY.font = '500 10px Space Mono, monospace';
+    ctxXY.font = '600 11px Space Mono, monospace';
     ctxXY.fillStyle = '#a8ff3e';
     ctxXY.fillText(bPositivo ? '⊙ B (+z)' : '⊗ B (-z)', 10, H - 12);
   }

@@ -163,17 +163,17 @@ window.Renderers.optica_espejo = (() => {
     ctx1.font = '500 9px Space Mono, monospace';
     ctx1.fillStyle = 'rgba(0,229,255,0.6)';
     ctx1.textAlign = 'center';
-    ctx1.fillText(esConcavo ? 'F' : 'F (virtual)', esConcavo ? ex - fPx : ex + fPx, ey + 14);
+    ctx1.fillText(esConcavo ? 'F' : 'F (v)', esConcavo ? ex - fPx : ex + fPx, ey + 14);
 
-    // Centro de curvatura (solo cóncavo)
-    if (esConcavo) {
-      const cPos = ex - fPx * 2;
+    // Centro de curvatura (cóncavo: real delante; convexo: virtual detrás)
+    {
+      const cPos = esConcavo ? ex - fPx * 2 : ex + fPx * 2;
       ctx1.beginPath(); ctx1.arc(cPos, ey, 3, 0, Math.PI*2);
-      ctx1.fillStyle = 'rgba(168,255,62,0.3)'; ctx1.fill();
+      ctx1.fillStyle = esConcavo ? 'rgba(168,255,62,0.3)' : 'rgba(168,255,62,0.15)'; ctx1.fill();
       ctx1.beginPath(); ctx1.arc(cPos, ey, 1.5, 0, Math.PI*2);
       ctx1.fillStyle = '#a8ff3e'; ctx1.fill();
-      ctx1.fillStyle = 'rgba(168,255,62,0.6)';
-      ctx1.fillText('C', cPos, ey + 14);
+      ctx1.fillStyle = esConcavo ? 'rgba(168,255,62,0.6)' : 'rgba(168,255,62,0.4)';
+      ctx1.fillText(esConcavo ? 'C' : 'C (v)', cPos, ey + 14);
     }
 
     // ── Objeto ────────────────────────────────────────────────────────────
@@ -311,64 +311,72 @@ window.Renderers.optica_espejo = (() => {
       punteadoHacia(ex, oy, fX, ey, '#ff4d6d');
     }
 
-    // Rayo 2: pasa por el foco → refleja paralelo al eje
-    segmento(ox, oy, ex, ey + (oy - ey) * (ex - ox) / (ex - fX) * 0, '#00e5ff', 1.5);
-    // Más preciso: rayo desde objeto hasta espejo pasando por F
-    const r2ex = ex;
-    const r2ey = ey + (oy - ey) / (ox - fX) * (r2ex - fX); // y en espejo si viaja hacia F
-    // Simplificado: objeto → espejo al nivel oy (paralelo), luego foco
-    // Rayo: O→F→espejo→paralelo
-    segmento(ox, oy, fX, ey, '#00e5ff', 1, true); // línea guía punteada
-    // En espejo a esa altura → sale paralelo
+    // Rayo 2: viaja desde el objeto en dirección al foco F → llega al espejo → refleja paralelo al eje
+    // Guía punteada O→F: no es rayo físico, es la línea de orientación geométrica
+    segmento(ox, oy, fX, ey, '#00e5ff', 1, true);
+    // Punto real de incidencia en el espejo (sobre la línea O→F extrapolada hasta x=ex)
     const r2eyEsp = ey + (oy - ey) / (ox - fX) * (ex - fX);
     segmento(ox, oy, ex, r2eyEsp, '#00e5ff', 1.5);
     if (imagenReal) {
       segmento(ex, r2eyEsp, ix, iy, '#00e5ff', 1.5);
       extenderPunteado(ex, r2eyEsp, ix, iy, W, '#00e5ff');
     } else {
+      // Sale paralelo al eje (izquierda)
       segmento(ex, r2eyEsp, 0, r2eyEsp, '#00e5ff', 1.5);
+      // Punteado hacia F para mostrar la procedencia virtual del rayo reflejado
+      punteadoHacia(ex, r2eyEsp, fX, ey, '#00e5ff');
     }
 
     // Rayo 3: pasa por el centro de curvatura → refleja sobre sí mismo
-    segmento(ox, oy, ex, ey + (oy - ey) / (ox - cX) * (ex - cX), '#a8ff3e', 1.5);
     const r3eyEsp = ey + (oy - ey) / (ox - cX) * (ex - cX);
+    segmento(ox, oy, ex, r3eyEsp, '#a8ff3e', 1.5);
     if (imagenReal) {
       segmento(ex, r3eyEsp, ix, iy, '#a8ff3e', 1.5);
       extenderPunteado(ex, r3eyEsp, ix, iy, W, '#a8ff3e');
     } else {
-      // Retrocede desde espejo por el mismo ángulo
+      // Imagen virtual: el rayo reflejado vuelve por la misma línea (pasa por C)
+      // Rayo reflejado visible hacia la izquierda
       const dx = ex - ox, dy = r3eyEsp - oy;
-      segmento(ex, r3eyEsp, ex - dx * 0.8, r3eyEsp - dy * 0.8, '#a8ff3e', 1.5);
+      segmento(ex, r3eyEsp, 0, r3eyEsp - dy * (ex / dx), '#a8ff3e', 1.5);
+      // Punteado hacia imagen virtual
+      punteadoHacia(ex, r3eyEsp, ix, iy, '#a8ff3e');
     }
   }
 
   // ── Rayos convexo ─────────────────────────────────────────────────────────
   function drawRayosConvexo(ox, oy, iy, ex, ey, fPx, ix, scale, espH) {
-    // Foco virtual: detrás del espejo (derecha de ex)
+    // F virtual: detrás del espejo (derecha de ex)
+    // C virtual: 2f detrás del espejo
     const fVX = ex + fPx;
+    const cVX = ex + fPx * 2;
 
-    // Rayo 1: paralelo al eje → refleja divergiendo como si viniese de F virtual
+    // Rayo 1: paralelo al eje → incide en espejo en (ex, oy)
+    // Reflejo: diverge como si viniese de F virtual (fVX, ey)
+    // Dirección correcta: vector de (fVX,ey) a (ex,oy), extrapolado hacia la izquierda
     segmento(ox, oy, ex, oy, '#ff4d6d', 1.5);
-    // Reflejo diverge
-    const r1dX = ex - ox, r1dY = oy - ey; // dirección aprox
-    segmento(ex, oy, 0, oy + (fVX - ex) / (fVX - ex + (ex - 0)) * (oy - ey) * 2, '#ff4d6d', 1.5);
-    // Punteado hacia F virtual
-    punteadoHacia(ex, oy, fVX, ey, '#ff4d6d');
+    const r1dx = ex - fVX;          // negativo (fVX está a la derecha)
+    const r1dy = oy - ey;
+    const r1t  = ex / (-r1dx);      // escalar para llegar a x=0
+    segmento(ex, oy, 0, oy + r1dy * r1t, '#ff4d6d', 1.5);
+    punteadoHacia(ex, oy, fVX, ey, '#ff4d6d');  // detrás del espejo
 
-    // Rayo 2: dirigido hacia F virtual → sale paralelo
+    // Rayo 2: dirigido hacia F virtual → sale paralelo al eje
     const r2eyEsp = ey + (oy - ey) / (ox - fVX) * (ex - fVX);
     segmento(ox, oy, ex, r2eyEsp, '#00e5ff', 1.5);
-    segmento(ex, r2eyEsp, 0, r2eyEsp, '#00e5ff', 1.5); // sale paralelo
-    punteadoHacia(ex, r2eyEsp, fVX, r2eyEsp, '#00e5ff');
+    segmento(ex, r2eyEsp, 0, r2eyEsp, '#00e5ff', 1.5);
+    punteadoHacia(ex, r2eyEsp, fVX, ey, '#00e5ff');  // indica de dónde "venía"
 
-    // Rayo 3: hacia el centro virtual (detrás, 2f)
-    const cVX = ex + fPx * 2;
+    // Rayo 3: dirigido hacia C virtual → refleja sobre sí mismo (vuelve por el mismo camino)
+    // Dirección de retorno: vector de (cVX,ey) a (ex,r3eyEsp), extrapolado a x=0
     const r3eyEsp = ey + (oy - ey) / (ox - cVX) * (ex - cVX);
     segmento(ox, oy, ex, r3eyEsp, '#a8ff3e', 1.5);
-    // Refleja hacia atrás simétricamente
-    segmento(ex, r3eyEsp, 0, ey - (r3eyEsp - ey) * (ex / (ex - 0)), '#a8ff3e', 1.5);
+    const r3dx = ex - cVX;          // negativo
+    const r3dy = r3eyEsp - ey;
+    const r3t  = ex / (-r3dx);
+    segmento(ex, r3eyEsp, 0, r3eyEsp + r3dy * r3t, '#a8ff3e', 1.5);
+    punteadoHacia(ex, r3eyEsp, cVX, ey, '#a8ff3e');
 
-    // Imagen virtual (líneas de convergencia punteadas)
+    // Punteados de convergencia hacia imagen virtual (detrás del espejo)
     punteadoHacia(ex, oy,      ix, iy, '#ff4d6d');
     punteadoHacia(ex, r2eyEsp, ix, iy, '#00e5ff');
     punteadoHacia(ex, r3eyEsp, ix, iy, '#a8ff3e');
@@ -425,7 +433,7 @@ window.Renderers.optica_espejo = (() => {
 
     // Labels ejes
     ctx2.font = '500 9px Space Mono, monospace';
-    ctx2.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right'; ctx2.fillText('sₒ →', W-10, cy-6);
     ctx2.textAlign = 'center'; ctx2.fillText('sᵢ', cx+14, 16);
     ctx2.textAlign = 'left';
@@ -475,10 +483,10 @@ window.Renderers.optica_espejo = (() => {
         const xEnd   = i < zonas.length - 1 ? cx + zonas[i+1].x : W - 10;
         ctx2.fillStyle = z.color;
         ctx2.fillRect(xStart, 0, xEnd - xStart, H);
-        ctx2.font = '400 8px Outfit, sans-serif';
-        ctx2.fillStyle = 'rgba(200,216,240,0.3)';
+        ctx2.font = '600 11px Outfit, sans-serif';
+        ctx2.fillStyle = 'rgba(220,232,255,0.85)';
         ctx2.textAlign = 'center';
-        ctx2.fillText(z.label, (xStart + xEnd) / 2, H - 10);
+        ctx2.fillText(z.label, (xStart + xEnd) / 2, H - 12);
       });
 
       // Marcas F y C
@@ -535,10 +543,10 @@ window.Renderers.optica_espejo = (() => {
       // Zona única (imagen virtual siempre)
       ctx2.fillStyle = 'rgba(168,255,62,0.05)';
       ctx2.fillRect(cx, 0, W - cx - 10, H);
-      ctx2.font = '400 8px Outfit, sans-serif';
-      ctx2.fillStyle = 'rgba(200,216,240,0.3)';
+      ctx2.font = '600 11px Outfit, sans-serif';
+      ctx2.fillStyle = 'rgba(220,232,255,0.85)';
       ctx2.textAlign = 'center';
-      ctx2.fillText('imagen siempre virtual', cx + (W - cx) / 2, H - 10);
+      ctx2.fillText('imagen siempre virtual', cx + (W - cx) / 2, H - 12);
 
       // Marca f
       const fPx = fAbs * pxPerCm_x;
@@ -565,7 +573,7 @@ window.Renderers.optica_espejo = (() => {
 
     // Label
     ctx2.font = '500 10px Space Mono, monospace';
-    ctx2.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right';
     ctx2.fillText('sₒ vs sᵢ', W - 10, 18);
     ctx2.textAlign = 'left';

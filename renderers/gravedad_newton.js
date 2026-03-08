@@ -72,8 +72,8 @@ window.Renderers.gravedad_newton = (() => {
     ctx1.arc(bcx, bcy, 3, 0, Math.PI * 2);
     ctx1.fillStyle = 'rgba(255,255,255,0.2)';
     ctx1.fill();
-    ctx1.font = '500 8px Space Mono, monospace';
-    ctx1.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx1.font = '500 9px Space Mono, monospace';
+    ctx1.fillStyle = 'rgba(255,255,255,0.6)';
     ctx1.textAlign = 'center';
     ctx1.fillText('CM', bcx, bcy - 7);
 
@@ -140,7 +140,7 @@ window.Renderers.gravedad_newton = (() => {
     ctx1.textAlign = 'left';
     let yInfo = H - 10;
 
-    ctx1.fillStyle = 'rgba(200,216,240,0.3)';
+    ctx1.fillStyle = 'rgba(200,216,240,0.8)';
     ctx1.fillText('F = ' + formatNum(resultados.F) + ' N', 10, yInfo);
     yInfo -= 16;
 
@@ -155,7 +155,7 @@ window.Renderers.gravedad_newton = (() => {
       ctx1.fillText('v = ' + formatNum(vActual) + ' m/s' + vFlecha, 10, yInfo);
     }
 
-    ctx1.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx1.fillStyle = 'rgba(200,216,240,0.75)';
     ctx1.textAlign = 'right';
     ctx1.fillText('VISTA SUPERIOR (XY)', W - 10, 18);
     ctx1.textAlign = 'left';
@@ -175,8 +175,8 @@ window.Renderers.gravedad_newton = (() => {
     ctx2.arc(bcx, bcy, 3, 0, Math.PI * 2);
     ctx2.fillStyle = 'rgba(255,255,255,0.2)';
     ctx2.fill();
-    ctx2.font = '500 8px Space Mono, monospace';
-    ctx2.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx2.font = '500 9px Space Mono, monospace';
+    ctx2.fillStyle = 'rgba(255,255,255,0.6)';
     ctx2.textAlign = 'center';
     ctx2.fillText('CM', bcx, bcy - 7);
 
@@ -220,16 +220,16 @@ window.Renderers.gravedad_newton = (() => {
       ctx2.fillStyle = 'rgba(255,107,53,0.7)';
       ctx2.fillText(tapado + ' oculta tras ' + (m1detras ? 'm\u2082' : 'm\u2081'), W/2, H - 24);
     } else {
-      ctx2.fillStyle = 'rgba(168,255,62,0.4)';
+      ctx2.fillStyle = 'rgba(168,255,62,0.85)';
       ctx2.fillText('ambas visibles', W/2, H - 24);
     }
 
     ctx2.font = '500 9px Space Mono, monospace';
-    ctx2.fillStyle = 'rgba(74,90,122,0.7)';
+    ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right';
     ctx2.fillText('VISTA LATERAL (XZ)', W - 10, 18);
     ctx2.textAlign = 'left';
-    ctx2.fillStyle = 'rgba(200,216,240,0.3)';
+    ctx2.fillStyle = 'rgba(200,216,240,0.8)';
     ctx2.fillText('T = ' + formatNum(resultados.T) + ' s', 10, H - 10);
   }
 
