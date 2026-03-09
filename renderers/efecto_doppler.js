@@ -17,6 +17,7 @@ window.Renderers.efecto_doppler = (() => {
   // Estado de animación
   const frentes = [];
   let fuenteX = 0;
+  let obsX = 0;
   let emitCount = 0;
 
   function init(canvas1, canvas2) {
@@ -40,9 +41,10 @@ window.Renderers.efecto_doppler = (() => {
   function resetAnim() {
     frentes.length = 0;
     emitCount = 0;
-    // acerca: arranca izquierda → va derecha
-    // aleja:  arranca derecha  → va izquierda
-    fuenteX = c1 ? (modo === 'acerca' ? c1.width * 0.08 : c1.width * 0.92) : 0;
+    // acerca: fuente izquierda (0.08) → derecha; obs derecha (0.92) → izquierda
+    // aleja:  ambos parten del centro (0.5) y se separan
+    fuenteX = c1 ? (modo === 'acerca' ? c1.width * 0.08 : c1.width * 0.5) : 0;
+    obsX    = c1 ? (modo === 'acerca' ? c1.width * 0.92 : c1.width * 0.5) : 0;
   }
 
   // ── Toggle UI ─────────────────────────────────────────────────────────────
@@ -139,28 +141,25 @@ window.Renderers.efecto_doppler = (() => {
     for (let x = 0; x < W; x += 40) { ctx1.beginPath(); ctx1.moveTo(x,0); ctx1.lineTo(x,H); ctx1.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx1.beginPath(); ctx1.moveTo(0,y); ctx1.lineTo(W,y); ctx1.stroke(); }
 
-    // Observador siempre a la derecha
-    const obsX = W * 0.88;
-
     // Velocidad fuente en px/frame — escalada para que sea visible
     // vf=0 → 0px/frame, vf=120 → ~2.5px/frame
     const vfPx = (vf / 120) * 2.5;
+    const voPx = (valores.vo / 120) * 2.5;
 
-    // Velocidad frente de onda en px/frame — siempre mayor que fuente
-    // Proporcional: v=343 m/s → ~4px/frame (fijo, independiente de vf)
+    // Velocidad frente de onda en px/frame
     const vwavePx = 3.5;
 
-    // Mover fuente: acerca → derecha, aleja → izquierda (ambas desde la izquierda)
-    if (acerca) {
-      fuenteX += vfPx;
-      if (fuenteX > obsX - 20) resetAnim();
-    } else {
-      fuenteX -= vfPx;
-      if (fuenteX < -W * 0.1) resetAnim();
-    }
+    // Mover fuente: acerca → derecha; aleja → izquierda
+    fuenteX += acerca ? vfPx : -vfPx;
+    if (vf === 0) fuenteX = acerca ? W * 0.08 : W * 0.5;
 
-    // Si vf=0, fuente fija en el centro
-    if (vf === 0) fuenteX = W * 0.5;
+    // Mover observador: acerca → izquierda; aleja → derecha
+    obsX += acerca ? -voPx : voPx;
+    if (valores.vo === 0) obsX = acerca ? W * 0.88 : W * 0.5;
+
+    // Reset: acerca → se cruzan; aleja → salen del canvas
+    if (acerca  && fuenteX >= obsX - 20) resetAnim();
+    if (!acerca && (fuenteX < -W * 0.1 || obsX > W * 1.1)) resetAnim();
 
     // Período de emisión: cuantos frames entre frentes
     // A f0 alta → más frentes por segundo → período corto
@@ -199,6 +198,40 @@ window.Renderers.efecto_doppler = (() => {
     ctx1.fillStyle = 'rgba(168,255,62,0.7)';
     ctx1.textAlign = 'center';
     ctx1.fillText('OBS', obsX, oy + 22);
+    if (valores.vo > 0) ctx1.fillText(`vₒ=${valores.vo} m/s`, obsX, oy + 33);
+
+    // ── Flecha observador (solo si vo > 0) ──
+    if (valores.vo > 0) {
+      const ARROW_CYCLE = 90;
+      const af = frame % ARROW_CYCLE;
+      const dirO = acerca ? -1 : 1; // acerca: obs va izquierda; aleja: obs va derecha
+      const ARROW_LEN = 55;
+      const arrowY = oy - 28;
+      const arrowX0 = obsX + dirO * 14;
+      const arrowX1 = obsX + dirO * (14 + ARROW_LEN);
+
+      let progress = af < 60 ? af / 60 : 1;
+      let alpha    = af < 60 ? 0.7 : 0.7 * (1 - (af - 60) / 30);
+      const arrowXEnd = arrowX0 + (arrowX1 - arrowX0) * progress;
+
+      if (alpha > 0.02) {
+        ctx1.beginPath();
+        ctx1.moveTo(arrowX0, arrowY);
+        ctx1.lineTo(arrowXEnd, arrowY);
+        ctx1.strokeStyle = `rgba(168,255,62,${alpha})`;
+        ctx1.lineWidth = 1.5;
+        ctx1.stroke();
+        if (progress > 0.85) {
+          const pAlpha = alpha * ((progress - 0.85) / 0.15);
+          ctx1.beginPath();
+          ctx1.moveTo(arrowXEnd, arrowY);
+          ctx1.lineTo(arrowXEnd - dirO * 7, arrowY - 4);
+          ctx1.lineTo(arrowXEnd - dirO * 7, arrowY + 4);
+          ctx1.fillStyle = `rgba(168,255,62,${pAlpha})`;
+          ctx1.fill();
+        }
+      }
+    }
 
     // ── Fuente ──
     ctx1.beginPath(); ctx1.arc(fuenteX, oy, 9, 0, Math.PI * 2);

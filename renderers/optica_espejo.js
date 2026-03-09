@@ -134,7 +134,8 @@ window.Renderers.optica_espejo = (() => {
     const maxDist = Math.max(so, Math.abs(si), fAbs * 2, 20);
     const scale   = Math.min((W * 0.62) / maxDist, 5);
 
-    const espH = Math.min(H * 0.38, 80); // semialtura del espejo
+    const R_px  = fAbs * 2 * scale;
+    const espH = Math.min(H * 0.38, 80, R_px * 0.85); // semialtura nunca > R
 
     // Grid
     ctx1.strokeStyle = 'rgba(26,37,64,0.5)';

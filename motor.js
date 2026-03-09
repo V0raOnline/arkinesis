@@ -268,12 +268,13 @@ async function init() {
 
 // ─── Selector de fórmulas disponibles ────────────────────────────────────────
 const FORMULAS_DISPONIBLES = [
-  { id: 'campo_magnetico',  label: 'Electromag. — Campo magnético' },
-  { id: 'efecto_doppler',   label: 'Ondas — Efecto Doppler' },
-  { id: 'gravedad_newton',  label: 'Gravitación — Ley de Newton' },
-  { id: 'onda_armonica',    label: 'Ondas — Onda armónica' },
-  { id: 'optica_espejo',    label: 'Óptica — Espejo esférico' },
-  { id: 'optica_lente',     label: 'Óptica — Lente delgada' },
+  { id: 'campo_magnetico',    label: 'Electromag. — Campo magnético' },
+  { id: 'efecto_doppler',     label: 'Ondas — Efecto Doppler' },
+  { id: 'gravedad_newton',    label: 'Gravitación — Ley de Newton' },
+  { id: 'induccion_magnetica',label: 'Electromag. — Inducción magnética' },
+  { id: 'onda_armonica',      label: 'Ondas — Onda armónica' },
+  { id: 'optica_espejo',      label: 'Óptica — Espejo esférico' },
+  { id: 'optica_lente',       label: 'Óptica — Lente delgada' },
   // añadir aquí nuevas fórmulas
 ];
 

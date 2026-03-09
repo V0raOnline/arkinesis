@@ -445,7 +445,7 @@ function actualizarCajaInfo(formula, resultados) {
   // Fórmula simbólica
   const simEl = document.getElementById('info-formula-sim');
   _ultimaFormulaSim = formula.formula_simbolica || '';
-  if (simEl) simEl.textContent = _ultimaFormulaSim;
+  if (simEl) simEl.innerHTML = _ultimaFormulaSim;
 
   // Fórmula resuelta — sustituir {id} por valores (resultados + sliders)
   let resuelta = formula.formula_resuelta || '';
@@ -465,10 +465,10 @@ function actualizarCajaInfo(formula, resultados) {
   // Si la solución estaba visible, actualizar en tiempo real
   if (_solucionVisible) {
     const el = document.getElementById('formula-display');
-    if (el) el.textContent = _ultimaFormulaRes;
+    if (el) el.innerHTML = _ultimaFormulaRes;
   } else {
     const el = document.getElementById('formula-display');
-    if (el) el.textContent = _ultimaFormulaSim;
+    if (el) el.innerHTML = _ultimaFormulaSim;
   }
 }
 
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
       _solucionVisible = !_solucionVisible;
       if (_solucionVisible) {
         const el = document.getElementById('formula-display');
-        if (el) { el.textContent = _ultimaFormulaRes; el.classList.add('solucion'); }
+        if (el) { el.innerHTML = _ultimaFormulaRes; el.classList.add('solucion'); }
         btn.textContent = 'ocultar solución';
         btn.classList.add('activo');
       } else {
@@ -521,8 +521,9 @@ document.getElementById('btn-copy-url').addEventListener('click', () => {
 });
 
 // Exponer para motor.js
-window._actualizarCajaInfo = actualizarCajaInfo;
-window._mostrarFormulaSim  = mostrarFormulaSim;
+window._actualizarCajaInfo  = actualizarCajaInfo;
+window._mostrarFormulaSim   = mostrarFormulaSim;
+Object.defineProperty(window, '_solucionVisible', { get: () => _solucionVisible });
 
 // ── AX0 Facts ────────────────────────────────────────────────────────────────
 async function cargarAX0Fact() {
