@@ -380,6 +380,9 @@ footer {
 
   <!-- Panel -->
   <div class="panel">
+    <div class="panel-section" id="ax0-fact-section">
+      <div id="ax0-fact-box"></div>
+    </div>
     <div class="panel-section">
       <h3>Parámetros</h3>
       <div id="sliders-container"></div>
@@ -520,6 +523,34 @@ document.getElementById('btn-copy-url').addEventListener('click', () => {
 // Exponer para motor.js
 window._actualizarCajaInfo = actualizarCajaInfo;
 window._mostrarFormulaSim  = mostrarFormulaSim;
+
+// ── AX0 Facts ────────────────────────────────────────────────────────────────
+async function cargarAX0Fact() {
+  try {
+    const res  = await fetch('ax0_facts.yaml');
+    const text = await res.text();
+    const data = jsyaml.load(text);
+    const facts = data.facts;
+    if (!facts || !facts.length) return;
+
+    const fact = facts[Math.floor(Math.random() * facts.length)];
+    const box  = document.getElementById('ax0-fact-box');
+    if (!box) return;
+
+    box.innerHTML = `
+      <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.7rem;">
+        <img src="AX0.png" alt="AX0" style="height:28px; width:auto; opacity:0.75; filter:drop-shadow(0 0 6px rgba(0,229,255,0.3));">
+        <span style="font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);">AX0 // dato curioso</span>
+      </div>
+      <div style="font-size:0.78rem; color:var(--text); line-height:1.6; margin-bottom:0.5rem;">${fact.dato}</div>
+      <div style="font-family:'Space Mono',monospace; font-size:0.68rem; color:var(--accent3);">${fact.remate}</div>
+    `;
+  } catch(e) {
+    console.warn('[arkinesis] AX0 facts no disponibles:', e);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', cargarAX0Fact);
 </script>
 
 <script src="motor.js"></script>

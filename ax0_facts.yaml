@@ -1,0 +1,28 @@
+# ax0_facts.yaml
+# Datos curiosos de AX0 para mostrar aleatoriamente en el selector
+# Añade nuevos facts con el mismo esquema: dato + remate
+
+facts:
+  - dato: "Puede regenerar extremidades completas sin cicatriz."
+    remate: "La biología también hace debug."
+
+  - dato: "Nunca completa su metamorfosis. Prefiere quedarse en modo exploración permanente."
+    remate: "Neotenia como filosofía."
+
+  - dato: "Su genoma es ~10× más grande que el humano."
+    remate: "Más código, más experimentos."
+
+  - dato: "Come succionando agua como un mini agujero negro."
+    remate: "La física empieza pronto."
+
+  - dato: "Puede regenerar partes de su cerebro y corazón. No solo extremidades."
+    remate: "Backups biológicos de serie."
+
+  - dato: "Es una especie críticamente amenazada. Solo vive en los lagos de Xochimilco, México."
+    remate: "Raro, local, irreemplazable. Como un buen proyecto open source."
+
+  - dato: "Su nombre viene del náhuatl: Xolotl (dios azteca) + atl (agua)."
+    remate: "Mitología y biología, el crossover que nadie esperaba."
+
+  - dato: "Puede absorber oxígeno por la piel además de por las branquias."
+    remate: "Redundancia de sistemas. Buena ingeniería."
