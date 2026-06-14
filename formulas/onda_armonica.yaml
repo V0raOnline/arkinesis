@@ -47,6 +47,24 @@ variables:
 
 constantes: {}
 
+connections:
+  - when: v > 100
+    priority: 100
+    text: >-
+      El sonar submarino usa ondas de estas velocidades de propagacion para detectar objetos bajo el agua. Mas rapido que el sonido en aire, mas lento que la luz.
+  - when: f > 20
+    priority: 90
+    text: >-
+      Por encima de 20 Hz entramos en el rango audible. Los ultrasonidos medicos (ecografias) usan frecuencias de 2 a 15 MHz para obtener imagenes del interior del cuerpo.
+  - when: lambda < 1
+    priority: 80
+    text: >-
+      Longitudes de onda menores que un metro corresponden a microondas y luz visible. Los hornos microondas operan a 12 cm de longitud de onda.
+  - when: A > 3
+    priority: 70
+    text: >-
+      Las ondas sismicas con grandes amplitudes son las que causan danos estructurales. Los sismografos miden exactamente este parametro para evaluar terremotos.
+
 formulas:
   - id: T
     label: Período

@@ -74,3 +74,28 @@ formula_simbolica: "ε = −N·ΔΦ/Δt &nbsp;&nbsp;&nbsp; Φ = N·B·A·cosθ"
 formula_resuelta: "ε = −{N}·B·L·v = −{fem} V &nbsp;&nbsp; Φ = {phi} Wb"
 
 nota: "⚠ Desplazamiento: ε = N·B·L·v (espira entrando/saliendo del campo). Rotación: ε = N·B·A·ω·sin(ωt). v actúa como ω (rad/s) en modo rotación."
+
+ax0_facts:
+  - La dinamo de una bicicleta genera corriente exactamente por este principio: una bobina girando en un campo magnetico.
+  - Los generadores de las centrales electricas son espiras gigantes que rotan en campos magneticos potentes.
+  - El frenado regenerativo de los coches electricos convierte energia cinetica en corriente usando induccion.
+  - Los transformadores de los cargadores de movil funcionan por variacion de flujo magnetico entre bobinas.
+  - Los detectores de metales usan induccion para detectar objetos metalicos sin contacto.
+
+connections:
+  - when: fem > 5
+    priority: 100
+    text: >-
+      Los generadores eolicos producen corriente exactamente asi: bobinas que giran en un campo magnetico. Cuanto mas rapido gira el viento, mayor es la fem inducida.
+  - when: N > 5
+    priority: 90
+    text: >-
+      Los transformadores usan muchas espiras apiladas para amplificar la tension. El numero de vueltas determina la relacion de transformacion.
+  - when: B > 2
+    priority: 95
+    text: >-
+      Con campos tan intensos trabajan las maquinas de resonancia magnetica (MRI). Sus bobinas superconductoras mantienen campos de 1.5 a 7 T de forma continua.
+  - when: fem < 1
+    priority: 70
+    text: >-
+      Con fem tan baja apenas hay corriente util. En la practica los generadores industriales se disenan para operar muy por encima de este umbral.

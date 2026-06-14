@@ -1,12 +1,13 @@
-/**
+﻿/**
  * renderers/onda_armonica.js
- * Vista A: onda propagándose en el espacio y(x,t)
- * Vista B: MAS de la partícula en x₀
+ * Vista A: onda propagandose en el espacio y(x,t)
+ * Vista B: MAS de la particula en x0
  */
 
 window.Renderers = window.Renderers || {};
 
 window.Renderers.onda_armonica = (() => {
+  let _F = 0;
   let c1, c2, ctx1, ctx2;
   let frame = 0;
 
@@ -28,11 +29,12 @@ window.Renderers.onda_armonica = (() => {
 
   function draw(valores, resultados) {
     frame++;
+    _F = window.AX_F || 2;
     drawOnda(valores, resultados);
     drawMAS(valores, resultados);
   }
 
-  // ── Vista A: onda propagándose ────────────────────────────────────────────
+  // â”€â”€ Vista A: onda propagandose â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawOnda(valores, resultados) {
     const W = c1.width, H = c1.height;
     ctx1.clearRect(0, 0, W, H);
@@ -48,46 +50,39 @@ window.Renderers.onda_armonica = (() => {
 
     const cx = W / 2, cy = H / 2;
 
-    // Escala: cuántos píxeles por metro
-    // Queremos mostrar ~3 longitudes de onda
     const pxPerM = Math.min((W * 0.85) / (lambda * 3), 80);
     const pxPerA = Math.min((H * 0.35) / A, 60);
 
-    // Tiempo actual
-    const t = (frame / 60); // segundos a 60fps
+    const t = (frame / 60);
 
-    // Grid fijo
     ctx1.strokeStyle = 'rgba(26,37,64,0.4)';
     ctx1.lineWidth = 0.5;
     for (let x = 0; x < W; x += 40) { ctx1.beginPath(); ctx1.moveTo(x,0); ctx1.lineTo(x,H); ctx1.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx1.beginPath(); ctx1.moveTo(0,y); ctx1.lineTo(W,y); ctx1.stroke(); }
 
-    // Eje x (equilibrio)
     ctx1.beginPath(); ctx1.moveTo(0, cy); ctx1.lineTo(W, cy);
     ctx1.strokeStyle = 'rgba(74,90,122,0.5)'; ctx1.lineWidth = 1;
     ctx1.setLineDash([6,3]); ctx1.stroke(); ctx1.setLineDash([]);
 
-    // Marcas λ en el eje
-    const xOrigin = cx - lambda * 1.5 * pxPerM; // origen visual
+    const xOrigin = cx - lambda * 1.5 * pxPerM;
     for (let n = 0; n <= 3; n++) {
       const xMark = xOrigin + n * lambda * pxPerM;
       ctx1.beginPath(); ctx1.moveTo(xMark, cy - 5); ctx1.lineTo(xMark, cy + 5);
       ctx1.strokeStyle = 'rgba(74,90,122,0.5)'; ctx1.lineWidth = 1; ctx1.setLineDash([]); ctx1.stroke();
       if (n < 3) {
-        // Flecha doble λ
         const xNext = xOrigin + (n + 1) * lambda * pxPerM;
-        ctx1.font = '400 10px Outfit, sans-serif';
+        ctx1.font = `400 ${10 + _F}px Outfit, sans-serif`;
         ctx1.fillStyle = 'rgba(0,229,255,0.85)';
         ctx1.textAlign = 'center';
-        ctx1.fillText('λ', (xMark + xNext) / 2, cy + 16);
+        ctx1.fillText('\u03bb', (xMark + xNext) / 2, cy + 16);
       }
     }
 
-    // Onda: y(x,t) = A·sin(ωt − kx)
+    // Onda: y(x,t) = A*sin(wt - kx)
     ctx1.beginPath();
     let started = false;
     for (let px = 0; px < W; px++) {
-      const xM = (px - cx) / pxPerM; // x en metros
+      const xM = (px - cx) / pxPerM;
       const y  = A * Math.sin(omega * t - k * xM);
       const py = cy - y * pxPerA;
       if (!started) { ctx1.moveTo(px, py); started = true; }
@@ -107,23 +102,21 @@ window.Renderers.onda_armonica = (() => {
     ctx1.beginPath(); ctx1.moveTo(0, cy - A * pxPerA); ctx1.lineTo(W, cy - A * pxPerA); ctx1.stroke();
     ctx1.beginPath(); ctx1.moveTo(0, cy + A * pxPerA); ctx1.lineTo(W, cy + A * pxPerA); ctx1.stroke();
     ctx1.setLineDash([]);
-    ctx1.font = '400 9px Space Mono, monospace';
+    ctx1.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = 'rgba(168,255,62,0.6)';
     ctx1.textAlign = 'left';
     ctx1.fillText('+A', 5, cy - A * pxPerA - 4);
     ctx1.fillText('-A', 5, cy + A * pxPerA + 12);
 
-    // Partícula observada en x₀
+    // Particula observada en x0
     const xPx = cx + x0 * pxPerM;
     const yObs = A * Math.sin(omega * t - k * x0);
     const yPx  = cy - yObs * pxPerA;
 
-    // Línea vertical en x₀
     ctx1.beginPath(); ctx1.moveTo(xPx, cy - A * pxPerA - 10); ctx1.lineTo(xPx, cy + A * pxPerA + 10);
     ctx1.strokeStyle = 'rgba(255,77,109,0.35)'; ctx1.lineWidth = 1;
     ctx1.setLineDash([3,3]); ctx1.stroke(); ctx1.setLineDash([]);
 
-    // Punto partícula
     ctx1.beginPath(); ctx1.arc(xPx, yPx, 7, 0, Math.PI * 2);
     ctx1.fillStyle = 'rgba(255,107,53,0.2)'; ctx1.fill();
     ctx1.beginPath(); ctx1.arc(xPx, yPx, 4, 0, Math.PI * 2);
@@ -131,13 +124,13 @@ window.Renderers.onda_armonica = (() => {
     ctx1.shadowColor = '#ff6b35'; ctx1.shadowBlur = 10; ctx1.fill();
     ctx1.shadowBlur = 0;
 
-    // Label x₀
-    ctx1.font = '500 9px Space Mono, monospace';
+    // Label x0
+    ctx1.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = '#ff6b35';
     ctx1.textAlign = 'center';
-    ctx1.fillText('x₀=' + x0.toFixed(1) + 'm', xPx, cy + A * pxPerA + 22);
+    ctx1.fillText('x\u2080=' + x0.toFixed(1) + 'm', xPx, cy + A * pxPerA + 22);
 
-    // Flecha velocidad de propagación
+    // Flecha velocidad de propagacion
     const arrowY = cy - A * pxPerA - 22;
     ctx1.beginPath(); ctx1.moveTo(cx + 10, arrowY); ctx1.lineTo(cx + 50, arrowY);
     ctx1.strokeStyle = 'rgba(168,255,62,0.6)'; ctx1.lineWidth = 1.5; ctx1.stroke();
@@ -146,20 +139,20 @@ window.Renderers.onda_armonica = (() => {
     ctx1.lineTo(cx + 43, arrowY - 4);
     ctx1.lineTo(cx + 43, arrowY + 4);
     ctx1.fillStyle = 'rgba(168,255,62,0.6)'; ctx1.fill();
-    ctx1.font = '500 9px Space Mono, monospace';
+    ctx1.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = 'rgba(168,255,62,0.9)';
     ctx1.textAlign = 'left';
     ctx1.fillText('v = ' + (v || 0).toFixed(1) + ' m/s', cx + 55, arrowY + 4);
 
     // Labels esquina
-    ctx1.font = '500 10px Space Mono, monospace';
+    ctx1.font = `400 ${10 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = 'rgba(200,216,240,0.75)';
     ctx1.textAlign = 'right';
     ctx1.fillText('ONDA', W - 10, 18);
     ctx1.textAlign = 'left';
   }
 
-  // ── Vista B: MAS de la partícula en x₀ ───────────────────────────────────
+  // â”€â”€ Vista B: MAS de la particula en x0 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawMAS(valores, resultados) {
     const W = c2.width, H = c2.height;
     ctx2.clearRect(0, 0, W, H);
@@ -174,40 +167,33 @@ window.Renderers.onda_armonica = (() => {
     const cx = W / 2, cy = H / 2;
     const pxPerA = Math.min((H * 0.35) / A, 60);
 
-    // Tiempo actual
     const t = (frame / 60);
 
-    // Grid fijo
     ctx2.strokeStyle = 'rgba(26,37,64,0.4)';
     ctx2.lineWidth = 0.5;
     for (let x = 0; x < W; x += 40) { ctx2.beginPath(); ctx2.moveTo(x,0); ctx2.lineTo(x,H); ctx2.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx2.beginPath(); ctx2.moveTo(0,y); ctx2.lineTo(W,y); ctx2.stroke(); }
 
-    // Eje temporal: cuántos períodos mostrar
     const periodsToShow = 3;
     const pxPerT = (W * 0.85) / periodsToShow;
 
-    // Eje t (equilibrio)
     ctx2.beginPath(); ctx2.moveTo(0, cy); ctx2.lineTo(W, cy);
     ctx2.strokeStyle = 'rgba(74,90,122,0.5)'; ctx2.lineWidth = 1;
     ctx2.setLineDash([6,3]); ctx2.stroke(); ctx2.setLineDash([]);
 
-    // Marcas T en el eje
     const tOrigin = cx - periodsToShow / 2 * pxPerT;
     for (let n = 0; n <= periodsToShow; n++) {
       const xMark = tOrigin + n * pxPerT;
       ctx2.beginPath(); ctx2.moveTo(xMark, cy - 5); ctx2.lineTo(xMark, cy + 5);
       ctx2.strokeStyle = 'rgba(74,90,122,0.5)'; ctx2.lineWidth = 1; ctx2.setLineDash([]); ctx2.stroke();
       if (n < periodsToShow) {
-        ctx2.font = '400 10px Outfit, sans-serif';
+        ctx2.font = `400 ${10 + _F}px Outfit, sans-serif`;
         ctx2.fillStyle = 'rgba(255,77,109,0.85)';
         ctx2.textAlign = 'center';
         ctx2.fillText('T', (xMark + tOrigin + (n+1) * pxPerT) / 2, cy + 16);
       }
     }
 
-    // Trazar y(x₀, t) para una ventana de tiempo centrada en t actual
-    // La ventana muestra periodsToShow períodos
     const tWindow = periodsToShow * T;
     const tStart  = t - tWindow / 2;
 
@@ -227,7 +213,6 @@ window.Renderers.onda_armonica = (() => {
     ctx2.stroke();
     ctx2.shadowBlur = 0;
 
-    // Punto "ahora" en el centro
     const yNow = A * Math.sin(omega * t - k * x0);
     const yNowPx = cy - yNow * pxPerA;
 
@@ -238,26 +223,24 @@ window.Renderers.onda_armonica = (() => {
     ctx2.shadowColor = '#ff6b35'; ctx2.shadowBlur = 10; ctx2.fill();
     ctx2.shadowBlur = 0;
 
-    // Línea vertical "ahora"
     ctx2.beginPath(); ctx2.moveTo(cx, cy - A * pxPerA - 8); ctx2.lineTo(cx, cy + A * pxPerA + 8);
     ctx2.strokeStyle = 'rgba(255,107,53,0.25)'; ctx2.lineWidth = 1;
     ctx2.setLineDash([3,3]); ctx2.stroke(); ctx2.setLineDash([]);
 
-    // Marcas amplitud
     ctx2.strokeStyle = 'rgba(168,255,62,0.3)';
     ctx2.lineWidth = 1; ctx2.setLineDash([4,3]);
     ctx2.beginPath(); ctx2.moveTo(0, cy - A * pxPerA); ctx2.lineTo(W, cy - A * pxPerA); ctx2.stroke();
     ctx2.beginPath(); ctx2.moveTo(0, cy + A * pxPerA); ctx2.lineTo(W, cy + A * pxPerA); ctx2.stroke();
     ctx2.setLineDash([]);
-    ctx2.font = '400 9px Space Mono, monospace';
+    ctx2.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(168,255,62,0.6)';
     ctx2.textAlign = 'left';
     ctx2.fillText('+A', 5, cy - A * pxPerA - 4);
     ctx2.fillText('-A', 5, cy + A * pxPerA + 12);
 
-    // Vector velocidad instantánea (tangente → derivada: dy/dt = Aω·cos(ωt−kx₀))
+    // Vector velocidad instantanea
     const vy = A * omega * Math.cos(omega * t - k * x0);
-    const vyPx = -vy * pxPerA / (omega * A + 0.01) * 28; // escalar a 28px máx
+    const vyPx = -vy * pxPerA / (omega * A + 0.01) * 28;
     if (Math.abs(vyPx) > 1) {
       ctx2.beginPath(); ctx2.moveTo(cx, yNowPx); ctx2.lineTo(cx, yNowPx + vyPx);
       ctx2.strokeStyle = '#a8ff3e'; ctx2.lineWidth = 2; ctx2.stroke();
@@ -269,30 +252,28 @@ window.Renderers.onda_armonica = (() => {
       ctx2.fillStyle = '#a8ff3e'; ctx2.fill();
     }
 
-    // Labels esquina superior — sin solapamiento
-    // Fila 1: MAS centrado/derecha, nada a la izquierda
-    ctx2.font = '500 10px Space Mono, monospace';
+    // Labels esquina superior â€” sin solapamiento
+    ctx2.font = `400 ${10 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right';
-    ctx2.fillText('MAS', W - 10, 16);
+    ctx2.fillText('MAS', W - 10, 18);
 
-    // Fila 2 y 3: izquierda, sin competir con MAS
     ctx2.textAlign = 'left';
-    ctx2.font = '500 9px Space Mono, monospace';
+    ctx2.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(255,77,109,0.6)';
-    ctx2.fillText('y(x₀=' + x0.toFixed(1) + 'm, t)', 8, 30);
+    ctx2.fillText('y(x\u2080=' + x0.toFixed(1) + 'm, t)', 8, 46);
 
     ctx2.fillStyle = 'rgba(168,255,62,0.6)';
-    ctx2.fillText('↑ vel. instantánea', 8, 44);
+    ctx2.fillText('\u2191 vel. instant\u00e1nea', 8, 60);
 
-    // Aclaración MAS — esquina inferior izquierda
-    ctx2.font = '400 10px Outfit, sans-serif';
+    // Aclaracion MAS â€” esquina inferior izquierda
+    ctx2.font = `400 ${10 + _F}px Outfit, sans-serif`;
     ctx2.fillStyle = 'rgba(200,216,240,0.7)';
     ctx2.fillText('MAS: cada punto del medio oscila verticalmente', 8, H - 22);
-    ctx2.fillText('como un resorte — no se desplaza con la onda.', 8, H - 10);
+    ctx2.fillText('como un resorte \u2014 no se desplaza con la onda.', 8, H - 10);
 
-    // Valor numérico desplazamiento actual
-    ctx2.font = '600 11px Space Mono, monospace';
+    // Valor numerico desplazamiento actual
+    ctx2.font = `400 ${11 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = '#ff6b35';
     ctx2.textAlign = 'center';
     ctx2.fillText('y = ' + yNow.toFixed(3) + ' m', cx, H - 10);
@@ -300,3 +281,5 @@ window.Renderers.onda_armonica = (() => {
 
   return { init, draw };
 })();
+
+

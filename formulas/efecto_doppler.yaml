@@ -55,6 +55,20 @@ nota: >
   v = 343 m/s (sonido en aire a 20°C).
   modo = +1 → fuente se acerca al observador · modo = -1 → se aleja.
 
+connections:
+  - when: df > 100
+    priority: 100
+    text: >-
+      Los radares de trafico usan el efecto Doppler para medir la velocidad de los coches: la diferencia de frecuencia entre la senal emitida y la reflejada revela la velocidad.
+  - when: fp < f0
+    priority: 90
+    text: >-
+      Los astronomos detectan que el universo se expande porque la luz de galaxias lejanas llega corrida hacia el rojo: su frecuencia baja porque se alejan de nosotros.
+  - when: vf > 50
+    priority: 80
+    text: >-
+      A estas velocidades el efecto es claramente audible. Las sirenas de ambulancias y bomberos son el ejemplo cotidiano mas reconocible del efecto Doppler.
+
 formulas:
   - id: fp
     label: Frecuencia percibida f'

@@ -1,10 +1,11 @@
-/**
+﻿/**
  * renderers/campo_magnetico.js
  */
 
 window.Renderers = window.Renderers || {};
 
 window.Renderers.campo_magnetico = (() => {
+  let _F = 0;
   let canvas3d, canvasXY, ctx3, ctxXY, frame = 0;
 
   function init(c1, c2) {
@@ -26,6 +27,7 @@ window.Renderers.campo_magnetico = (() => {
 
   function draw(valores, resultados, formula) {
     frame++;
+    _F = window.AX_F || 2;
 
     const B        = valores.B;
     const theta    = valores.theta * Math.PI / 180;
@@ -35,7 +37,7 @@ window.Renderers.campo_magnetico = (() => {
     const vpar     = resultados.vpar   || 0;
     const v        = valores.v * (valores.escala || 1e6);
 
-    // Casos límite
+    // Casos lÃ­mite
     const esRectilineo = thetaDeg < 2 || thetaDeg > 178;
     const esCircular   = thetaDeg > 88 && thetaDeg < 92;
 
@@ -43,7 +45,7 @@ window.Renderers.campo_magnetico = (() => {
     drawXY(r, theta, vperp, esRectilineo, esCircular);
   }
 
-  // ── Vista 3D ──────────────────────────────────────────────────────────────
+  // â”€â”€ Vista 3D â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function draw3D(B, theta, r, vperp, vpar, esRectilineo, esCircular) {
     const W = canvas3d.width, H = canvas3d.height;
     ctx3.clearRect(0, 0, W, H);
@@ -94,21 +96,21 @@ window.Renderers.campo_magnetico = (() => {
       }
     }
 
-    ctx3.font = '600 11px Space Mono, monospace';
+    ctx3.font = `400 ${11 + _F}px Space Mono, monospace`;
     ctx3.fillStyle = '#a8ff3e';
     const [blx, bly] = iso(1.8, 1.1, -1.5);
     ctx3.fillText(bPositivo ? 'B (+z)' : 'B (-z)', blx, bly); // ya legible
 
     if (esRectilineo) {
-      // ── Movimiento rectilíneo: línea recta paralela a B ──────────────────
+      // â”€â”€ Movimiento rectilÃ­neo: lÃ­nea recta paralela a B â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       const N = 60;
       const progress = (frame % 120) / 120;
-      // La partícula viaja a lo largo de y (dirección B en iso)
+      // La partÃ­cula viaja a lo largo de y (direcciÃ³n B en iso)
       // Si bPositivo: viaja en +y (sube); si !bPositivo: viaja en -y (baja)
       const dir = bPositivo ? 1 : -1;
       const yPos = -1.0 + dir * progress * 2.2;
 
-      // Trayectoria completa (línea tenue)
+      // Trayectoria completa (lÃ­nea tenue)
       const [p0x, p0y] = iso(0, -1.0, 0);
       const [p1x, p1y] = iso(0,  1.2, 0);
       ctx3.beginPath(); ctx3.moveTo(p0x, p0y); ctx3.lineTo(p1x, p1y);
@@ -116,7 +118,7 @@ window.Renderers.campo_magnetico = (() => {
       ctx3.beginPath(); ctx3.moveTo(p0x, p0y); ctx3.lineTo(p1x, p1y);
       ctx3.strokeStyle = 'rgba(0,229,255,0.4)'; ctx3.lineWidth = 1; ctx3.stroke();
 
-      // Partícula
+      // PartÃ­cula
       const [px, py] = iso(0, yPos, 0);
       ctx3.beginPath(); ctx3.arc(px, py, 8, 0, Math.PI * 2);
       ctx3.fillStyle = 'rgba(255,107,53,0.2)'; ctx3.fill();
@@ -124,12 +126,12 @@ window.Renderers.campo_magnetico = (() => {
       ctx3.fillStyle = '#ff6b35'; ctx3.shadowColor = '#ff6b35'; ctx3.shadowBlur = 10; ctx3.fill();
       ctx3.shadowBlur = 0;
 
-      ctx3.font = '600 10px Space Mono, monospace';
+      ctx3.font = `400 ${10 + _F}px Space Mono, monospace`;
       ctx3.fillStyle = '#a8ff3e';
       ctx3.fillText('LINEAL', W - 72, H - 12);
 
     } else {
-      // ── Hélice / Círculo ──────────────────────────────────────────────────
+      // â”€â”€ HÃ©lice / CÃ­rculo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       const N = 300;
       const turns = 2.5;
 
@@ -160,7 +162,7 @@ window.Renderers.campo_magnetico = (() => {
       const progress = (frame % 120) / 120;
       const endIdx   = Math.floor(progress * N);
 
-      // Hélice completa tenue
+      // HÃ©lice completa tenue
       ctx3.beginPath();
       ctx3.moveTo(pts[0][0], pts[0][1]);
       for (let i = 1; i <= N; i++) ctx3.lineTo(pts[i][0], pts[i][1]);
@@ -178,7 +180,7 @@ window.Renderers.campo_magnetico = (() => {
       for (let i = 1; i <= endIdx; i++) ctx3.lineTo(pts[i][0], pts[i][1]);
       ctx3.strokeStyle = '#00e5ff'; ctx3.lineWidth = 1.5; ctx3.stroke();
 
-      // Partícula
+      // PartÃ­cula
       const [px, py] = pts[endIdx];
       ctx3.beginPath(); ctx3.arc(px, py, 8, 0, Math.PI * 2);
       ctx3.fillStyle = 'rgba(255,107,53,0.2)'; ctx3.fill();
@@ -186,14 +188,14 @@ window.Renderers.campo_magnetico = (() => {
       ctx3.fillStyle = '#ff6b35'; ctx3.shadowColor = '#ff6b35'; ctx3.shadowBlur = 10; ctx3.fill();
       ctx3.shadowBlur = 0;
 
-      ctx3.font = '600 10px Space Mono, monospace';
+      ctx3.font = `400 ${10 + _F}px Space Mono, monospace`;
       ctx3.fillStyle = '#a8ff3e';
       const label = esCircular ? 'CIRCULAR' : 'HELICOIDAL';
       ctx3.fillText(label, W - 90, H - 12);
     }
   }
 
-  // ── Vista XY ──────────────────────────────────────────────────────────────
+  // â”€â”€ Vista XY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawXY(r, theta, vperp, esRectilineo, esCircular) {
     const W = canvasXY.width, H = canvasXY.height;
     ctxXY.clearRect(0, 0, W, H);
@@ -216,7 +218,7 @@ window.Renderers.campo_magnetico = (() => {
     ctxXY.beginPath(); ctxXY.moveTo(cx, 10); ctxXY.lineTo(cx, H - 10); ctxXY.stroke();
     ctxXY.beginPath(); ctxXY.moveTo(10, cy); ctxXY.lineTo(W - 10, cy); ctxXY.stroke();
 
-    // Representación del campo B (puntos o crucetas)
+    // RepresentaciÃ³n del campo B (puntos o crucetas)
     for (let xi = -2; xi <= 2; xi++) {
       for (let yi = -2; yi <= 2; yi++) {
         const bx = cx + xi * scale * 0.45;
@@ -243,8 +245,8 @@ window.Renderers.campo_magnetico = (() => {
     }
 
     if (esRectilineo) {
-      // ── Vista XY rectilíneo: punto fijo en el centro (no hay componente xy) ──
-      // La partícula no se mueve en el plano XY — solo avanza en Z (dirección B)
+      // â”€â”€ Vista XY rectilÃ­neo: punto fijo en el centro (no hay componente xy) â”€â”€
+      // La partÃ­cula no se mueve en el plano XY â€” solo avanza en Z (direcciÃ³n B)
       // Mostramos el punto fijo con label explicativo
 
       ctxXY.beginPath(); ctxXY.arc(cx, cy, 9, 0, Math.PI * 2);
@@ -259,15 +261,15 @@ window.Renderers.campo_magnetico = (() => {
       ctxXY.strokeStyle = `rgba(255,107,53,${0.15 + pulse * 0.1})`; ctxXY.lineWidth = 1;
       ctxXY.stroke();
 
-      ctxXY.font = '500 10px Space Mono, monospace';
+      ctxXY.font = `400 ${10 + _F}px Space Mono, monospace`;
       ctxXY.fillStyle = 'rgba(200,216,240,0.85)';
       ctxXY.textAlign = 'center';
       ctxXY.fillText('sin movimiento en XY', cx, cy + 32);
-      ctxXY.fillText('v⊥ = 0 → F = 0', cx, cy + 46);
+      ctxXY.fillText('vâŠ¥ = 0 â†’ F = 0', cx, cy + 46);
       ctxXY.textAlign = 'left';
 
     } else {
-      // ── Vista XY normal: círculo ──────────────────────────────────────────
+      // â”€â”€ Vista XY normal: cÃ­rculo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       const rMetros = r;
       const rLog = Math.log10(Math.max(rMetros, 1e-4) + 1e-4);
       const rMin = Math.log10(1e-4 + 1e-4);
@@ -275,13 +277,13 @@ window.Renderers.campo_magnetico = (() => {
       const rNorm = Math.max(0.08, Math.min(0.95, (rLog - rMin) / (rMax - rMin) * 0.87 + 0.08));
       const rad = rNorm * scale;
 
-      // Círculo trayectoria
+      // CÃ­rculo trayectoria
       ctxXY.beginPath(); ctxXY.arc(cx, cy, rad, 0, Math.PI * 2);
       ctxXY.strokeStyle = 'rgba(0,229,255,0.12)'; ctxXY.lineWidth = 8; ctxXY.stroke();
       ctxXY.beginPath(); ctxXY.arc(cx, cy, rad, 0, Math.PI * 2);
       ctxXY.strokeStyle = 'rgba(0,229,255,0.6)'; ctxXY.lineWidth = 1.5; ctxXY.stroke();
 
-      // Protón animado
+      // ProtÃ³n animado
       const sentido = bPositivo ? -1 : 1;
       const progress = (frame % 120) / 120;
       const angle = sentido * progress * Math.PI * 2 - Math.PI / 2;
@@ -292,10 +294,10 @@ window.Renderers.campo_magnetico = (() => {
       ctxXY.beginPath(); ctxXY.moveTo(cx, cy); ctxXY.lineTo(px, py);
       ctxXY.strokeStyle = 'rgba(168,255,62,0.35)'; ctxXY.lineWidth = 1;
       ctxXY.setLineDash([4, 3]); ctxXY.stroke(); ctxXY.setLineDash([]);
-      ctxXY.font = '600 10px Space Mono, monospace'; ctxXY.fillStyle = '#a8ff3e';
+      ctxXY.font = `400 ${10 + _F}px Space Mono, monospace`; ctxXY.fillStyle = '#a8ff3e';
       ctxXY.fillText('r', cx + (px - cx) * 0.5 + 5, cy + (py - cy) * 0.5 - 4);
 
-      // Protón
+      // ProtÃ³n
       ctxXY.beginPath(); ctxXY.arc(px, py, 9, 0, Math.PI * 2);
       ctxXY.fillStyle = 'rgba(255,107,53,0.2)'; ctxXY.fill();
       ctxXY.beginPath(); ctxXY.arc(px, py, 5, 0, Math.PI * 2);
@@ -318,14 +320,19 @@ window.Renderers.campo_magnetico = (() => {
     }
 
     // Labels
-    ctxXY.font = '500 10px Outfit, sans-serif';
+    ctxXY.font = `400 ${10 + _F}px Outfit, monospace`;
     ctxXY.fillStyle = 'rgba(200,216,240,0.8)';
     ctxXY.fillText('x', W - 14, cy - 5);
     ctxXY.fillText('y', cx + 5, 14);
-    ctxXY.font = '600 11px Space Mono, monospace';
+    ctxXY.font = `400 ${11 + _F}px Space Mono, monospace`;
     ctxXY.fillStyle = '#a8ff3e';
-    ctxXY.fillText(bPositivo ? '⊙ B (+z)' : '⊗ B (-z)', 10, H - 12);
+    ctxXY.fillText(bPositivo ? 'âŠ™ B (+z)' : 'âŠ— B (-z)', 10, H - 12);
   }
 
   return { init, draw };
 })();
+
+
+
+
+

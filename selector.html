@@ -41,12 +41,7 @@ header {
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
-
-.logo {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
+.logo { display: flex; align-items: center; flex-shrink: 0; }
 .logo img { height: 34px; width: auto; display: block; }
 
 #formula-titulo {
@@ -84,10 +79,10 @@ select#formula-selector:hover { border-color: var(--accent); }
   white-space: nowrap;
   text-decoration: none;
 }
-.hdr-btn:hover         { border-color: var(--accent3); color: var(--accent3); }
-.hdr-btn.reset:hover   { border-color: var(--accent2); color: var(--accent2); }
-.hdr-btn.home:hover    { border-color: var(--accent);  color: var(--accent); }
-.hdr-btn.copied        { border-color: var(--accent3); color: var(--accent3); }
+.hdr-btn:hover        { border-color: var(--accent3); color: var(--accent3); }
+.hdr-btn.reset:hover  { border-color: var(--accent2); color: var(--accent2); }
+.hdr-btn.home:hover   { border-color: var(--accent);  color: var(--accent); }
+.hdr-btn.copied       { border-color: var(--accent3); color: var(--accent3); }
 
 /* ── Main layout ── */
 .main {
@@ -104,35 +99,29 @@ select#formula-selector:hover { border-color: var(--accent); }
   gap: 0.8rem;
   overflow: hidden;
 }
-
 .canvases {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.8rem;
   min-height: 0;
 }
-
 .canvas-box {
   position: relative;
   border: 1px solid var(--border);
   background: var(--surface);
   overflow: hidden;
 }
-.canvas-box canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
+.canvas-box canvas { display: block; width: 100%; height: 100%; }
 .canvas-label {
   position: absolute;
-  top: 0.5rem;
-  left: 0.7rem;
+  top: 0.5rem; left: 0.7rem;
   font-family: 'Space Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: var(--muted);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   pointer-events: none;
+  font-weight: 400;
 }
 .canvas-label span { color: var(--accent); }
 
@@ -143,7 +132,6 @@ select#formula-selector:hover { border-color: var(--accent); }
   gap: 0.8rem;
   min-height: 0;
 }
-
 .info-box {
   border: 1px solid var(--border);
   background: var(--surface);
@@ -154,18 +142,17 @@ select#formula-selector:hover { border-color: var(--accent); }
   flex-direction: column;
   gap: 0.35rem;
 }
-
 .info-box-label {
   font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.6rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--muted);
   flex-shrink: 0;
+  font-weight: 400;
 }
-
 .info-desc {
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   color: var(--text);
   line-height: 1.5;
   opacity: 0.75;
@@ -173,40 +160,32 @@ select#formula-selector:hover { border-color: var(--accent); }
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  font-weight: 400;
 }
-
 .info-formula-simbolica {
   font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.84rem;
   color: var(--accent);
   letter-spacing: 0.04em;
   margin-top: auto;
   flex-shrink: 0;
+  font-weight: 400;
 }
-
-/* Caja derecha — solución */
-.info-box-right {
-  justify-content: center;
-}
-
+.info-box-right { justify-content: center; }
 .formula-display {
   font-family: 'Space Mono', monospace;
-  font-size: 0.76rem;
+  font-size: 0.88rem;
   color: var(--accent);
   line-height: 1.7;
   flex: 1;
   display: flex;
   align-items: center;
+  font-weight: 400;
 }
-
-.formula-display.solucion {
-  color: var(--accent3);
-}
-
+.formula-display.solucion { color: var(--accent3); }
 .btn-solucion {
   position: absolute;
-  top: 0.5rem;
-  right: 0.7rem;
+  top: 0.5rem; right: 0.7rem;
   font-family: 'Space Mono', monospace;
   font-size: 0.58rem;
   background: transparent;
@@ -218,8 +197,8 @@ select#formula-selector:hover { border-color: var(--accent); }
   transition: all 0.2s;
   flex-shrink: 0;
 }
-.btn-solucion:hover        { border-color: var(--accent3); color: var(--accent3); }
-.btn-solucion.activo       { border-color: var(--accent3); color: var(--accent3); }
+.btn-solucion:hover  { border-color: var(--accent3); color: var(--accent3); }
+.btn-solucion.activo { border-color: var(--accent3); color: var(--accent3); }
 
 /* ── Panel derecho ── */
 .panel {
@@ -237,15 +216,31 @@ select#formula-selector:hover { border-color: var(--accent); }
   padding: 0.9rem 1.1rem;
   border-bottom: 1px solid var(--border);
 }
-.panel-section h3 {
+
+/* ── Secciones colapsables ── */
+.panel-collapsible { border-bottom: 1px solid var(--border); }
+.panel-collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.9rem 1.1rem;
+}
+.panel-collapsible-header:hover { background: rgba(0,229,255,0.03); }
+.panel-collapsible-title {
   font-family: 'Space Mono', monospace;
   font-size: 0.72rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.85rem;
+  color: var(--accent);
 }
+.panel-collapsible-body { display: none; padding: 0 1.1rem 0.9rem; }
+.panel-collapsible-body.open { display: block; }
 
+#insights-section { display: none; }
+
+/* ── Sliders ── */
 .slider-row { margin-bottom: 0.9rem; }
 .slider-header {
   display: flex;
@@ -259,11 +254,9 @@ select#formula-selector:hover { border-color: var(--accent); }
   font-size: 0.76rem;
   color: var(--accent);
 }
-
 input[type=range] {
   -webkit-appearance: none;
-  width: 100%;
-  height: 2px;
+  width: 100%; height: 2px;
   background: var(--border);
   outline: none;
   cursor: pointer;
@@ -275,20 +268,24 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 50%;
   box-shadow: 0 0 6px var(--accent);
 }
-
-.nota-info {
-  background: rgba(255,107,53,0.06);
-  border-left: 2px solid rgba(255,107,53,0.5);
-  padding: 0.5rem 0.7rem;
-  margin-bottom: 0.7rem;
-  font-size: 0.76rem;
-  color: rgba(200,216,240,0.6);
-  line-height: 1.5;
-  font-style: italic;
+.select-control {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  background: var(--bg);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  outline: none;
+  letter-spacing: 0.03em;
+  margin-top: 0.2rem;
 }
+.select-control:hover { border-color: var(--accent); }
+.select-control:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 
+/* ── Resultados ── */
 #resultados-container { display: grid; gap: 0.5rem; }
-
 .result-item {
   padding: 0.5rem 0.7rem;
   background: rgba(255,255,255,0.02);
@@ -315,6 +312,166 @@ input[type=range]::-webkit-slider-thumb {
 .result-item.highlight .result-value { color: var(--accent3); }
 .result-unit { font-size: 0.72rem; font-weight: 400; color: var(--muted); }
 
+/* ── Contexto / insights ── */
+.nota-info {
+  background: rgba(255,107,53,0.06);
+  border-left: 2px solid rgba(255,107,53,0.5);
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.82rem;
+  color: rgba(200,216,240,0.6);
+  line-height: 1.5;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ── AX0 ── */
+.ax0-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.65rem;
+}
+.ax0-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.3s;
+}
+.ax0-label-active { color: var(--accent); }
+.ax0-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent3);
+  box-shadow: 0 0 6px var(--accent3);
+  animation: ax0-pulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes ax0-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+.ax0-text {
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+
+/* ── KORU Bridge ── */
+.koru-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+.koru-header:hover { background: rgba(0,229,255,0.03); }
+.koru-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.koru-chevron {
+  font-size: 0.6rem;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+.koru-chevron.open { transform: rotate(90deg); }
+.koru-body {
+  display: none;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+.koru-body.open { display: block; }
+.koru-actions { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.9rem; }
+.koru-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  text-align: left;
+  letter-spacing: 0.04em;
+  transition: all 0.18s;
+  line-height: 1.4;
+}
+.koru-btn:hover { border-color: var(--accent); color: var(--accent); }
+.koru-divider { border: none; border-top: 1px solid var(--border); margin: 0.7rem 0; }
+.koru-free-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.koru-input {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.73rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  outline: none;
+  resize: none;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+.koru-input:focus { border-color: var(--accent); }
+.koru-generate {
+  width: 100%;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--muted);
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: all 0.18s;
+}
+.koru-generate:hover { border-color: var(--accent); }
+.koru-toast {
+  display: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent3);
+  margin-top: 0.5rem;
+  letter-spacing: 0.06em;
+}
+.koru-desc {
+  font-size: 0.74rem;
+  color: var(--text);
+  opacity: 0.7;
+  line-height: 1.5;
+  margin-bottom: 0.35rem;
+}
+.koru-steps {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.63rem;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.9rem;
+  display: block;
+}
+
 /* ── Footer ── */
 footer {
   display: flex;
@@ -327,25 +484,22 @@ footer {
   color: var(--muted);
 }
 .legend { display: flex; gap: 0.8rem; align-items: center; }
-.legend-item { display: flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; }
-.dot { width: 6px; height: 6px; border-radius: 50%; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo"><img src="logo.png" alt="ARKINESIS"></div>
-  <div id="formula-titulo">Cargando…</div>
+  <div id="formula-titulo">Cargando&hellip;</div>
   <select id="formula-selector"></select>
-  <button class="hdr-btn reset" id="btn-reset">↺ reset</button>
-  <button class="hdr-btn" id="btn-copy-url">⎘ copiar enlace</button>
-  <a class="hdr-btn home" href="index.html">⌂ inicio</a>
+  <button class="hdr-btn reset" id="btn-reset">&#8634; reset</button>
+  <button class="hdr-btn" id="btn-copy-url">&#8680; copiar enlace</button>
+  <a class="hdr-btn home" href="index.html">&#8962; inicio</a>
   <a class="hdr-btn" href="about.html">? about</a>
 </header>
 
 <div class="main">
 
-  <!-- Canvas + caja info -->
   <div class="canvas-area">
     <div class="canvases">
       <div class="canvas-box">
@@ -357,140 +511,177 @@ footer {
         <canvas id="canvas-secondary"></canvas>
       </div>
     </div>
-
-    <!-- Fila inferior -->
     <div class="info-row">
-
-      <!-- Izquierda: descripción + fórmula simbólica -->
       <div class="info-box">
-        <div class="info-box-label">descripción</div>
+        <div class="info-box-label">descripci&oacute;n</div>
         <div class="info-desc" id="info-desc-text"></div>
         <div class="info-formula-simbolica" id="info-formula-sim"></div>
       </div>
-
-      <!-- Derecha: fórmula con valores -->
       <div class="info-box info-box-right">
-        <div class="info-box-label">fórmula</div>
-        <button class="btn-solucion" id="btn-solucion">mostrar solución</button>
+        <div class="info-box-label">f&oacute;rmula</div>
+        <button class="btn-solucion" id="btn-solucion">mostrar soluci&oacute;n</button>
         <div class="formula-display" id="formula-display"></div>
       </div>
-
     </div>
   </div>
 
-  <!-- Panel -->
   <div class="panel">
+
+    <!-- 1. Par&aacute;metros -->
+    <div class="panel-collapsible">
+      <div class="panel-collapsible-header" id="parametros-toggle">
+        <span class="panel-collapsible-title">Par&aacute;metros</span>
+        <span class="koru-chevron open" id="parametros-chevron">&#9654;</span>
+      </div>
+      <div class="panel-collapsible-body open" id="parametros-body">
+        <div id="sliders-container"></div>
+      </div>
+    </div>
+
+    <!-- 2. Resultados -->
+    <div class="panel-collapsible" id="resultados-section">
+      <div class="panel-collapsible-header" id="resultados-toggle">
+        <span class="panel-collapsible-title">Resultados</span>
+        <span class="koru-chevron" id="resultados-chevron">&#9654;</span>
+      </div>
+      <div class="panel-collapsible-body" id="resultados-body">
+        <div id="resultados-container"></div>
+      </div>
+    </div>
+
+    <!-- 3. Contexto -->
+    <div class="panel-collapsible" id="insights-section">
+      <div class="panel-collapsible-header" id="insights-toggle">
+        <span class="panel-collapsible-title">Contexto</span>
+        <span class="koru-chevron" id="insights-chevron">&#9654;</span>
+      </div>
+      <div class="panel-collapsible-body" id="insights-body">
+        <div id="nota-container"></div>
+      </div>
+    </div>
+
+    <!-- 4. AX0 -->
     <div class="panel-section" id="ax0-fact-section">
       <div id="ax0-fact-box"></div>
     </div>
-    <div class="panel-section">
-      <h3>Parámetros</h3>
-      <div id="sliders-container"></div>
-    </div>
-    <div class="panel-section">
-      <h3>Resultados</h3>
-      <div id="nota-container"></div>
-      <div id="resultados-container"></div>
-    </div>
-  </div>
 
+    <!-- 5. KORU -->
+    <div id="koru-section">
+      <div class="koru-header" id="koru-toggle">
+        <span class="koru-title">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" style="flex-shrink:0;display:block">
+            <path d="M15 15 L25 15 L25 5 L5 5 L5 25 L22 25 L22 8 L8 8 L8 22 L19 22 L19 11 L11 11 L11 19 L15 19"
+                  stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          KORU · Pregunta
+        </span>
+        <span class="koru-chevron" id="koru-chevron">&#9654;</span>
+      </div>
+      <div class="koru-body" id="koru-body">
+        <p class="koru-desc">Genera una pregunta estructurada para consultar en un LLM externo.</p>
+        <p class="koru-steps">&#9312; Elige el tipo &nbsp;&#9313; Genera contexto &nbsp;&#9314; Pega en tu chatbot favorito</p>
+        <div class="koru-actions">
+          <button class="koru-btn" data-koru="explain">Expl&iacute;came qu&eacute; ocurre</button>
+          <button class="koru-btn" data-koru="real_world">&iquest;D&oacute;nde se utiliza?</button>
+          <button class="koru-btn" data-koru="exam_mode">Ay&uacute;dame para el examen</button>
+        </div>
+        <hr class="koru-divider">
+        <div class="koru-free-label">Pregunta libre</div>
+        <p class="koru-desc" style="margin-bottom:0.5rem">Genera una pregunta estructurada con tu propia duda.</p>
+        <textarea class="koru-input" id="koru-free-input" rows="2" placeholder="&iquest;Qu&eacute; quieres preguntar?"></textarea>
+        <button class="koru-generate" id="koru-generate-btn">
+          <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-right:0.3rem">
+            <path d="M7 7 L11 7 L11 3 L3 3 L3 11 L9 11 L9 5 L5 5 L5 9 L7 9"
+                  stroke="currentColor" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Preparar y copiar
+        </button>
+        <div class="koru-toast" id="koru-toast">Contexto preparado &mdash; pega en tu chatbot.</div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <footer>
-  <span id="footer-id" style="display:flex; align-items:center; gap:0.5rem;">
-    <img src="AX0.png" alt="AX0" style="height:18px; width:auto; opacity:0.45;">
-    ARKINESIS
+  <span id="footer-id" style="display:flex;align-items:center;gap:0.5rem;">
+    <img src="AX0.png" alt="AX0" style="height:18px;width:auto;opacity:0.45;">
+    ARKINESIS &mdash; V0raOnline &mdash; CC BY-NC-SA 4.0
   </span>
   <div class="legend">
-    <div class="legend-item"><div class="dot" style="background:#ff6b35"></div>partícula</div>
-    <div class="legend-item"><div class="dot" style="background:#00e5ff"></div>trayectoria</div>
-    <div class="legend-item"><div class="dot" style="background:#a8ff3e"></div>campo</div>
-    <div class="legend-item"><div class="dot" style="background:#ff4d6d"></div>fuerza/vel</div>
+    <span>actualizado jun 2025</span>
   </div>
 </footer>
 
 <script>
-// ── formatNum (duplicada de motor.js para uso independiente) ────────────────
+// ── Font scale global ────────────────────────────────────────────────────────
+window.AX_F = 2; // offset en px para todo el texto de canvas
+
+// ── formatNum ─────────────────────────────────────────────────────────────────
 function formatNum(n) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
+  if (n === null || n === undefined || isNaN(n)) return '\u2014';
   const abs = Math.abs(n);
   if (abs === 0) return '0';
   const exp = Math.floor(Math.log10(abs));
   if (Math.abs(exp) >= 3) {
-    const m = (n / Math.pow(10, exp)).toFixed(2);
-    const sup = String(exp).split('').map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹⁻'['0123456789-'.indexOf(c)] || c).join('');
-    return `${m} × 10${sup}`;
+    const m   = (n / Math.pow(10, exp)).toFixed(2);
+    const sup = String(exp).split('').map(c => '\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079\u207b'['\u00b00123456789-'.indexOf(c)] || c).join('');
+    return `${m} \u00d7 10${sup}`;
   }
   return n.toPrecision(3);
 }
 
-// ── Estado solución ───────────────────────────────────────────────────────────
+// ── Solucion ──────────────────────────────────────────────────────────────────
 let _solucionVisible = false;
 let _ultimaFormulaSim = '';
 let _ultimaFormulaRes = '';
 
 function mostrarFormulaSim() {
   _solucionVisible = false;
-  const el = document.getElementById('formula-display');
+  const el  = document.getElementById('formula-display');
   const btn = document.getElementById('btn-solucion');
-  if (el) { el.textContent = _ultimaFormulaSim; el.classList.remove('solucion'); }
-  if (btn) { btn.textContent = 'mostrar solución'; btn.classList.remove('activo'); }
+  if (el)  { el.textContent = _ultimaFormulaSim; el.classList.remove('solucion'); }
+  if (btn) { btn.textContent = 'mostrar soluci\u00f3n'; btn.classList.remove('activo'); }
 }
 
 function actualizarCajaInfo(formula, resultados) {
-  // Descripción
   const descEl = document.getElementById('info-desc-text');
   if (descEl) descEl.textContent = formula.descripcion_corta || formula.descripcion || '';
-
-  // Fórmula simbólica
   const simEl = document.getElementById('info-formula-sim');
   _ultimaFormulaSim = formula.formula_simbolica || '';
   if (simEl) simEl.innerHTML = _ultimaFormulaSim;
-
-  // Fórmula resuelta — sustituir {id} por valores (resultados + sliders)
   let resuelta = formula.formula_resuelta || '';
   if (resuelta) {
     const valores = (window._State && window._State.valores) || {};
     resuelta = resuelta.replace(/\{(\w+)\}/g, (_, id) => {
-      // Primero busca en resultados calculados, luego en valores de sliders
       const fromRes = resultados && resultados[id];
       if (fromRes !== null && fromRes !== undefined) return formatNum(fromRes);
       const fromSlider = valores[id];
       if (fromSlider !== null && fromSlider !== undefined) return formatNum(fromSlider);
-      return '—';
+      return '\u2014';
     });
   }
   _ultimaFormulaRes = resuelta;
-
-  // Si la solución estaba visible, actualizar en tiempo real
-  if (_solucionVisible) {
-    const el = document.getElementById('formula-display');
-    if (el) el.innerHTML = _ultimaFormulaRes;
-  } else {
-    const el = document.getElementById('formula-display');
-    if (el) el.innerHTML = _ultimaFormulaSim;
-  }
+  const el = document.getElementById('formula-display');
+  if (el) el.innerHTML = _solucionVisible ? _ultimaFormulaRes : _ultimaFormulaSim;
 }
 
-// Botón mostrar solución
 document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('btn-solucion');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      _solucionVisible = !_solucionVisible;
-      if (_solucionVisible) {
-        const el = document.getElementById('formula-display');
-        if (el) { el.innerHTML = _ultimaFormulaRes; el.classList.add('solucion'); }
-        btn.textContent = 'ocultar solución';
-        btn.classList.add('activo');
-      } else {
-        mostrarFormulaSim();
-      }
-    });
-  }
+  document.getElementById('btn-solucion').addEventListener('click', () => {
+    _solucionVisible = !_solucionVisible;
+    const el  = document.getElementById('formula-display');
+    const btn = document.getElementById('btn-solucion');
+    if (_solucionVisible) {
+      if (el) { el.innerHTML = _ultimaFormulaRes; el.classList.add('solucion'); }
+      btn.textContent = 'ocultar soluci\u00f3n'; btn.classList.add('activo');
+    } else {
+      mostrarFormulaSim();
+    }
+  });
 });
 
-// Reset
 document.getElementById('btn-reset').addEventListener('click', () => {
   if (!window._State || !window._State.formula) return;
   const formula = window._State.formula;
@@ -499,7 +690,7 @@ document.getElementById('btn-reset').addEventListener('click', () => {
     const slider = document.getElementById('sl-' + key);
     const valEl  = document.getElementById('val-' + key);
     if (slider) slider.value = config.default;
-    if (valEl)  valEl.textContent = config.default + ' ' + config.unidad;
+    if (valEl)  valEl.textContent = config.default + ' ' + (config.unidad || '');
   }
   mostrarFormulaSim();
   const params = new URLSearchParams();
@@ -507,51 +698,141 @@ document.getElementById('btn-reset').addEventListener('click', () => {
   history.replaceState(null, '', '?' + params.toString());
 });
 
-// Copiar enlace
 document.getElementById('btn-copy-url').addEventListener('click', () => {
   navigator.clipboard.writeText(window.location.href).then(() => {
     const btn = document.getElementById('btn-copy-url');
-    btn.textContent = '✓ copiado';
+    btn.textContent = '\u2713 copiado';
     btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '⎘ copiar enlace';
-      btn.classList.remove('copied');
-    }, 2000);
+    setTimeout(() => { btn.textContent = '\u8680 copiar enlace'; btn.classList.remove('copied'); }, 2000);
   });
 });
 
-// Exponer para motor.js
-window._actualizarCajaInfo  = actualizarCajaInfo;
-window._mostrarFormulaSim   = mostrarFormulaSim;
+window._actualizarCajaInfo = actualizarCajaInfo;
+window._mostrarFormulaSim  = mostrarFormulaSim;
 Object.defineProperty(window, '_solucionVisible', { get: () => _solucionVisible });
 
-// ── AX0 Facts ────────────────────────────────────────────────────────────────
+// ── AX0 ───────────────────────────────────────────────────────────────────────
+let _ax0StaticFact = null;
+
+function renderAX0(fact, isObserving) {
+  const box = document.getElementById('ax0-fact-box');
+  if (!box) return;
+  const labelText = isObserving ? 'AX0 // observa' : 'AX0 // dato curioso';
+  const dot = isObserving ? '<span class="ax0-dot"></span>' : '';
+  const imgOpacity = isObserving ? '1' : '0.75';
+  const imgGlow    = isObserving ? '0.6' : '0.3';
+  // fact puede ser string o { dato, remate }
+  const texto  = typeof fact === 'string' ? fact : (fact.dato || '');
+  const remate = typeof fact === 'string' ? '' : (fact.remate || '');
+  box.innerHTML = `
+    <div class="ax0-header">
+      <img src="AX0.png" alt="AX0" style="height:50px;width:auto;opacity:${imgOpacity};filter:drop-shadow(0 0 6px rgba(0,229,255,${imgGlow}));transition:all 0.4s;">
+      <span class="ax0-label${isObserving ? ' ax0-label-active' : ''}">${labelText}${dot}</span>
+    </div>
+    <div class="ax0-text">${texto}</div>
+    ${remate ? `<div style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--accent3);margin-top:0.45rem;">${remate}</div>` : ''}
+  `;
+}
+
 async function cargarAX0Fact() {
   try {
-    const res  = await fetch('ax0_facts.yaml');
-    const text = await res.text();
-    const data = jsyaml.load(text);
-    const facts = data.facts;
+    let facts = null;
+    if (window._State && window._State.formula && Array.isArray(window._State.formula.ax0_facts) && window._State.formula.ax0_facts.length) {
+      // Facts del YAML del modulo: array de strings simples
+      facts = window._State.formula.ax0_facts;
+    } else {
+      // Facts globales: array de objetos { dato, remate }
+      const res  = await fetch('ax0_facts.yaml');
+      const raw  = await res.text();
+      const data = jsyaml.load(raw);
+      facts = data.facts || [];
+    }
     if (!facts || !facts.length) return;
-
-    const fact = facts[Math.floor(Math.random() * facts.length)];
-    const box  = document.getElementById('ax0-fact-box');
-    if (!box) return;
-
-    box.innerHTML = `
-      <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.7rem;">
-        <img src="AX0.png" alt="AX0" style="height:28px; width:auto; opacity:0.75; filter:drop-shadow(0 0 6px rgba(0,229,255,0.3));">
-        <span style="font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted);">AX0 // dato curioso</span>
-      </div>
-      <div style="font-size:0.78rem; color:var(--text); line-height:1.6; margin-bottom:0.5rem;">${fact.dato}</div>
-      <div style="font-family:'Space Mono',monospace; font-size:0.68rem; color:var(--accent3);">${fact.remate}</div>
-    `;
+    _ax0StaticFact = facts[Math.floor(Math.random() * facts.length)];
+    renderAX0(_ax0StaticFact, false);
   } catch(e) {
     console.warn('[arkinesis] AX0 facts no disponibles:', e);
   }
 }
 
-document.addEventListener('DOMContentLoaded', cargarAX0Fact);
+function actualizarAX0externo(connections) {
+  if (connections && connections.length > 0) {
+    renderAX0(connections[0], true);
+  } else if (_ax0StaticFact) {
+    renderAX0(_ax0StaticFact, false);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => { setTimeout(cargarAX0Fact, 0); });
+window._cargarAX0Fact = cargarAX0Fact;
+window._actualizarAX0 = actualizarAX0externo;
+
+// ── Colapsables ───────────────────────────────────────────────────────────────
+(function initCollapsibles() {
+  [['parametros-toggle', 'parametros-body', 'parametros-chevron'],
+   ['resultados-toggle', 'resultados-body', 'resultados-chevron'],
+   ['insights-toggle',   'insights-body',   'insights-chevron']]
+  .forEach(([tid, bid, cid]) => {
+    const t = document.getElementById(tid);
+    const b = document.getElementById(bid);
+    const c = document.getElementById(cid);
+    if (!t || !b) return;
+    t.addEventListener('click', () => {
+      b.classList.toggle('open');
+      if (c) c.classList.toggle('open');
+    });
+  });
+})();
+
+// ── KORU ──────────────────────────────────────────────────────────────────────
+(function initKoru() {
+  document.getElementById('koru-toggle').addEventListener('click', () => {
+    document.getElementById('koru-body').classList.toggle('open');
+    document.getElementById('koru-chevron').classList.toggle('open');
+  });
+
+  function buildPrompt(template, freeText) {
+    const state = window.exportState ? window.exportState() : null;
+    if (!state) return '(simulaci\u00f3n no disponible)';
+    const inputsText      = Object.values(state.inputs).map(i => `  ${i.label}: ${i.value} ${i.unit}`).join('\n');
+    const outputsText     = Object.values(state.outputs).map(o => `  ${o.label}: ${typeof o.value === 'number' ? o.value.toPrecision(4) : o.value} ${o.unit}`).join('\n');
+    const insightsText    = state.activeInsights.length    ? state.activeInsights.map(t => `  - ${t}`).join('\n')    : '  (ninguno activo)';
+    const connectionsText = state.activeConnections.length ? state.activeConnections.map(t => `  - ${t}`).join('\n') : '  (ninguna activa)';
+    const header = `Estoy utilizando la simulaci\u00f3n:\n  ${state.simulation}\n\nPar\u00e1metros actuales:\n${inputsText}\n\nResultados obtenidos:\n${outputsText}\n\nContexto:\n${insightsText}\n\nAplicaciones reales (AX0):\n${connectionsText}\n`;
+    const templates = {
+      explain:    header + '\nExpl\u00edcame qu\u00e9 est\u00e1 ocurriendo.\n\nPor favor:\n- Usa menos de 200 palabras.\n- Utiliza ejemplos cotidianos.\n- Explica \u00fanicamente los datos mostrados.\n- Evita introducir conceptos avanzados.',
+      real_world: header + '\n\u00bfD\u00f3nde se utiliza este principio en la vida real?\n\nPor favor:\n- Usa ejemplos reales.\n- Rel\u00e1cionalo con objetos cotidianos.\n- Usa menos de 200 palabras.',
+      exam_mode:  header + '\nExpl\u00edcame este concepto como si fuera una pregunta de examen.\n\nPor favor:\n- Resume las ideas importantes.\n- Destaca qu\u00e9 debo recordar.\n- Usa menos de 200 palabras.',
+      free:       header + `\nMi duda es:\n  ${freeText || '(sin texto)'}`,
+    };
+    return templates[template] || templates.explain;
+  }
+
+  function showToast() {
+    const t = document.getElementById('koru-toast');
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 2800);
+  }
+
+  function copyAndToast(text) {
+    navigator.clipboard.writeText(text).then(showToast).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast();
+    });
+  }
+
+  document.querySelectorAll('.koru-btn[data-koru]').forEach(btn => {
+    btn.addEventListener('click', () => copyAndToast(buildPrompt(btn.dataset.koru, '')));
+  });
+  document.getElementById('koru-generate-btn').addEventListener('click', () => {
+    copyAndToast(buildPrompt('free', document.getElementById('koru-free-input').value.trim()));
+  });
+})();
 </script>
 
 <script src="motor.js"></script>

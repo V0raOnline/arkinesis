@@ -1,20 +1,21 @@
-/**
+﻿/**
  * renderers/efecto_doppler.js
  * Vista A: fuente en movimiento real, frentes de onda acumulados
- * Vista B: comparativa f₀ vs f', longitudes de onda, caso
+ * Vista B: comparativa fâ‚€ vs f', longitudes de onda, caso
  *
- * Misma lógica que el preview del index — fuente se mueve, emite
- * frentes desde su posición real, observador fijo. Reset al llegar al borde.
+ * Misma lÃ³gica que el preview del index â€” fuente se mueve, emite
+ * frentes desde su posiciÃ³n real, observador fijo. Reset al llegar al borde.
  */
 
 window.Renderers = window.Renderers || {};
 
 window.Renderers.efecto_doppler = (() => {
+  let _F = 0;
   let c1, c2, ctx1, ctx2;
   let frame = 0;
   let modo = 'acerca'; // 'acerca' | 'aleja'
 
-  // Estado de animación
+  // Estado de animaciÃ³n
   const frentes = [];
   let fuenteX = 0;
   let obsX = 0;
@@ -41,13 +42,13 @@ window.Renderers.efecto_doppler = (() => {
   function resetAnim() {
     frentes.length = 0;
     emitCount = 0;
-    // acerca: fuente izquierda (0.08) → derecha; obs derecha (0.92) → izquierda
+    // acerca: fuente izquierda (0.08) â†’ derecha; obs derecha (0.92) â†’ izquierda
     // aleja:  ambos parten del centro (0.5) y se separan
     fuenteX = c1 ? (modo === 'acerca' ? c1.width * 0.08 : c1.width * 0.5) : 0;
     obsX    = c1 ? (modo === 'acerca' ? c1.width * 0.92 : c1.width * 0.5) : 0;
   }
 
-  // ── Toggle UI ─────────────────────────────────────────────────────────────
+  // â”€â”€ Toggle UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function insertarToggle() {
     if (document.getElementById('doppler-toggle-wrap')) return;
 
@@ -115,15 +116,16 @@ window.Renderers.efecto_doppler = (() => {
       : 'border-color: #1a2540; color: #4a5a7a;');
   }
 
-  // ── Draw principal ────────────────────────────────────────────────────────
+  // â”€â”€ Draw principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function draw(valores, resultados) {
     frame++;
+    _F = window.AX_F || 2;
     valores.modo = modo === 'acerca' ? 1 : -1;
     drawVista(valores, resultados);
     drawInfo(valores, resultados);
   }
 
-  // ── Vista A ───────────────────────────────────────────────────────────────
+  // â”€â”€ Vista A â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawVista(valores, resultados) {
     const W = c1.width, H = c1.height;
     ctx1.clearRect(0, 0, W, H);
@@ -141,28 +143,28 @@ window.Renderers.efecto_doppler = (() => {
     for (let x = 0; x < W; x += 40) { ctx1.beginPath(); ctx1.moveTo(x,0); ctx1.lineTo(x,H); ctx1.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx1.beginPath(); ctx1.moveTo(0,y); ctx1.lineTo(W,y); ctx1.stroke(); }
 
-    // Velocidad fuente en px/frame — escalada para que sea visible
-    // vf=0 → 0px/frame, vf=120 → ~2.5px/frame
+    // Velocidad fuente en px/frame â€” escalada para que sea visible
+    // vf=0 â†’ 0px/frame, vf=120 â†’ ~2.5px/frame
     const vfPx = (vf / 120) * 2.5;
     const voPx = (valores.vo / 120) * 2.5;
 
     // Velocidad frente de onda en px/frame
     const vwavePx = 3.5;
 
-    // Mover fuente: acerca → derecha; aleja → izquierda
+    // Mover fuente: acerca â†’ derecha; aleja â†’ izquierda
     fuenteX += acerca ? vfPx : -vfPx;
     if (vf === 0) fuenteX = acerca ? W * 0.08 : W * 0.5;
 
-    // Mover observador: acerca → izquierda; aleja → derecha
+    // Mover observador: acerca â†’ izquierda; aleja â†’ derecha
     obsX += acerca ? -voPx : voPx;
     if (valores.vo === 0) obsX = acerca ? W * 0.88 : W * 0.5;
 
-    // Reset: acerca → se cruzan; aleja → salen del canvas
+    // Reset: acerca â†’ se cruzan; aleja â†’ salen del canvas
     if (acerca  && fuenteX >= obsX - 20) resetAnim();
     if (!acerca && (fuenteX < -W * 0.1 || obsX > W * 1.1)) resetAnim();
 
-    // Período de emisión: cuantos frames entre frentes
-    // A f0 alta → más frentes por segundo → período corto
+    // PerÃ­odo de emisiÃ³n: cuantos frames entre frentes
+    // A f0 alta â†’ mÃ¡s frentes por segundo â†’ perÃ­odo corto
     // Mapeamos f0 (100-2000 Hz) a PERIOD (30-5 frames)
     const PERIOD = Math.max(5, Math.round(30 - (f0 - 100) / 2000 * 25));
 
@@ -188,19 +190,19 @@ window.Renderers.efecto_doppler = (() => {
       ctx1.stroke();
     });
 
-    // ── Observador ──
+    // â”€â”€ Observador â”€â”€
     ctx1.beginPath(); ctx1.arc(obsX, oy, 11, 0, Math.PI * 2);
     ctx1.fillStyle = 'rgba(168,255,62,0.1)'; ctx1.fill();
     ctx1.beginPath(); ctx1.arc(obsX, oy, 5, 0, Math.PI * 2);
     ctx1.fillStyle = '#a8ff3e';
     ctx1.shadowColor = '#a8ff3e'; ctx1.shadowBlur = 8; ctx1.fill(); ctx1.shadowBlur = 0;
-    ctx1.font = '500 8px Space Mono, monospace';
+    ctx1.font = `400 ${8 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = 'rgba(168,255,62,0.7)';
     ctx1.textAlign = 'center';
     ctx1.fillText('OBS', obsX, oy + 22);
-    if (valores.vo > 0) ctx1.fillText(`vₒ=${valores.vo} m/s`, obsX, oy + 33);
+    if (valores.vo > 0) ctx1.fillText(`vâ‚’=${valores.vo} m/s`, obsX, oy + 33);
 
-    // ── Flecha observador (solo si vo > 0) ──
+    // â”€â”€ Flecha observador (solo si vo > 0) â”€â”€
     if (valores.vo > 0) {
       const ARROW_CYCLE = 90;
       const af = frame % ARROW_CYCLE;
@@ -233,7 +235,7 @@ window.Renderers.efecto_doppler = (() => {
       }
     }
 
-    // ── Fuente ──
+    // â”€â”€ Fuente â”€â”€
     ctx1.beginPath(); ctx1.arc(fuenteX, oy, 9, 0, Math.PI * 2);
     ctx1.fillStyle = 'rgba(0,229,255,0.1)'; ctx1.fill();
     ctx1.beginPath(); ctx1.arc(fuenteX, oy, 4.5, 0, Math.PI * 2);
@@ -242,11 +244,11 @@ window.Renderers.efecto_doppler = (() => {
     ctx1.fillStyle = 'rgba(0,229,255,0.7)';
     ctx1.fillText('FUENTE', fuenteX, oy + 22);
 
-    // ── Flecha animada (solo si vf > 0) ──
+    // â”€â”€ Flecha animada (solo si vf > 0) â”€â”€
     if (vf > 0) {
       const ARROW_CYCLE = 90;
       const af = frame % ARROW_CYCLE;
-      // Flecha siempre apunta en la dirección de movimiento real
+      // Flecha siempre apunta en la direcciÃ³n de movimiento real
       const dir = acerca ? 1 : -1;
       const ARROW_LEN = 55;
       const arrowY = oy - 28;
@@ -286,21 +288,21 @@ window.Renderers.efecto_doppler = (() => {
 
     ctx1.textAlign = 'left';
 
-    // ── Labels esquina ──
+    // â”€â”€ Labels esquina â”€â”€
     ctx1.textAlign = 'right';
-    ctx1.font = '500 11px Space Mono, monospace';
+    ctx1.font = `400 ${11 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = acerca ? 'rgba(0,229,255,0.75)' : 'rgba(255,77,109,0.75)';
     ctx1.fillText(acerca ? 'FUENTE SE ACERCA' : 'FUENTE SE ALEJA', W - 10, 18);
     ctx1.font = '400 10px Outfit, sans-serif';
     ctx1.fillStyle = 'rgba(200,216,240,0.65)';
     ctx1.fillText(
-      `f₀ = ${f0} Hz  →  f' = ${fp && isFinite(fp) ? fp.toFixed(1) : '—'} Hz`,
+      `fâ‚€ = ${f0} Hz  â†’  f' = ${fp && isFinite(fp) ? fp.toFixed(1) : 'â€”'} Hz`,
       W - 10, 34
     );
     ctx1.textAlign = 'left';
   }
 
-  // ── Vista B ───────────────────────────────────────────────────────────────
+  // â”€â”€ Vista B â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawInfo(valores, resultados) {
     const W = c2.width, H = c2.height;
     ctx2.clearRect(0, 0, W, H);
@@ -321,7 +323,7 @@ window.Renderers.efecto_doppler = (() => {
     for (let x = 0; x < W; x += 40) { ctx2.beginPath(); ctx2.moveTo(x,0); ctx2.lineTo(x,H); ctx2.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx2.beginPath(); ctx2.moveTo(0,y); ctx2.lineTo(W,y); ctx2.stroke(); }
 
-    ctx2.font = '500 12px Space Mono, monospace';
+    ctx2.font = `400 ${12 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right';
     ctx2.fillText('COMPARATIVA', W - 10, 18);
@@ -331,7 +333,7 @@ window.Renderers.efecto_doppler = (() => {
       ctx2.font = '400 10px Outfit, sans-serif';
       ctx2.fillStyle = 'rgba(255,77,109,0.8)';
       ctx2.textAlign = 'center';
-      ctx2.fillText('vf ≥ v — velocidad supersónica', W/2, H/2);
+      ctx2.fillText('vf â‰¥ v â€” velocidad supersÃ³nica', W/2, H/2);
       ctx2.textAlign = 'left';
       return;
     }
@@ -347,9 +349,9 @@ window.Renderers.efecto_doppler = (() => {
     ctx2.fillRect(30, barY, bw0, barH);
     ctx2.fillStyle = 'rgba(0,229,255,0.7)';
     ctx2.fillRect(30, barY, bw0, 2);
-    ctx2.font = '500 10px Space Mono, monospace';
+    ctx2.font = `400 ${10 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(0,229,255,0.85)';
-    ctx2.fillText(`f₀ = ${f0} Hz`, 30, barY - 5);
+    ctx2.fillText(`fâ‚€ = ${f0} Hz`, 30, barY - 5);
 
     // Barra f'
     const bwp  = (fp / maxF) * barMax;
@@ -362,23 +364,23 @@ window.Renderers.efecto_doppler = (() => {
     ctx2.fillStyle = cp + '0.85)';
     ctx2.fillText(`f' = ${fp.toFixed(1)} Hz`, 30, barY2 - 5);
 
-    // Δf
+    // Î”f
     const dfStr = df !== null && isFinite(df)
       ? (df >= 0 ? `+${df.toFixed(1)}` : df.toFixed(1))
-      : '—';
+      : 'â€”';
     const dfColor = (df !== null && df >= 0)
       ? 'rgba(168,255,62,0.9)'
       : 'rgba(255,77,109,0.9)';
-    ctx2.font = '600 13px Space Mono, monospace';
+    ctx2.font = `400 ${13 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = dfColor;
-    ctx2.fillText(`Δf = ${dfStr} Hz`, 30, barY2 + barH + 20);
+    ctx2.fillText(`Î”f = ${dfStr} Hz`, 30, barY2 + barH + 20);
 
     // Longitudes de onda
     const lyL = barY2 + barH + 46;
     ctx2.font = '400 10px Outfit, sans-serif';
     ctx2.fillStyle = 'rgba(200,216,240,0.7)';
-    ctx2.fillText(`λ₀ = ${l0 ? l0.toFixed(3) : '—'} m  (emitida)`, 30, lyL);
-    ctx2.fillText(`λ' = ${lp ? lp.toFixed(3) : '—'} m  (percibida)`, 30, lyL + 18);
+    ctx2.fillText(`Î»â‚€ = ${l0 ? l0.toFixed(3) : 'â€”'} m  (emitida)`, 30, lyL);
+    ctx2.fillText(`Î»' = ${lp ? lp.toFixed(3) : 'â€”'} m  (percibida)`, 30, lyL + 18);
 
     // Caso
     const caso = getCaso(vf, vo, modo, v);
@@ -390,18 +392,22 @@ window.Renderers.efecto_doppler = (() => {
 
   function getCaso(vf, vo, modo, v) {
     const acerca = modo === 'acerca';
-    if (vf >= v) return 'vf ≥ v → onda de choque (fórmula no válida)';
-    if (vf === 0 && vo === 0) return 'Sin movimiento relativo — f\' = f₀';
+    if (vf >= v) return 'vf â‰¥ v â†’ onda de choque (fÃ³rmula no vÃ¡lida)';
+    if (vf === 0 && vo === 0) return 'Sin movimiento relativo â€” f\' = fâ‚€';
     if (vf === 0) return acerca
-      ? 'Solo observador se acerca → f\' > f₀'
-      : 'Solo observador se aleja → f\' < f₀';
+      ? 'Solo observador se acerca â†’ f\' > fâ‚€'
+      : 'Solo observador se aleja â†’ f\' < fâ‚€';
     if (vo === 0) return acerca
-      ? 'Fuente se acerca → f\' > f₀\nsonido más agudo'
-      : 'Fuente se aleja → f\' < f₀\nsonido más grave';
+      ? 'Fuente se acerca â†’ f\' > fâ‚€\nsonido mÃ¡s agudo'
+      : 'Fuente se aleja â†’ f\' < fâ‚€\nsonido mÃ¡s grave';
     return acerca
-      ? 'Fuente y observador se aproximan\nf\' > f₀ — efecto máximo'
-      : 'Fuente y observador se alejan\nf\' < f₀ — efecto máximo';
+      ? 'Fuente y observador se aproximan\nf\' > fâ‚€ â€” efecto mÃ¡ximo'
+      : 'Fuente y observador se alejan\nf\' < fâ‚€ â€” efecto mÃ¡ximo';
   }
 
   return { init, draw };
 })();
+
+
+
+

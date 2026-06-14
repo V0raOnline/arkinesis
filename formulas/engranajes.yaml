@@ -1,0 +1,115 @@
+id: engranajes
+title: Engranajes
+category: technology
+renderer: gearRenderer
+description: >
+  Explora como los engranajes transmiten movimiento y modifican la
+  velocidad de giro entre ejes.
+description_short: >
+  Cambia el numero de dientes de cada engranaje para observar como
+  cambia la velocidad y el sentido de giro.
+formula_simbolica: "i = Zb / Za     n_s = n_e · Za / Zb"
+formula_resuelta: "Entrada = {velocidad_entrada} rpm     Salida = {velocidad_salida} rpm     Relacion = {relacion_transmision}"
+
+variables:
+  dientes_a:
+    label: Dientes engranaje A
+    unit: ""
+    min: 8
+    max: 60
+    step: 1
+    default: 12
+  dientes_b:
+    label: Dientes engranaje B
+    unit: ""
+    min: 8
+    max: 60
+    step: 1
+    default: 36
+
+constants:
+  velocidad_entrada:
+    value: 100
+    unit: rpm
+
+formulas:
+  - id: relacion_transmision
+    label: Relacion de transmision
+    expression: dientes_b / dientes_a
+    unit: ""
+    highlighted: true
+  - id: velocidad_salida
+    label: Velocidad salida
+    expression: velocidad_entrada * (dientes_a / dientes_b)
+    unit: rpm
+    highlighted: true
+  - id: multiplicador_velocidad
+    label: Multiplicador velocidad
+    expression: dientes_a / dientes_b
+    unit: ""
+  - id: sentido_giro
+    label: Sentido de giro
+    expression: -1
+    unit: ""
+
+insights:
+  - when: dientes_b > dientes_a
+    text: >
+      El engranaje de salida tiene mas dientes.
+      Girara mas despacio pero transmitira mas fuerza.
+  - when: dientes_b < dientes_a
+    text: >
+      El engranaje de salida tiene menos dientes.
+      Girara mas rapido pero transmitira menos fuerza.
+  - when: dientes_a == dientes_b
+    text: >
+      Ambos engranajes tienen el mismo tamano.
+      La velocidad se mantiene constante.
+  - when: velocidad_salida > velocidad_entrada
+    text: >
+      Estas multiplicando velocidad a costa de fuerza.
+  - when: velocidad_salida < velocidad_entrada
+    text: >
+      Estas reduciendo velocidad para ganar fuerza.
+
+ax0_facts:
+  - Las bicicletas utilizan sistemas de engranajes para adaptarse al terreno.
+  - Los relojes mecanicos funcionan gracias a trenes de engranajes.
+  - Las cajas de cambios de los vehiculos emplean relaciones de transmision.
+  - Los molinos tradicionales utilizaban engranajes gigantes de madera.
+  - Los robots industriales utilizan engranajes de precision.
+
+connections:
+  - when: relacion_transmision > 3
+    priority: 100
+    text: >-
+      Los reductores de velocidad industriales usan relaciones como esta para convertir motores rapidos en par motor elevado. Se ven en cintas transportadoras y maquinaria pesada.
+  - when: relacion_transmision > 1
+    priority: 90
+    text: >-
+      Los cambios de marcha de una bicicleta o un coche funcionan con este principio: engranaje grande a la salida para subir pendientes, pequeno para velocidad.
+  - when: relacion_transmision < 1
+    priority: 80
+    text: >-
+      Multiplicar velocidad a costa de par. Asi funcionan los platos de las bicicletas de competicion en llano.
+  - when: relacion_transmision == 1
+    priority: 70
+    text: >-
+      Relacion 1:1. Los relojes mecanicos usan pares de engranajes iguales para transmitir movimiento sin cambiar velocidad entre ejes paralelos.
+
+koru_context:
+  level: ESO
+  instructions:
+    - Usa menos de 200 palabras.
+    - Utiliza ejemplos cotidianos.
+    - Explica la relacion entre dientes y velocidad.
+    - Relaciona velocidad y fuerza.
+    - Evita conceptos avanzados.
+
+question_templates:
+  explain:
+    label: Explicame que esta ocurriendo
+  real_world:
+    label: Donde se utiliza este sistema
+  exam_mode:
+    label: Ayudame para el examen

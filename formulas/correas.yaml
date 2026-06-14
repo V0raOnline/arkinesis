@@ -1,0 +1,112 @@
+id: correas
+title: Correas de transmision
+category: technology
+renderer: beltRenderer
+description: >
+  Explora como las correas transmiten movimiento entre poleas
+  de distinto diametro, modificando la velocidad de giro.
+description_short: >
+  Cambia el diametro de cada polea para observar como varia
+  la velocidad de salida. A diferencia de los engranajes,
+  la correa mantiene el mismo sentido de giro.
+formula_simbolica: "i = Db / Da     n_s = n_e * (Da / Db)"
+formula_resuelta: "Entrada = {velocidad_entrada} rpm     Salida = {velocidad_salida} rpm     Relacion = {relacion_transmision}"
+
+variables:
+  diametro_a:
+    label: Diametro polea A
+    unit: cm
+    min: 5
+    max: 50
+    step: 1
+    default: 20
+  diametro_b:
+    label: Diametro polea B
+    unit: cm
+    min: 5
+    max: 50
+    step: 1
+    default: 40
+
+constants:
+  velocidad_entrada:
+    value: 100
+    unit: rpm
+
+formulas:
+  - id: relacion_transmision
+    label: Relacion de transmision
+    expression: diametro_b / diametro_a
+    unit: ""
+    highlighted: true
+  - id: velocidad_salida
+    label: Velocidad salida
+    expression: velocidad_entrada * (diametro_a / diametro_b)
+    unit: rpm
+    highlighted: true
+  - id: multiplicador_velocidad
+    label: Multiplicador de velocidad
+    expression: diametro_a / diametro_b
+    unit: ""
+
+insights:
+  - when: diametro_b > diametro_a
+    text: >
+      La polea de salida es mas grande.
+      Girara mas despacio pero con mayor par motor.
+  - when: diametro_b < diametro_a
+    text: >
+      La polea de salida es mas pequenya.
+      Girara mas rapido pero transmitira menos fuerza.
+  - when: diametro_a == diametro_b
+    text: >
+      Ambas poleas tienen el mismo diametro.
+      La velocidad se transmite sin cambios.
+  - when: velocidad_salida > velocidad_entrada
+    text: >
+      Estas multiplicando velocidad a costa de par motor.
+  - when: velocidad_salida < velocidad_entrada
+    text: >
+      Estas reduciendo velocidad para ganar par motor.
+
+connections:
+  - when: relacion_transmision > 3
+    priority: 100
+    text: >-
+      Las lavadoras de tambor usan correas con esta relacion para que el motor gire rapido y el tambor despacio, ganando par para centrifugar.
+  - when: relacion_transmision > 1
+    priority: 90
+    text: >-
+      Los alternadores de los coches usan correas para girar mas rapido que el motor y generar corriente incluso al ralenti.
+  - when: relacion_transmision < 1
+    priority: 80
+    text: >-
+      Multiplicar velocidad con correa. Los ventiladores industriales usan este principio para alcanzar altas RPM con motores estandar.
+  - when: relacion_transmision == 1
+    priority: 70
+    text: >-
+      Transmision directa. Las impresoras 3D usan correas 1:1 en los ejes para mover el cabezal con precision milimetrica.
+
+ax0_facts:
+  - Muchas lavadoras utilizan correas para transmitir el giro del motor al tambor.
+  - Los alternadores de los coches funcionan mediante correas dentadas.
+  - Las fabricas del siglo XIX utilizaron correas de cuero de gran longitud.
+  - Las bicicletas de alta gama emplean correas de carbon en lugar de cadena.
+  - Las impresoras 3D utilizan correas de precision para mover los cabezales.
+
+koru_context:
+  level: ESO
+  instructions:
+    - Usa menos de 200 palabras.
+    - Utiliza ejemplos cotidianos.
+    - Explica la relacion entre diametro y velocidad.
+    - Compara con engranajes destacando el mismo sentido de giro.
+    - Evita conceptos avanzados.
+
+question_templates:
+  explain:
+    label: Explicame que esta ocurriendo
+  real_world:
+    label: Donde se utiliza este sistema
+  exam_mode:
+    label: Ayudame para el examen

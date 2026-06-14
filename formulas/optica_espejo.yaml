@@ -40,6 +40,24 @@ variables:
 
 constantes: {}
 
+connections:
+  - when: A < -1
+    priority: 100
+    text: >-
+      Los telescopios reflectores usan espejos concavos para ampliar imagenes de objetos lejanos. El espejo primario del telescopio Hubble tiene 2.4 metros de diametro.
+  - when: si < 0
+    priority: 90
+    text: >-
+      Los retrovisores de los coches son espejos convexos que forman imagenes virtuales. Reducen el tamano pero amplian el campo de vision lateral.
+  - when: R < 20
+    priority: 80
+    text: >-
+      Los espejos dentales y los de laringoscopia tienen radios de curvatura muy pequenos para ampliar zonas de dificil acceso sin distorsion.
+  - when: A > 1
+    priority: 70
+    text: >-
+      Los espejos de maquillaje y afeitado son concavos con focal larga: amplian la imagen cuando el objeto esta entre el foco y el espejo.
+
 formulas:
   - id: si
     label: Distancia imagen sᵢ

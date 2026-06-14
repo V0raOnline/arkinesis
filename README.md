@@ -1,23 +1,234 @@
-# Física interactiva para Bachillerato
+![logo.png](G:\GHU%20Codexsphere\01%20GitHub%20repos\arkinesis%20core\logo.png)
 
-Visualizador interactivo de fenómenos físicos para Bachillerato.  
-Motor genérico alimentado por YAML. Sin backend. GitHub Pages.
+#ARKINESIS
 
-## Estructura
+**Motor de exploración educativa interactiva.**
 
+ARKINESIS es una plataforma basada en simulaciones que permite aprender observando fenómenos, modificando variables y construyendo comprensión a partir de la experimentación.
+
+No es un curso.
+
+No es un sistema de evaluación.
+
+No es un LMS.
+
+Es un laboratorio interactivo donde el aprendizaje surge de la exploración.
+
+---
+
+## Filosofía
+
+La idea central es sencilla:
+
+```text
+Experimentar
+↓
+Observar
+↓
+Descubrir
+↓
+Comprender
 ```
-/
-├── index.html              ← shell principal
-├── motor.js                ← motor genérico (parsea YAML, genera UI, gestiona URL)
-├── formulas/
-│   ├── campo_magnetico.yaml
-│   ├── gravedad_newton.yaml
-│   └── [nueva_formula].yaml
-└── renderers/
-    ├── campo_magnetico.js
-    ├── gravedad_newton.js
-    └── [nueva_formula].js
+
+Si una simulación consigue que un estudiante diga:
+
+> "Ahora entiendo por qué ponen triángulos en los puentes."
+
+entonces la simulación ha cumplido su propósito.
+
+ARKINESIS prioriza la comprensión conceptual sobre la memorización.
+
+La simulación es siempre el elemento principal.
+
+Las explicaciones aparecen después.
+
+---
+
+## Ecosistema
+
+### Simulación
+
+Es el núcleo de ARKINESIS.
+
+Cada simulación permite modificar parámetros y observar cómo cambia un fenómeno.
+
+El aprendizaje debe surgir primero de la observación.
+
+---
+
+### 🦎 AX0
+
+AX0 es el compañero curioso de ARKINESIS.
+
+Su función es despertar curiosidad mediante datos interesantes y conexiones inesperadas.
+
+AX0 no evalúa.
+
+AX0 no explica teoría.
+
+AX0 acompaña la exploración.
+
+---
+
+### 🌀 KORU
+
+KORU es el intérprete de ARKINESIS.
+
+Su función es ayudar a transformar observaciones en comprensión.
+
+Cuando una simulación despierta una pregunta, KORU ayuda a formularla y aporta el contexto necesario para obtener explicaciones más útiles.
+
+```text
+ARKINESIS
+↓
+Muestra qué ocurre
+
+KORU
+↓
+Ayuda a entender por qué ocurre
 ```
+
+Inspirado en el símbolo maorí del koru, representa:
+
+- crecimiento
+
+- aprendizaje
+
+- exploración
+
+- comprensión
+
+- volver al mismo lugar entendiendo algo más
+
+---
+
+## Arquitectura
+
+ARKINESIS utiliza una arquitectura declarativa basada en YAML.
+
+```text
+YAML
+↓
+Motor
+↓
+Renderer
+↓
+Experiencia interactiva
+```
+
+Cada simulación define:
+
+- Variables
+
+- Constantes
+
+- Fórmulas
+
+- Insights
+
+- Conexiones contextuales
+
+El motor genera automáticamente:
+
+- Controles
+
+- Resultados
+
+- Estado compartible
+
+- Integración con KORU
+
+---
+
+## Módulos actuales
+
+### Física
+
+- Campo Magnético
+
+- Inducción Magnética
+
+- Efecto Doppler
+
+- Óptica
+
+- Gravitación
+
+- Ondas
+
+- Electromagnetismo
+
+### Tecnología
+
+- Palancas
+
+- Poleas
+
+- Engranajes
+
+- Correas
+
+- Triangulación
+
+---
+
+## KORU Bridge
+
+Todas las simulaciones exponen un estado estructurado mediante:
+
+```javascript
+exportState()
+```
+
+Este estado permite generar automáticamente preguntas contextualizadas para KORU.
+
+Objetivo:
+
+Reducir la distancia entre:
+
+```text
+"No entiendo esto"
+```
+
+y
+
+```text
+"Puedo formular una buena pregunta"
+```
+
+---
+
+## Crear una nueva simulación
+
+1. Crear un archivo YAML.
+
+2. Definir variables, fórmulas e insights.
+
+3. Implementar un renderer.
+
+4. Registrar la simulación.
+
+No requiere backend.
+
+No requiere base de datos.
+
+No requiere servicios externos.
+
+---
+
+## Objetivo del proyecto
+
+ARKINESIS busca construir un entorno donde:
+
+- experimentar sea fácil
+
+- preguntar sea natural
+
+- comprender sea más accesible
+
+Porque aprender suele empezar cuando alguien observa algo extraño y piensa:
+
+"Espera... ¿por qué ocurre eso?"
 
 ## Cómo funciona
 

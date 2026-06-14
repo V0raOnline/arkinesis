@@ -1,4 +1,4 @@
-/**
+﻿/**
  * renderers/gravedad_newton.js
  * Vista 1: orbita eliptica animada con baricentro real
  * Vista 2: vista lateral con ocultacion
@@ -7,6 +7,7 @@
 window.Renderers = window.Renderers || {};
 
 window.Renderers.gravedad_newton = (() => {
+  let _F = 0;
   let c1, c2, ctx1, ctx2, frame = 0;
   let vPrev = null;
   const G = 6.674e-11;
@@ -30,6 +31,7 @@ window.Renderers.gravedad_newton = (() => {
 
   function draw(valores, resultados) {
     frame++;
+    _F = window.AX_F || 2;
     const angle = frame * OMEGA;
     const e  = Math.max(0, Math.min(0.95, valores.e || 0));
     const m1 = valores.m1;
@@ -72,7 +74,7 @@ window.Renderers.gravedad_newton = (() => {
     ctx1.arc(bcx, bcy, 3, 0, Math.PI * 2);
     ctx1.fillStyle = 'rgba(255,255,255,0.2)';
     ctx1.fill();
-    ctx1.font = '500 9px Space Mono, monospace';
+    ctx1.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = 'rgba(255,255,255,0.6)';
     ctx1.textAlign = 'center';
     ctx1.fillText('CM', bcx, bcy - 7);
@@ -136,7 +138,7 @@ window.Renderers.gravedad_newton = (() => {
     vPrev = vActual;
 
     // Info inferior izquierda
-    ctx1.font = '500 9px Space Mono, monospace';
+    ctx1.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx1.textAlign = 'left';
     let yInfo = H - 10;
 
@@ -175,7 +177,7 @@ window.Renderers.gravedad_newton = (() => {
     ctx2.arc(bcx, bcy, 3, 0, Math.PI * 2);
     ctx2.fillStyle = 'rgba(255,255,255,0.2)';
     ctx2.fill();
-    ctx2.font = '500 9px Space Mono, monospace';
+    ctx2.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(255,255,255,0.6)';
     ctx2.textAlign = 'center';
     ctx2.fillText('CM', bcx, bcy - 7);
@@ -213,7 +215,7 @@ window.Renderers.gravedad_newton = (() => {
     }
 
     const superposicion = Math.abs(lx1 - lx2) < (r1vis + r2vis) * 0.8;
-    ctx2.font = '600 9px Space Mono, monospace';
+    ctx2.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx2.textAlign = 'center';
     if (superposicion) {
       const tapado = m1detras ? 'm\u2081' : 'm\u2082';
@@ -224,7 +226,7 @@ window.Renderers.gravedad_newton = (() => {
       ctx2.fillText('ambas visibles', W/2, H - 24);
     }
 
-    ctx2.font = '500 9px Space Mono, monospace';
+    ctx2.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx2.fillStyle = 'rgba(200,216,240,0.75)';
     ctx2.textAlign = 'right';
     ctx2.fillText('VISTA LATERAL (XZ)', W - 10, 18);
@@ -269,7 +271,7 @@ window.Renderers.gravedad_newton = (() => {
     ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
     ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.stroke();
     ctx.fillStyle = color + '22'; ctx.fill();
-    ctx.font = '600 9px Space Mono, monospace';
+    ctx.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
     ctx.fillText(label, x, y + r + 13);
@@ -282,7 +284,7 @@ window.Renderers.gravedad_newton = (() => {
     ctx.lineWidth = 1.5;
     ctx.setLineDash([3,2]); ctx.stroke(); ctx.setLineDash([]);
     ctx.fillStyle = color + '08'; ctx.fill();
-    ctx.font = '600 9px Space Mono, monospace';
+    ctx.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx.fillStyle = color + '35';
     ctx.textAlign = 'center';
     ctx.fillText(label, x, y + r + 13);
@@ -326,3 +328,7 @@ window.Renderers.gravedad_newton = (() => {
 
   return { init, draw };
 })();
+
+
+
+

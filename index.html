@@ -275,7 +275,7 @@ footer {
 
 <header>
   <a class="logo" href="index.html"><img src="logo.png" alt="ARKINESIS"></a>
-  <span class="header-title">// física interactiva · bachillerato</span>
+  <span class="header-title">// física y tecnología interactiva</span>
   <a class="nav-btn" href="about.html">? about</a>
 </header>
 
@@ -287,10 +287,10 @@ footer {
       <img src="AX0.png" alt="AX0" style="height:90px; width:auto; filter:drop-shadow(0 0 12px rgba(0,229,255,0.4)); flex-shrink:0;">
       <div>
         <h1>ARKINESIS
-          <span>Simulador de física interactiva para Bachillerato</span>
+          <span>Simulador interactivo de física y tecnología</span>
         </h1>
         <p class="hero-desc">
-          Mueve los sliders. Observa cómo responde la física en tiempo real.
+          Mueve los sliders. Observa cómo responde en tiempo real. Pregunta lo que no entiendes.
           Cada simulación incluye visualización animada, fórmulas simbólicas y resolución paso a paso.
         </p>
       </div>
@@ -420,6 +420,91 @@ footer {
       </div>
     </a>
 
+    <!-- Palancas -->
+    <a class="card" href="selector.html?formula=palancas">
+      <canvas class="card-preview" id="prev-palancas"></canvas>
+      <div class="card-body">
+        <div class="card-tag">tecnología</div>
+        <div class="card-title">Palancas</div>
+        <div class="card-desc">
+          Cambia la fuerza aplicada y la distancia al fulcro para ver cuándo
+          la palanca entra en equilibrio y cómo aparece la ventaja mecánica.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">M = F·d &nbsp;·&nbsp; VM = bp/br</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Poleas -->
+    <a class="card" href="selector.html?formula=poleas">
+      <canvas class="card-preview" id="prev-poleas"></canvas>
+      <div class="card-body">
+        <div class="card-tag">tecnología</div>
+        <div class="card-title">Poleas</div>
+        <div class="card-desc">
+          Observa cómo al aumentar el número de poleas se reparte la carga
+          y disminuye la fuerza necesaria para levantar el peso.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">VM = n &nbsp;·&nbsp; F = P/n</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Engranajes -->
+    <a class="card" href="selector.html?formula=engranajes">
+      <canvas class="card-preview" id="prev-engranajes"></canvas>
+      <div class="card-body">
+        <div class="card-tag">tecnolog&iacute;a</div>
+        <div class="card-title">Engranajes</div>
+        <div class="card-desc">
+          Comprueba c&oacute;mo el n&uacute;mero de dientes cambia la velocidad de giro:
+          engranaje peque&ntilde;o, m&aacute;s r&aacute;pido; engranaje grande, m&aacute;s lento.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">i = Zb/Za &nbsp;&middot;&nbsp; n = ne&middot;Za/Zb</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Correas -->
+    <a class="card" href="selector.html?formula=correas">
+      <canvas class="card-preview" id="prev-correas"></canvas>
+      <div class="card-body">
+        <div class="card-tag">tecnolog&iacute;a</div>
+        <div class="card-title">Correas de transmisi&oacute;n</div>
+        <div class="card-desc">
+          A diferencia de los engranajes, la correa transmite el movimiento
+          en el mismo sentido. El di&aacute;metro de las poleas determina la velocidad.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">i = Db/Da &nbsp;&middot;&nbsp; n = ne&middot;Da/Db</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Triangulaci&oacute;n -->
+    <a class="card" href="selector.html?formula=triangulacion">
+      <canvas class="card-preview" id="prev-triangulacion"></canvas>
+      <div class="card-body">
+        <div class="card-tag">tecnolog&iacute;a</div>
+        <div class="card-title">Triangulaci&oacute;n estructural</div>
+        <div class="card-desc">
+          El tri&aacute;ngulo es la &uacute;nica figura que no puede deformarse sin cambiar
+          la longitud de sus lados. Por eso aparece en puentes y torres.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">Def. cuadrado &gg; Def. triangulado</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 
 
@@ -429,7 +514,7 @@ footer {
   <span>ARKINESIS — V0raOnline — CC BY-NC-SA 4.0</span>
   <span style="display:flex; align-items:center; gap:0.5rem;">
     <img src="AX0.png" alt="AX0" style="height:20px; width:auto; opacity:0.5;">
-    AX0 · física interactiva para bachillerato
+    AX0 &middot; f&iacute;sica y tecnolog&iacute;a interactiva
   </span>
 </footer>
 
@@ -972,6 +1057,397 @@ function drawInduccion() {
   })();
 }
 
+// ── Preview: Palancas ──────────────────────────────────────────────────────────
+function drawPalancas() {
+  const c = document.getElementById('prev-palancas');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const fx = W * 0.5;
+    const fy = H * 0.66;
+    const leftReach = W * 0.22;
+    const rightReach = W * 0.15;
+    const angle = -0.16 + Math.sin(frame * 0.03) * 0.02;
+
+    const left = {
+      x: fx + (-leftReach) * Math.cos(angle),
+      y: fy + (-leftReach) * Math.sin(angle),
+    };
+    const right = {
+      x: fx + rightReach * Math.cos(angle),
+      y: fy + rightReach * Math.sin(angle),
+    };
+
+    ctx.beginPath();
+    ctx.moveTo(left.x, left.y);
+    ctx.lineTo(right.x, right.y);
+    ctx.strokeStyle = '#00e5ff';
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(fx - 20, fy + 24);
+    ctx.lineTo(fx + 20, fy + 24);
+    ctx.lineTo(fx, fy);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(168,255,62,0.14)';
+    ctx.fill();
+    ctx.strokeStyle = '#a8ff3e';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(left.x, left.y - 44);
+    ctx.lineTo(left.x, left.y - 6);
+    ctx.strokeStyle = '#ff6b35';
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(left.x, left.y - 6);
+    ctx.lineTo(left.x - 4, left.y - 14);
+    ctx.lineTo(left.x + 4, left.y - 14);
+    ctx.fillStyle = '#ff6b35';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(right.x, right.y - 6);
+    ctx.lineTo(right.x, right.y - 58);
+    ctx.strokeStyle = '#ff4d6d';
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(right.x, right.y - 58);
+    ctx.lineTo(right.x - 4, right.y - 50);
+    ctx.lineTo(right.x + 4, right.y - 50);
+    ctx.fillStyle = '#ff4d6d';
+    ctx.fill();
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+// ── Preview: Poleas ────────────────────────────────────────────────────────────
+function drawPoleas() {
+  const c = document.getElementById('prev-poleas');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const topY = H * 0.23;
+    const lowY = H * 0.53 + Math.sin(frame * 0.04) * 3;
+    const r = 15;
+    const xs = [W * 0.38, W * 0.56];
+
+    ctx.beginPath();
+    ctx.moveTo(xs[0] - 24, topY - 24);
+    ctx.lineTo(xs[1] + 24, topY - 24);
+    ctx.strokeStyle = 'rgba(200,216,240,0.18)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    xs.forEach((x) => {
+      [[x, topY, '#00e5ff'], [x, lowY, '#a8ff3e']].forEach(([px, py, color]) => {
+        ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI * 2);
+        ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
+        ctx.beginPath(); ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = color; ctx.fill();
+      });
+
+      ctx.beginPath();
+      ctx.moveTo(x - r, topY);
+      ctx.lineTo(x - r, lowY);
+      ctx.moveTo(x + r, topY);
+      ctx.lineTo(x + r, lowY);
+      ctx.strokeStyle = 'rgba(220,232,255,0.88)';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    });
+
+    ctx.beginPath();
+    ctx.moveTo(xs[0] - r, lowY + r);
+    ctx.lineTo(xs[1] + r, lowY + r);
+    ctx.strokeStyle = '#a8ff3e';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.strokeStyle = '#ff6b35';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(xs[1] + 34, topY + 22);
+    ctx.lineTo(xs[1] + 34, H * 0.76);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(xs[1] + 34, H * 0.76);
+    ctx.lineTo(xs[1] + 30, H * 0.68);
+    ctx.lineTo(xs[1] + 38, H * 0.68);
+    ctx.fillStyle = '#ff6b35';
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,77,109,0.12)';
+    ctx.fillRect(W * 0.4, H * 0.68 + Math.sin(frame * 0.04) * 3, W * 0.2, 30);
+    ctx.strokeStyle = '#ff4d6d';
+    ctx.lineWidth = 1.6;
+    ctx.strokeRect(W * 0.4, H * 0.68 + Math.sin(frame * 0.04) * 3, W * 0.2, 30);
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+// ── Preview: Engranajes ────────────────────────────────────────────────────────
+function drawEngranajes() {
+  const c = document.getElementById('prev-engranajes');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  function gearPath(cx, cy, radius, teeth, angle, color) {
+    const inner = radius * 0.78;
+    const depth = Math.max(6, radius * 0.12);
+    const width = (Math.PI * 2) / teeth * 0.42;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(angle);
+    ctx.beginPath();
+    for (let i = 0; i < teeth; i++) {
+      const base = (i / teeth) * Math.PI * 2;
+      const a1 = base - width;
+      const a2 = base - width * 0.35;
+      const a3 = base + width * 0.35;
+      const a4 = base + width;
+      const pts = [
+        [inner, a1],
+        [inner + depth, a2],
+        [inner + depth, a3],
+        [inner, a4],
+      ];
+      pts.forEach(([r, a], idx) => {
+        const x = Math.cos(a) * r;
+        const y = Math.sin(a) * r;
+        if (i === 0 && idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+    }
+    ctx.closePath();
+    ctx.fillStyle = color + '18';
+    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.4;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, 0, 4, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const za = 12;
+    const zb = 36;
+    const rA = 30;
+    const rB = 54;
+    const cy = H * 0.46;
+    const cxA = W * 0.33;
+    const cxB = cxA + rA + rB + 8;
+    const a = frame * 0.05;
+    const b = -frame * 0.05 * (za / zb);
+
+    gearPath(cxA, cy, rA, za, a, '#ff9b45');
+    gearPath(cxB, cy, rB, zb, b, '#00e5ff');
+
+    ctx.font = '700 18px Space Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ff9b45';
+    ctx.fillText('↻', cxA, cy - rA - 22);
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText('↺', cxB, cy - rB - 22);
+
+    ctx.font = '600 10px Space Mono, monospace';
+    ctx.fillStyle = '#ff9b45';
+    ctx.fillText('12 dientes', cxA, cy + rA + 20);
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText('36 dientes', cxB, cy + rB + 20);
+    ctx.fillStyle = '#ff9b45';
+    ctx.fillText('rapido', cxA, cy + rA + 34);
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText('lento', cxB, cy + rB + 34);
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+// ── Preview: Correas ───────────────────────────────────────────────
+function drawCorreas() {
+  const c = document.getElementById('prev-correas');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const rA = 18, rB = 36;
+    const cxA = W * 0.30, cxB = W * 0.62, cy = H * 0.5;
+    const dist = cxB - cxA;
+    const sinA = (rB - rA) / dist;
+    const cosA = Math.sqrt(Math.max(0, 1 - sinA * sinA));
+    const speedA = 0.04, speedB = speedA * (rA / rB);
+    const aA = frame * speedA, aB = frame * speedB;
+
+    // Correa
+    const tAx_top = cxA + rA * sinA, tAy_top = cy - rA * cosA;
+    const tBx_top = cxB + rB * sinA, tBy_top = cy - rB * cosA;
+    const tAx_bot = cxA - rA * sinA, tAy_bot = cy + rA * cosA;
+    const tBx_bot = cxB - rB * sinA, tBy_bot = cy + rB * cosA;
+    const angA_top = Math.atan2(tAy_top - cy, tAx_top - cxA);
+    const angA_bot = Math.atan2(tAy_bot - cy, tAx_bot - cxA);
+    const angB_top = Math.atan2(tBy_top - cy, tBx_top - cxB);
+    const angB_bot = Math.atan2(tBy_bot - cy, tBx_bot - cxB);
+    const offset = (frame * speedA * rA * 4) % 20;
+
+    function traceBelt() {
+      ctx.beginPath();
+      ctx.moveTo(tAx_top, tAy_top);
+      ctx.lineTo(tBx_top, tBy_top);
+      ctx.arc(cxB, cy, rB, angB_top, angB_bot, false);
+      ctx.lineTo(tAx_bot, tAy_bot);
+      ctx.arc(cxA, cy, rA, angA_bot, angA_top, false);
+      ctx.closePath();
+    }
+    traceBelt();
+    ctx.strokeStyle = 'rgba(168,255,62,0.4)'; ctx.lineWidth = 6; ctx.stroke();
+    traceBelt();
+    ctx.setLineDash([8,8]); ctx.lineDashOffset = -offset;
+    ctx.strokeStyle = 'rgba(168,255,62,0.9)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Poleas
+    [[cxA, rA, aA, '#ff9b45'], [cxB, rB, aB, '#00e5ff']].forEach(([cx, r, angle, color]) => {
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
+      for (let i = 0; i < 4; i++) {
+        const a = angle + (Math.PI / 2) * i;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(a) * r * 0.2, cy + Math.sin(a) * r * 0.2);
+        ctx.lineTo(cx + Math.cos(a) * r * 0.8, cy + Math.sin(a) * r * 0.8);
+        ctx.strokeStyle = color; ctx.lineWidth = 1.5; ctx.globalAlpha = 0.5; ctx.stroke(); ctx.globalAlpha = 1;
+      }
+      ctx.beginPath(); ctx.arc(cx, cy, r * 0.18, 0, Math.PI * 2);
+      ctx.fillStyle = color; ctx.shadowColor = color; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(tick);
+  })();
+}
+
+// ── Preview: Triangulación ──────────────────────────────────────────
+function drawTriangulacion() {
+  const c = document.getElementById('prev-triangulacion');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const size = Math.min(W * 0.24, H * 0.38, 70);
+    const cy = H * 0.52;
+    const shear = Math.sin(frame * 0.04) * size * 0.35;
+
+    // Cuadrado deformable
+    const lx = W * 0.26;
+    const sq = [
+      { x: lx - size/2 + shear, y: cy - size/2 },
+      { x: lx + size/2 + shear, y: cy - size/2 },
+      { x: lx + size/2,         y: cy + size/2 },
+      { x: lx - size/2,         y: cy + size/2 },
+    ];
+    ctx.beginPath();
+    sq.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.closePath();
+    ctx.strokeStyle = '#ff4d6d'; ctx.lineWidth = 2.2; ctx.stroke();
+    sq.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fillStyle = '#ff4d6d'; ctx.fill(); });
+
+    // Triangulado (estable)
+    const rx = W * 0.70;
+    const tr = [
+      { x: rx - size/2, y: cy - size/2 },
+      { x: rx + size/2, y: cy - size/2 },
+      { x: rx + size/2, y: cy + size/2 },
+      { x: rx - size/2, y: cy + size/2 },
+    ];
+    ctx.beginPath();
+    tr.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+    ctx.closePath();
+    ctx.strokeStyle = '#a8ff3e'; ctx.lineWidth = 2.2; ctx.stroke();
+    // Diagonal con glow
+    const glow = 4 + Math.abs(shear) / size * 14;
+    ctx.save();
+    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = glow;
+    ctx.beginPath(); ctx.moveTo(tr[3].x, tr[3].y); ctx.lineTo(tr[1].x, tr[1].y);
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.restore();
+    tr.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fillStyle = '#a8ff3e'; ctx.fill(); });
+
+    // Labels
+    ctx.font = '600 9px Space Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#ff4d6d';
+    ctx.fillText('CUADRADO', lx, cy - size/2 - 12);
+    ctx.fillStyle = '#a8ff3e';
+    ctx.fillText('TRIANGULADO', rx, cy - size/2 - 12);
+
+    requestAnimationFrame(tick);
+  })();
+}
+
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
@@ -980,6 +1456,11 @@ window.addEventListener('load', () => {
   drawDoppler();
   drawOnda();
   drawInduccion();
+  drawPalancas();
+  drawPoleas();
+  drawEngranajes();
+  drawCorreas();
+  drawTriangulacion();
 });
 </script>
 

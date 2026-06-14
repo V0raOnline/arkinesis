@@ -1,0 +1,125 @@
+id: palancas
+title: Palancas
+category: technology
+renderer: leverRenderer
+description: >
+  Explora como las palancas permiten multiplicar fuerza o velocidad
+  modificando la posicion del punto de apoyo y las distancias.
+description_short: >
+  Cambia la fuerza aplicada y las distancias al fulcro para observar
+  cuando una palanca entra en equilibrio.
+formula_simbolica: "M = F · d     VM = bp / br"
+formula_resuelta: "Mp = {momento_potencia} N·m     Mr = {momento_resistencia} N·m     VM = {ventaja_mecanica}"
+
+variables:
+  fuerza_aplicada:
+    label: Fuerza aplicada
+    unit: N
+    min: 1
+    max: 500
+    step: 1
+    default: 50
+  brazo_potencia:
+    label: Brazo de potencia
+    unit: m
+    min: 0.1
+    max: 10
+    step: 0.1
+    default: 2
+  resistencia:
+    label: Resistencia
+    unit: N
+    min: 1
+    max: 500
+    step: 1
+    default: 100
+  brazo_resistencia:
+    label: Brazo de resistencia
+    unit: m
+    min: 0.1
+    max: 10
+    step: 0.1
+    default: 1
+
+constants: {}
+
+formulas:
+  - id: momento_potencia
+    label: Momento de potencia
+    expression: fuerza_aplicada * brazo_potencia
+    unit: N·m
+    highlighted: true
+  - id: momento_resistencia
+    label: Momento resistente
+    expression: resistencia * brazo_resistencia
+    unit: N·m
+    highlighted: true
+  - id: ventaja_mecanica
+    label: Ventaja mecanica
+    expression: brazo_potencia / brazo_resistencia
+    unit: ""
+    highlighted: true
+  - id: diferencia_momentos
+    label: Diferencia de momentos
+    expression: momento_potencia - momento_resistencia
+    unit: N·m
+  - id: equilibrio
+    label: Equilibrio
+    expression: abs(momento_potencia - momento_resistencia)
+    unit: N·m
+
+insights:
+  - when: momento_potencia > momento_resistencia
+    text: >
+      La potencia supera a la resistencia.
+      La palanca tendera a girar a favor de la fuerza aplicada.
+  - when: momento_potencia < momento_resistencia
+    text: >
+      La resistencia domina el sistema.
+      La carga no podra levantarse con la configuracion actual.
+  - when: abs(momento_potencia - momento_resistencia) < 1
+    text: >
+      Los momentos estan equilibrados.
+      La palanca permanece en equilibrio.
+  - when: ventaja_mecanica > 1
+    text: >
+      La palanca proporciona ventaja mecanica.
+      Necesitas menos fuerza para vencer la resistencia.
+  - when: ventaja_mecanica < 1
+    text: >
+      Estas sacrificando fuerza para obtener mas velocidad o recorrido.
+
+ax0_facts:
+  - Las tijeras son dos palancas de primer genero trabajando juntas.
+  - Una carretilla es una palanca de segundo genero.
+  - Una pinza de depilar es una palanca de tercer genero.
+  - El cuerpo humano utiliza multiples sistemas de palancas para moverse.
+  - Un cascanueces multiplica la fuerza gracias a la ventaja mecanica.
+
+connections:
+  - when: ventaja_mecanica > 2
+    priority: 100
+    text: >-
+      Las gruas de obra usan brazos largos exactamente por esto: a mayor brazo de potencia, menos fuerza necesaria para levantar la carga.
+  - when: ventaja_mecanica > 1
+    priority: 90
+    text: >-
+      Las tijeras, los alicates y las tenazas son palancas de primer genero. El fulcro esta entre la fuerza y la carga.
+  - when: ventaja_mecanica < 1
+    priority: 80
+    text: >-
+      Cuando el brazo de resistencia es mayor, se sacrifica fuerza para ganar velocidad. Asi funcionan los remos y las pinzas de depilar.
+  - when: abs(momento_potencia - momento_resistencia) < 1
+    priority: 100
+    text: >-
+      En equilibrio perfecto. Las balanzas de precision funcionan exactamente con este principio: igualar momentos a ambos lados del fulcro.
+
+koru_context:
+
+question_templates:
+  explain:
+    label: Explicame que esta ocurriendo
+  real_world:
+    label: Donde se usa este principio
+  exam_mode:
+    label: Ayudame a entenderlo para el examen

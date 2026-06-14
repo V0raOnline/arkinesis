@@ -1,10 +1,11 @@
-/**
+﻿/**
  * renderers/optica_lente.js
  */
 
 window.Renderers = window.Renderers || {};
 
 window.Renderers.optica_lente = (() => {
+  let _F = 0;
   let c1, c2, ctx1, ctx2;
 
   function init(canvas1, canvas2) {
@@ -24,11 +25,12 @@ window.Renderers.optica_lente = (() => {
   }
 
   function draw(valores, resultados) {
+  _F = window.AX_F || 2;
     drawDiagrama(valores, resultados);
     drawInfo(valores, resultados);
   }
 
-  // ── Vista A: diagrama de rayos ────────────────────────────────────────────
+  // â”€â”€ Vista A: diagrama de rayos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawDiagrama(valores, resultados) {
     const W = c1.width, H = c1.height;
     ctx1.clearRect(0, 0, W, H);
@@ -56,7 +58,7 @@ window.Renderers.optica_lente = (() => {
       ctx1.beginPath(); ctx1.moveTo(0, y); ctx1.lineTo(W, y); ctx1.stroke();
     }
 
-    // Eje óptico
+    // Eje Ã³ptico
     ctx1.beginPath(); ctx1.moveTo(0, oy); ctx1.lineTo(W, oy);
     ctx1.strokeStyle = 'rgba(74,90,122,0.5)'; ctx1.lineWidth = 1;
     ctx1.setLineDash([6,3]); ctx1.stroke(); ctx1.setLineDash([]);
@@ -84,7 +86,7 @@ window.Renderers.optica_lente = (() => {
       drawImagen(ctx1, ix, oy, ih, invertida, si > 0);
     }
 
-    // 3 rayos característicos
+    // 3 rayos caracterÃ­sticos
     if (si !== null && isFinite(si) && Math.abs(si) < 1e6) {
       drawRayos(ctx1, lx, oy, ox, oy - oh, f, so, si, hi, scale, W, H);
     }
@@ -97,7 +99,7 @@ window.Renderers.optica_lente = (() => {
       ctx1.strokeStyle = 'rgba(200,216,240,0.18)'; ctx1.lineWidth = 2; ctx1.stroke();
       ctx1.beginPath(); ctx1.moveTo(ix + 2, oy - ph); ctx1.lineTo(ix + 2, oy + ph);
       ctx1.strokeStyle = 'rgba(200,216,240,0.10)'; ctx1.lineWidth = 1.5; ctx1.stroke();
-      ctx1.font = '400 8px Space Mono, monospace';
+      ctx1.font = `400 ${8 + _F}px Space Mono, monospace`;
       ctx1.fillStyle = 'rgba(200,216,240,0.3)';
       ctx1.textAlign = 'center';
       ctx1.fillText('pantalla', ix, oy - ph - 5);
@@ -105,7 +107,7 @@ window.Renderers.optica_lente = (() => {
     }
 
     // Labels
-    ctx1.font = '500 9px Space Mono, monospace';
+    ctx1.font = `400 ${9 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = 'rgba(200,216,240,0.4)';
     ctx1.textAlign = 'center';
     ctx1.fillText('s_o = ' + so.toFixed(0) + ' cm', (ox + lx) / 2, oy + 18);
@@ -131,11 +133,11 @@ window.Renderers.optica_lente = (() => {
     if (A !== null && isFinite(A)) {
       const Astr = A >= 0 ? '+' + A.toFixed(2) : A.toFixed(2);
       ctx1.fillStyle = 'rgba(200,216,240,0.35)';
-      ctx1.fillText('A = ' + Astr + (Math.abs(A) > 1 ? '  (amplía)' : '  (reduce)'), 10, H - 10);
+      ctx1.fillText('A = ' + Astr + (Math.abs(A) > 1 ? '  (amplÃ­a)' : '  (reduce)'), 10, H - 10);
     }
   }
 
-  // ── 3 rayos característicos (lente convergente y divergente) ─────────────
+  // â”€â”€ 3 rayos caracterÃ­sticos (lente convergente y divergente) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawRayos(ctx, lx, oy, ox, objTopY, f, so, si, hi, scale, W, H) {
     const ix = lx + si * scale;
     const iy = oy - hi * scale * 0.8;  // punta de la imagen
@@ -146,13 +148,13 @@ window.Renderers.optica_lente = (() => {
     const convergente = f > 0;
     const imagenReal  = si > 0;
 
-    // ── RAYO 1: paralelo al eje óptico → refracta ─────────────────────────
-    // Tramo objeto → lente: horizontal (rayo físico real)
+    // â”€â”€ RAYO 1: paralelo al eje Ã³ptico â†’ refracta â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Tramo objeto â†’ lente: horizontal (rayo fÃ­sico real)
     drawSegmento(ctx, ox, objTopY, lx, objTopY, '#ff4d6d');
 
     if (convergente) {
       if (imagenReal) {
-        // Sólido hasta imagen, luego punteado
+        // SÃ³lido hasta imagen, luego punteado
         drawSegmento(ctx, lx, objTopY, ix, iy, '#ff4d6d');
         const dx = ix - lx, dy = iy - objTopY;
         const t = (W - ix) / dx;
@@ -162,15 +164,15 @@ window.Renderers.optica_lente = (() => {
       }
     } else {
       // Divergente: el rayo sale divergiendo desde la lente hacia la derecha
-      // Dirección: como si viniera del foco virtual F' (izquierda de lente, mismo lado objeto)
+      // DirecciÃ³n: como si viniera del foco virtual F' (izquierda de lente, mismo lado objeto)
       // Pendiente = desde F' virtual hasta el punto de incidencia en la lente
       const slope = (objTopY - oy) / (lx - fxRight);
       extenderHastaX(ctx, lx, objTopY, W, objTopY + slope * (W - lx), W, '#ff4d6d', false);
-      // Prolongación punteada hacia atrás hasta la imagen virtual
+      // ProlongaciÃ³n punteada hacia atrÃ¡s hasta la imagen virtual
       drawSegmentoDashed(ctx, lx, objTopY, ix, iy, '#ff4d6d');
     }
 
-    // ── RAYO 2: pasa por el centro óptico → sin desvío ────────────────────
+    // â”€â”€ RAYO 2: pasa por el centro Ã³ptico â†’ sin desvÃ­o â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const slope2 = (iy - objTopY) / (ix - ox);
     extenderHastaX(ctx, ox, objTopY, convergente ? W : lx + (lx - ox) * 0.8,
       objTopY + slope2 * ((convergente ? W : lx + (lx - ox) * 0.8) - ox),
@@ -180,36 +182,36 @@ window.Renderers.optica_lente = (() => {
     }
     // Rayo 2 convergente: cortar en imagen si real
     if (convergente && imagenReal) {
-      // extenderHastaX ya llegó hasta W, lo redibujamos solo hasta ix
-      // (el extenderHastaX de arriba ya llegó a W — sobreescribimos el tramo post-imagen)
+      // extenderHastaX ya llegÃ³ hasta W, lo redibujamos solo hasta ix
+      // (el extenderHastaX de arriba ya llegÃ³ a W â€” sobreescribimos el tramo post-imagen)
       const yAtIx = objTopY + slope2 * (ix - ox);
-      // Redibujar sólido solo hasta ix para limpiar el trazo anterior
+      // Redibujar sÃ³lido solo hasta ix para limpiar el trazo anterior
       ctx.beginPath(); ctx.moveTo(ox, objTopY); ctx.lineTo(ix, yAtIx);
       ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1.2; ctx.setLineDash([]); ctx.stroke();
       // Punteado atenuado desde ix
       drawSegmentoDashed(ctx, ix, yAtIx, W, yAtIx + slope2 * (W - ix), 'rgba(0,229,255,0.35)');
     }
 
-    // ── RAYO 3: pasa por F (lado objeto) → sale paralelo al eje ──────────
+    // â”€â”€ RAYO 3: pasa por F (lado objeto) â†’ sale paralelo al eje â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (convergente) {
       const slopeFoco = (oy - objTopY) / (fxLeft - ox);
       const yAtLente = objTopY + slopeFoco * (lx - ox);
       drawSegmento(ctx, ox, objTopY, lx, yAtLente, '#a8ff3e');
       if (imagenReal) {
-        // Sólido hasta imagen, punteado después
+        // SÃ³lido hasta imagen, punteado despuÃ©s
         drawSegmento(ctx, lx, yAtLente, ix, yAtLente, '#a8ff3e');
         drawSegmentoDashed(ctx, ix, yAtLente, W, yAtLente, 'rgba(168,255,62,0.35)');
       } else {
         extenderHastaX(ctx, lx, yAtLente, W, yAtLente, W, '#a8ff3e', false);
       }
     } else {
-      // Divergente: rayo apunta hacia F' virtual (lado imagen) → sale paralelo
+      // Divergente: rayo apunta hacia F' virtual (lado imagen) â†’ sale paralelo
       const slopeFoco = (oy - objTopY) / (fxRight - ox);
       const yAtLente  = objTopY + slopeFoco * (lx - ox);
       drawSegmento(ctx, ox, objTopY, lx, yAtLente, '#a8ff3e');
       // Sale paralelo al eje hacia la derecha (rayo real)
       extenderHastaX(ctx, lx, yAtLente, W, yAtLente, W, '#a8ff3e', false);
-      // Prolongación punteada hacia atrás hasta la imagen virtual
+      // ProlongaciÃ³n punteada hacia atrÃ¡s hasta la imagen virtual
       drawSegmentoDashed(ctx, lx, yAtLente, ix, iy, '#a8ff3e');
     }
   }
@@ -225,15 +227,15 @@ window.Renderers.optica_lente = (() => {
     ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
   }
 
-  // Dibuja desde (x1,y1) hasta (x2,y2) y luego extiende en la misma dirección hasta xMax
+  // Dibuja desde (x1,y1) hasta (x2,y2) y luego extiende en la misma direcciÃ³n hasta xMax
   function extenderHastaX(ctx, x1, y1, x2, y2, xMax, color, dashed) {
     const dx = x2 - x1;
     const dy = y2 - y1;
-    // Calcular el punto real en xMax si la dirección lo alcanza
+    // Calcular el punto real en xMax si la direcciÃ³n lo alcanza
     let xFin = x2, yFin = y2;
     if (Math.abs(dx) > 0.01) {
       const t = (xMax - x1) / dx;
-      if (t > 1) { // solo extender si xMax está más allá de x2
+      if (t > 1) { // solo extender si xMax estÃ¡ mÃ¡s allÃ¡ de x2
         xFin = xMax;
         yFin = y1 + dy * t;
       }
@@ -245,7 +247,7 @@ window.Renderers.optica_lente = (() => {
     ctx.setLineDash([]);
   }
 
-  // ── Vista B: resumen de casos ─────────────────────────────────────────────
+  // â”€â”€ Vista B: resumen de casos â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawInfo(valores, resultados) {
     const W = c2.width, H = c2.height;
     // FIX: clearRect limpio, sin ctx.save/restore que acumulara transformaciones
@@ -257,7 +259,7 @@ window.Renderers.optica_lente = (() => {
     const A  = resultados.A;
     const P  = resultados.P;
 
-    // Grid estático limpio
+    // Grid estÃ¡tico limpio
     ctx2.strokeStyle = 'rgba(26,37,64,0.4)';
     ctx2.lineWidth = 0.5;
     for (let i = 0; i < W; i += 40) { ctx2.beginPath(); ctx2.moveTo(i,0); ctx2.lineTo(i,H); ctx2.stroke(); }
@@ -266,7 +268,7 @@ window.Renderers.optica_lente = (() => {
     drawZonasMini(ctx2, W, H, f, so, si);
 
     const desc = getCaso(f, so, si, A);
-    ctx2.font = '500 10px Outfit, sans-serif';
+    ctx2.font = `400 ${10 + _F}px Outfit, monospace`;
     ctx2.fillStyle = 'rgba(220,232,255,0.9)';
     ctx2.textAlign = 'center';
     const lines = desc.split('\n');
@@ -280,7 +282,7 @@ window.Renderers.optica_lente = (() => {
         { color: 'rgba(255,107,53,0.6)',  label: 'so < F   imagen virtual (lupa)' },
       ];
       const ly = H * 0.76 + 80;
-      ctx2.font = '400 11px Outfit, sans-serif';
+      ctx2.font = `400 ${11 + _F}px Outfit, monospace`;
       leyenda.forEach((item, i) => {
         const y = ly + i * 22;
         ctx2.beginPath(); ctx2.arc(12, y, 4, 0, Math.PI * 2);
@@ -292,7 +294,7 @@ window.Renderers.optica_lente = (() => {
     }
 
     ctx2.fillStyle = 'rgba(200,216,240,0.75)';
-    ctx2.font = '500 12px Space Mono, monospace';
+    ctx2.font = `400 ${12 + _F}px Space Mono, monospace`;
     ctx2.textAlign = 'right';
     ctx2.fillText('RESUMEN', W - 10, 18);
     ctx2.textAlign = 'left';
@@ -335,18 +337,18 @@ window.Renderers.optica_lente = (() => {
   }
 
   function getCaso(f, so, si, A) {
-    if (!isFinite(si) || si === null) return 'Objeto en el foco → imagen en el infinito';
+    if (!isFinite(si) || si === null) return 'Objeto en el foco â†’ imagen en el infinito';
     if (f > 0) {
-      if (so > 2 * f)  return 'Objeto más allá de 2F → imagen real, invertida, reducida';
-      if (so === 2 * f) return 'Objeto en 2F → imagen real, invertida, mismo tamaño';
-      if (so > f)      return 'Objeto entre F y 2F → imagen real, invertida, ampliada';
-      return               'Objeto entre F y lente → imagen virtual, derecha, ampliada';
+      if (so > 2 * f)  return 'Objeto mÃ¡s allÃ¡ de 2F â†’ imagen real, invertida, reducida';
+      if (so === 2 * f) return 'Objeto en 2F â†’ imagen real, invertida, mismo tamaÃ±o';
+      if (so > f)      return 'Objeto entre F y 2F â†’ imagen real, invertida, ampliada';
+      return               'Objeto entre F y lente â†’ imagen virtual, derecha, ampliada';
     } else {
-      return 'Lente divergente → imagen siempre virtual, derecha, reducida';
+      return 'Lente divergente â†’ imagen siempre virtual, derecha, reducida';
     }
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
+  // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function drawLente(ctx, x, cy, h, convergente) {
     ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(x, cy - h); ctx.lineTo(x, cy + h); ctx.stroke();
@@ -366,7 +368,7 @@ window.Renderers.optica_lente = (() => {
   function drawFoco(ctx, x, y, label) {
     ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI*2);
     ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.fill();
-    ctx.font = '500 8px Space Mono, monospace';
+    ctx.font = `400 ${8 + _F}px Space Mono, monospace`;
     ctx.fillStyle = 'rgba(255,255,255,0.3)';
     ctx.textAlign = 'center';
     ctx.fillText(label, x, y - 7);
@@ -377,7 +379,7 @@ window.Renderers.optica_lente = (() => {
     ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - h);
     ctx.strokeStyle = '#ff6b35'; ctx.lineWidth = 2; ctx.stroke();
     drawArrowHead(ctx, x, y - h, 0, -1, '#ff6b35');
-    ctx.font = '500 8px Space Mono, monospace';
+    ctx.font = `400 ${8 + _F}px Space Mono, monospace`;
     ctx.fillStyle = '#ff6b35';
     ctx.textAlign = 'center';
     ctx.fillText('OBJ', x, y + 12);
@@ -393,7 +395,7 @@ window.Renderers.optica_lente = (() => {
     ctx.stroke(); ctx.setLineDash([]);
     const dirArrow = invertida ? 1 : -1;
     drawArrowHead(ctx, x, yTop, 0, dirArrow, color);
-    ctx.font = '500 8px Space Mono, monospace';
+    ctx.font = `400 ${8 + _F}px Space Mono, monospace`;
     ctx.fillStyle = color;
     ctx.textAlign = 'center';
     ctx.fillText(real ? 'IMG' : 'IMG*', x, y + 12);
@@ -402,3 +404,9 @@ window.Renderers.optica_lente = (() => {
 
   return { init, draw };
 })();
+
+
+
+
+
+

@@ -1,0 +1,105 @@
+id: poleas
+title: Poleas
+category: technology
+renderer: pulleyRenderer
+description: >
+  Explora como los sistemas de poleas reducen la fuerza necesaria
+  para levantar una carga.
+description_short: >
+  Cambia el peso y el numero de poleas para observar como varia
+  la ventaja mecanica.
+formula_simbolica: "VM = n     F = P / n"
+formula_resuelta: "VM = {ventaja_mecanica}     F = {fuerza_necesaria} N     Reduccion = {porcentaje_reduccion} %"
+
+variables:
+  peso:
+    label: Peso de la carga
+    unit: N
+    min: 10
+    max: 1000
+    step: 10
+    default: 200
+  numero_poleas:
+    label: Numero de poleas
+    unit: ""
+    min: 1
+    max: 6
+    step: 1
+    default: 2
+
+constants: {}
+
+formulas:
+  - id: ventaja_mecanica
+    label: Ventaja mecanica
+    expression: numero_poleas
+    unit: ""
+    highlighted: true
+  - id: fuerza_necesaria
+    label: Fuerza necesaria
+    expression: peso / numero_poleas
+    unit: N
+    highlighted: true
+  - id: porcentaje_reduccion
+    label: Reduccion de esfuerzo
+    expression: (1 - (fuerza_necesaria / peso)) * 100
+    unit: "%"
+
+insights:
+  - when: numero_poleas == 1
+    text: >
+      Una polea fija no reduce la fuerza necesaria.
+      Su principal ventaja es cambiar la direccion del esfuerzo.
+  - when: numero_poleas > 1
+    text: >
+      La carga se reparte entre varios tramos de cuerda.
+      Cada tramo soporta una parte del peso.
+  - when: ventaja_mecanica >= 3
+    text: >
+      El sistema proporciona una ventaja mecanica importante.
+      Necesitas mucha menos fuerza para levantar la carga.
+  - when: porcentaje_reduccion > 50
+    text: >
+      Has reducido mas de la mitad del esfuerzo necesario.
+
+ax0_facts:
+  - Las gruas utilizan sistemas de poleas para mover grandes cargas.
+  - Los ascensores combinan poleas y contrapesos.
+  - Los barcos utilizan poleas para controlar velas de gran tamano.
+  - Los teatros emplean poleas para mover decorados.
+  - Un polipasto puede multiplicar enormemente la fuerza disponible.
+
+connections:
+  - when: numero_poleas >= 4
+    priority: 100
+    text: >-
+      Los polipastos de taller y las gruas portuarias usan este numero de poleas para mover cargas de varias toneladas con motores pequenos.
+  - when: numero_poleas >= 2
+    priority: 90
+    text: >-
+      Los ascensores usan sistemas de poleas para equilibrar el peso de la cabina con un contrapeso, reduciendo el motor necesario a la mitad.
+  - when: numero_poleas == 1
+    priority: 80
+    text: >-
+      Una sola polea fija no reduce la fuerza, solo cambia su direccion. Asi funcionan las poleas de las banderas y los pozos de agua.
+  - when: porcentaje_reduccion > 60
+    priority: 95
+    text: >-
+      Con esta reduccion de fuerza, una persona podria levantar un coche. Los sistemas de rescate de montana usan exactamente este principio.
+
+koru_context:
+  level: ESO
+  instructions:
+    - Usa menos de 200 palabras.
+    - Utiliza ejemplos cotidianos.
+    - Explica como se reparte la carga.
+    - Relaciona la ventaja mecanica con el esfuerzo realizado.
+    - Evita conceptos avanzados de fisica.
+
+question_templates:
+  explain:
+    label: Explicame que esta ocurriendo
+  real_world:
+    label: Donde se utiliza este sistema
+  exam_mode:
+    label: Ayudame a entenderlo para el examen

@@ -41,6 +41,24 @@ variables:
 
 constantes: {}
 
+connections:
+  - when: P > 10
+    priority: 100
+    text: >-
+      Las lupas y los microscopios opticos usan lentes convergentes de focal muy corta y alta potencia. Un microscopio optico puede alcanzar 1000 dioptrías combinando varias lentes.
+  - when: si < 0
+    priority: 90
+    text: >-
+      Las gafas para miopes usan lentes divergentes que forman imagen virtual. La potencia negativa indica cuánto deben corregir la vision.
+  - when: A < -1
+    priority: 80
+    text: >-
+      Los proyectores de cine y los videoproyectores forman imagenes reales ampliadas en una pantalla. El objeto esta justo mas alla del foco para maximizar la ampliacion.
+  - when: P > 0 && P < 5
+    priority: 70
+    text: >-
+      Las gafas de lectura tienen potencias bajas. Con 1 o 2 dioptrías corrigen la presbicia sin distorsion apreciable en el campo visual.
+
 nota: >
   ⚠ f > 0 → lente convergente · f < 0 → lente divergente.
   Imagen real (s_i > 0): se forma al otro lado de la lente, puede proyectarse.

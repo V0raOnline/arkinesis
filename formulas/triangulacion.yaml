@@ -1,0 +1,89 @@
+id: triangulacion
+title: Triangulacion estructural
+renderer: structureRenderer
+description: >
+  La triangulacion es el principio por el que los ingenieros
+  refuerzan estructuras con triangulos. Un cuadrado puede deformarse
+  porque sus angulos pueden cambiar. Un triangulo no puede deformarse
+  sin cambiar la longitud de sus lados.
+description_short: >
+  El triangulo es la unica figura geometrica que no puede deformarse
+  sin cambiar la longitud de sus lados. Por eso aparece en puentes,
+  torres electricas y estructuras metalicas.
+formula_simbolica: "Deformacion cuadrado >> Deformacion triangulo"
+formula_resuelta: "Def. cuadrado = {deformacion_cuadrado}%     Def. triangulo = {deformacion_triangulo}%"
+
+variables:
+  carga:
+    label: Carga aplicada
+    unit: "%"
+    min: 0
+    max: 100
+    step: 1
+    default: 50
+
+formulas:
+  - id: estabilidad_cuadrado
+    label: Estabilidad cuadrado
+    expression: 100 - carga
+    unit: "%"
+    highlighted: false
+  - id: estabilidad_triangulo
+    label: Estabilidad triangulo
+    expression: 100 - (carga * 0.2)
+    unit: "%"
+    highlighted: false
+  - id: deformacion_cuadrado
+    label: Deformacion cuadrado
+    expression: carga
+    unit: "%"
+    highlighted: true
+  - id: deformacion_triangulo
+    label: Deformacion triangulo
+    expression: carga * 0.2
+    unit: "%"
+    highlighted: true
+  - id: ratio_rigidez
+    label: Ratio de rigidez
+    expression: carga / (carga * 0.2 + 0.001)
+    unit: "x"
+    highlighted: false
+
+insights:
+  - when: carga > 50
+    text: >
+      El cuadrado se deforma porque sus angulos pueden cambiar libremente.
+      La triangulacion impide ese cambio de forma.
+  - when: carga > 80
+    text: >
+      Los ingenieros usan triangulacion en puentes y torres electricas
+      precisamente para evitar este tipo de deformacion.
+  - when: carga <= 20
+    text: >
+      Con carga baja ambas estructuras aguantan bien.
+      Aumenta la carga para ver la diferencia.
+
+ax0_facts:
+  - Los puentes de celosia usan triangulos porque son indeformables.
+  - La Torre Eiffel esta formada por miles de triangulos metalicos.
+  - Las torres electricas son estructuras trianguladas de acero.
+  - Los andamios de obra usan diagonales para triangular los cuadros.
+  - El fuselaje de los aviones antiguos usaba triangulacion de madera.
+
+connections:
+  - when: deformacion_cuadrado > 60
+    priority: 100
+    text: >-
+      Los puentes metalicos usan triangulacion exactamente para evitar esta deformacion. Sin ella, la estructura cederia bajo su propio peso.
+  - when: deformacion_cuadrado > 30
+    priority: 90
+    text: >-
+      Las torres electricas de alta tension son estructuras trianguladas de acero. La diagonal que ves aqui es la misma idea aplicada a escala industrial.
+  - when: deformacion_cuadrado > 10
+    priority: 80
+    text: >-
+      Los andamios de obra incluyen barras diagonales por este mismo motivo. Sin ellas, el marco cuadrado se ladea con la primera carga.
+  - when: deformacion_cuadrado <= 10
+    priority: 70
+    text: >-
+      Con poca carga ambas estructuras aguantan. Aumenta la carga para ver donde aparece la triangulacion en el mundo real.
