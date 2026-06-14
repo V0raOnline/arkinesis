@@ -1,0 +1,87 @@
+id: conductores_aislantes
+title: Conductores y aislantes
+renderer: conductores_aislantes
+description: >
+  Por que el cobre conduce la electricidad y el plastico no? La respuesta
+  esta en como se comportan los electrones externos de cada atomo. En los
+  conductores, esos electrones pueden saltar libremente entre atomos
+  vecinos. En los aislantes, cada electron permanece ligado a su propio
+  atomo.
+description_short: >
+  En los conductores, los electrones externos pueden saltar entre atomos.
+  En los aislantes, permanecen ligados a su atomo de origen.
+formula_simbolica: "Movilidad = f(material, campo electrico)"
+formula_resuelta: "Conductor = {movilidad_conductor}     Aislante = {movilidad_aislante}"
+
+nota: >
+  Advertencia: "movilidad electronica" es una magnitud didactica (0-100),
+  no una unidad fisica real. El objetivo es comparar el comportamiento de
+  ambos materiales ante el mismo campo electrico, no calcular valores de
+  conductividad reales.
+
+variables:
+  electricField:
+    label: Campo electrico
+    unit: ""
+    min: 0
+    max: 100
+    step: 1
+    default: 0
+
+formulas:
+  - id: movilidad_conductor
+    label: Movilidad (conductor)
+    expression: Math.min(100, 20 + electricField * 0.8)
+    unit: ""
+    highlighted: true
+  - id: movilidad_aislante
+    label: Movilidad (aislante)
+    expression: Math.min(100, 2 + electricField * 0.03)
+    unit: ""
+    highlighted: true
+
+insights:
+  - when: electricField == 0
+    text: >
+      Sin campo electrico, los electrones del conductor ya se mueven al
+      azar entre atomos vecinos. En el aislante, en cambio, cada electron
+      permanece ligado a su atomo: solo vibra en su sitio.
+  - when: electricField > 0 && electricField < 50
+    text: >
+      Al aplicar un campo electrico, los electrones del conductor empiezan
+      a desplazarse en una direccion preferente: esa deriva ordenada es la
+      corriente electrica. En el aislante, el campo apenas tiene efecto.
+  - when: electricField >= 50
+    text: >
+      Mismo campo electrico, mismo "empujon" sobre ambos materiales. La
+      diferencia enorme en el resultado no esta en la fuerza aplicada,
+      sino en si el material permite que los electrones salten entre
+      atomos.
+
+connections:
+  - when: electricField >= 30
+    priority: 100
+    text: >-
+      Recuerda: los electrones se mueven por fuerzas electricas, como en
+      el modulo de Flujo electrico. La diferencia aqui es si el material
+      permite que esos electrones salten de un atomo a otro.
+  - when: electricField == 0
+    priority: 90
+    text: >-
+      El cobre de un cable conduce incluso "en reposo" porque sus
+      electrones externos ya circulan libremente entre atomos. La madera
+      o el plastico, en cambio, mantienen sus electrones atrapados aunque
+      apliques un campo electrico.
+  - when: electricField >= 70
+    priority: 95
+    text: >-
+      Los cables de alta tension usan nucleos de cobre o aluminio
+      precisamente porque, incluso con campos electricos intensos, sus
+      electrones externos siguen pudiendo desplazarse libremente.
+
+ax0_facts:
+  - El cobre tiene un electron externo muy debilmente ligado, lo que lo convierte en uno de los mejores conductores.
+  - La madera seca es aislante, pero la madera humeda puede conducir corriente debido al agua que contiene.
+  - El cuerpo humano conduce electricidad porque esta formado mayormente por agua con sales disueltas.
+  - El diamante y el grafito estan formados por carbono, pero uno es aislante y el otro conductor segun como esten unidos sus atomos.
+  - Los superconductores son materiales que, a temperaturas muy bajas, dejan pasar la corriente sin ninguna resistencia.

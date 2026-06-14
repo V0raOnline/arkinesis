@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -155,7 +155,7 @@ main {
   background: var(--border);
 }
 
-/* ── Cards ── */
+/* â”€â”€ Cards â”€â”€ */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -275,23 +275,23 @@ footer {
 
 <header>
   <a class="logo" href="index.html"><img src="logo.png" alt="ARKINESIS"></a>
-  <span class="header-title">// física y tecnología interactiva</span>
+  <span class="header-title">// fÃ­sica y tecnologÃ­a interactiva</span>
   <a class="nav-btn" href="about.html">? about</a>
 </header>
 
 <main>
 
   <div class="hero">
-    <div class="hero-tag">// elige un fenómeno y empieza a explorar</div>
+    <div class="hero-tag">// elige un fenÃ³meno y empieza a explorar</div>
     <div style="display:flex; align-items:center; gap:1.5rem;">
       <img src="AX0.png" alt="AX0" style="height:90px; width:auto; filter:drop-shadow(0 0 12px rgba(0,229,255,0.4)); flex-shrink:0;">
       <div>
         <h1>ARKINESIS
-          <span>Simulador interactivo de física y tecnología</span>
+          <span>Simulador interactivo de fÃ­sica y tecnologÃ­a</span>
         </h1>
         <p class="hero-desc">
-          Mueve los sliders. Observa cómo responde en tiempo real. Pregunta lo que no entiendes.
-          Cada simulación incluye visualización animada, fórmulas simbólicas y resolución paso a paso.
+          Mueve los sliders. Observa cÃ³mo responde en tiempo real. Pregunta lo que no entiendes.
+          Cada simulaciÃ³n incluye visualizaciÃ³n animada, fÃ³rmulas simbÃ³licas y resoluciÃ³n paso a paso.
         </p>
       </div>
     </div>
@@ -301,19 +301,19 @@ footer {
 
   <div class="cards-grid">
 
-    <!-- Campo magnético -->
+    <!-- Campo magnÃ©tico -->
     <a class="card" href="selector.html?formula=campo_magnetico">
       <canvas class="card-preview" id="prev-campo"></canvas>
       <div class="card-body">
         <div class="card-tag">electromagnetismo</div>
-        <div class="card-title">Campo magnético uniforme</div>
+        <div class="card-title">Campo magnÃ©tico uniforme</div>
         <div class="card-desc">
-          Una partícula cargada en un campo magnético describe una trayectoria helicoidal.
-          El radio y el período dependen de la masa, la carga y el campo — no de la velocidad.
+          Una partÃ­cula cargada en un campo magnÃ©tico describe una trayectoria helicoidal.
+          El radio y el perÃ­odo dependen de la masa, la carga y el campo â€” no de la velocidad.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">F = qvB·sinθ &nbsp;·&nbsp; r = mv⊥/qB</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">F = qvBÂ·sinÎ¸ &nbsp;Â·&nbsp; r = mvâŠ¥/qB</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
@@ -326,96 +326,96 @@ footer {
         <div class="card-title">Efecto Doppler</div>
         <div class="card-desc">
           Cuando una fuente se mueve respecto al observador, la frecuencia percibida
-          cambia. Más agudo al acercarse, más grave al alejarse.
+          cambia. MÃ¡s agudo al acercarse, mÃ¡s grave al alejarse.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">f' = f₀·(v ± vₒ) / (v ∓ vf)</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">f' = fâ‚€Â·(v Â± vâ‚’) / (v âˆ“ vf)</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
 
-    <!-- Gravitación -->
+    <!-- GravitaciÃ³n -->
     <a class="card" href="selector.html?formula=gravedad_newton">
       <canvas class="card-preview" id="prev-gravedad"></canvas>
       <div class="card-body">
-        <div class="card-tag">gravitación</div>
-        <div class="card-title">Ley de Gravitación Universal</div>
+        <div class="card-tag">gravitaciÃ³n</div>
+        <div class="card-title">Ley de GravitaciÃ³n Universal</div>
         <div class="card-desc">
           Dos masas se atraen con una fuerza inversamente proporcional al cuadrado de la distancia.
-          Visualiza órbitas elípticas y el movimiento del baricentro.
+          Visualiza Ã³rbitas elÃ­pticas y el movimiento del baricentro.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">F = G·m₁·m₂/r² &nbsp;·&nbsp; T = 2π√(r³/Gm₁)</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">F = GÂ·mâ‚Â·mâ‚‚/rÂ² &nbsp;Â·&nbsp; T = 2Ï€âˆš(rÂ³/Gmâ‚)</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
 
-    <!-- Inducción magnética -->
+    <!-- InducciÃ³n magnÃ©tica -->
     <a class="card" href="selector.html?formula=induccion_magnetica">
       <canvas class="card-preview" id="prev-induccion"></canvas>
       <div class="card-body">
         <div class="card-tag">electromagnetismo</div>
-        <div class="card-title">Inducción magnética</div>
+        <div class="card-title">InducciÃ³n magnÃ©tica</div>
         <div class="card-desc">
-          Una espira en movimiento dentro de un campo magnético genera una corriente inducida.
-          La ley de Faraday-Lenz: la variación de flujo crea la f.e.m.
+          Una espira en movimiento dentro de un campo magnÃ©tico genera una corriente inducida.
+          La ley de Faraday-Lenz: la variaciÃ³n de flujo crea la f.e.m.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">ε = −N·ΔΦ/Δt &nbsp;·&nbsp; Φ = N·B·A·cosθ</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">Îµ = âˆ’NÂ·Î”Î¦/Î”t &nbsp;Â·&nbsp; Î¦ = NÂ·BÂ·AÂ·cosÎ¸</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
 
-    <!-- Onda armónica -->
+    <!-- Onda armÃ³nica -->
     <a class="card" href="selector.html?formula=onda_armonica">
       <canvas class="card-preview" id="prev-onda"></canvas>
       <div class="card-body">
         <div class="card-tag">ondas</div>
-        <div class="card-title">Onda armónica</div>
+        <div class="card-title">Onda armÃ³nica</div>
         <div class="card-desc">
-          Propagación sinusoidal en el espacio y el tiempo. Amplitud, longitud de onda,
-          frecuencia y velocidad. El MAS de cada partícula del medio.
+          PropagaciÃ³n sinusoidal en el espacio y el tiempo. Amplitud, longitud de onda,
+          frecuencia y velocidad. El MAS de cada partÃ­cula del medio.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">y = A·sin(ωt − kx) &nbsp;·&nbsp; v = λ·f</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">y = AÂ·sin(Ï‰t âˆ’ kx) &nbsp;Â·&nbsp; v = Î»Â·f</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
 
-    <!-- Espejo esférico -->
+    <!-- Espejo esfÃ©rico -->
     <a class="card" href="selector.html?formula=optica_espejo">
       <canvas class="card-preview" id="prev-espejo"></canvas>
       <div class="card-body">
-        <div class="card-tag">óptica geométrica</div>
-        <div class="card-title">Espejo esférico</div>
+        <div class="card-tag">Ã³ptica geomÃ©trica</div>
+        <div class="card-title">Espejo esfÃ©rico</div>
         <div class="card-desc">
-          El espejo cóncavo forma imágenes reales e invertidas cuando el objeto está más allá del foco.
-          El convexo produce siempre imágenes virtuales y reducidas.
+          El espejo cÃ³ncavo forma imÃ¡genes reales e invertidas cuando el objeto estÃ¡ mÃ¡s allÃ¡ del foco.
+          El convexo produce siempre imÃ¡genes virtuales y reducidas.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">1/f = 1/sₒ + 1/sᵢ &nbsp;·&nbsp; f = R/2</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">1/f = 1/sâ‚’ + 1/sáµ¢ &nbsp;Â·&nbsp; f = R/2</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
 
-    <!-- Óptica lente -->
+    <!-- Ã“ptica lente -->
     <a class="card" href="selector.html?formula=optica_lente">
       <canvas class="card-preview" id="prev-optica"></canvas>
       <div class="card-body">
-        <div class="card-tag">óptica geométrica</div>
+        <div class="card-tag">Ã³ptica geomÃ©trica</div>
         <div class="card-title">Lente delgada</div>
         <div class="card-desc">
-          Una lente delgada forma una imagen real o virtual según la posición del objeto.
-          Convergente o divergente, la ecuación de Gauss lo determina todo.
+          Una lente delgada forma una imagen real o virtual segÃºn la posiciÃ³n del objeto.
+          Convergente o divergente, la ecuaciÃ³n de Gauss lo determina todo.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">1/f = 1/sₒ + 1/sᵢ &nbsp;·&nbsp; A = −sᵢ/sₒ</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">1/f = 1/sâ‚’ + 1/sáµ¢ &nbsp;Â·&nbsp; A = âˆ’sáµ¢/sâ‚’</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
@@ -424,15 +424,15 @@ footer {
     <a class="card" href="selector.html?formula=palancas">
       <canvas class="card-preview" id="prev-palancas"></canvas>
       <div class="card-body">
-        <div class="card-tag">tecnología</div>
+        <div class="card-tag">tecnologÃ­a</div>
         <div class="card-title">Palancas</div>
         <div class="card-desc">
-          Cambia la fuerza aplicada y la distancia al fulcro para ver cuándo
-          la palanca entra en equilibrio y cómo aparece la ventaja mecánica.
+          Cambia la fuerza aplicada y la distancia al fulcro para ver cuÃ¡ndo
+          la palanca entra en equilibrio y cÃ³mo aparece la ventaja mecÃ¡nica.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">M = F·d &nbsp;·&nbsp; VM = bp/br</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">M = FÂ·d &nbsp;Â·&nbsp; VM = bp/br</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
@@ -441,15 +441,15 @@ footer {
     <a class="card" href="selector.html?formula=poleas">
       <canvas class="card-preview" id="prev-poleas"></canvas>
       <div class="card-body">
-        <div class="card-tag">tecnología</div>
+        <div class="card-tag">tecnologÃ­a</div>
         <div class="card-title">Poleas</div>
         <div class="card-desc">
-          Observa cómo al aumentar el número de poleas se reparte la carga
+          Observa cÃ³mo al aumentar el nÃºmero de poleas se reparte la carga
           y disminuye la fuerza necesaria para levantar el peso.
         </div>
         <div class="card-footer">
-          <span class="card-formulas">VM = n &nbsp;·&nbsp; F = P/n</span>
-          <span class="card-arrow">→</span>
+          <span class="card-formulas">VM = n &nbsp;Â·&nbsp; F = P/n</span>
+          <span class="card-arrow">â†’</span>
         </div>
       </div>
     </a>
@@ -505,13 +505,47 @@ footer {
       </div>
     </a>
 
+    <!-- Flujo electrico -->
+    <a class="card" href="selector.html?formula=flujo_electrico">
+      <canvas class="card-preview" id="prev-flujo_electrico"></canvas>
+      <div class="card-body">
+        <div class="card-tag">electromagnetismo</div>
+        <div class="card-title">Flujo el&eacute;ctrico</div>
+        <div class="card-desc">
+          Los electrones no se mueven porque "falten" en un lado. Se mueven
+          porque las cargas negativas los repelen y las positivas los atraen.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">F &prop; (q&#8315;&middot;q&#8314;) / d&sup2;</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Conductores y aislantes -->
+    <a class="card" href="selector.html?formula=conductores_aislantes">
+      <canvas class="card-preview" id="prev-conductores_aislantes"></canvas>
+      <div class="card-body">
+        <div class="card-tag">electromagnetismo</div>
+        <div class="card-title">Conductores y aislantes</div>
+        <div class="card-desc">
+          Por qu&eacute; el cobre conduce y el pl&aacute;stico no? La clave est&aacute; en si
+          los electrones externos pueden saltar entre &aacute;tomos vecinos.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">Movilidad = f(material, campo)</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 
 
 </main>
 
 <footer>
-  <span>ARKINESIS — V0raOnline — CC BY-NC-SA 4.0</span>
+  <span>ARKINESIS â€” V0raOnline â€” CC BY-NC-SA 4.0</span>
   <span style="display:flex; align-items:center; gap:0.5rem;">
     <img src="AX0.png" alt="AX0" style="height:20px; width:auto; opacity:0.5;">
     AX0 &middot; f&iacute;sica y tecnolog&iacute;a interactiva
@@ -524,7 +558,7 @@ function resizeCanvas(c) {
   c.height = c.offsetHeight;
 }
 
-// ── Preview: Campo magnético ──────────────────────────────────────────────────
+// â”€â”€ Preview: Campo magnÃ©tico â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawCampo() {
   const c = document.getElementById('prev-campo');
   if (!c) return;
@@ -564,7 +598,7 @@ function drawCampo() {
       }
     }
 
-    // Hélice
+    // HÃ©lice
     const rN = 0.45, turns = 2, N = 200;
     const pts = [];
     for (let i = 0; i <= N; i++) {
@@ -595,7 +629,7 @@ function drawCampo() {
   })();
 }
 
-// ── Preview: Gravitación ──────────────────────────────────────────────────────
+// â”€â”€ Preview: GravitaciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawGravedad() {
   const c = document.getElementById('prev-gravedad');
   if (!c) return;
@@ -629,7 +663,7 @@ function drawGravedad() {
     const x1 = cx + xb1*sc*Math.cos(prog),   y1 = cy + xb1*sc*Math.sin(prog);
     const x2 = cx + xb2*sc*Math.cos(prog+Math.PI), y2 = cy + xb2*sc*Math.sin(prog+Math.PI);
 
-    // Órbitas
+    // Ã“rbitas
     ctx.beginPath(); ctx.arc(cx, cy, Math.abs(xb1)*sc, 0, Math.PI*2);
     ctx.strokeStyle='rgba(0,229,255,0.12)'; ctx.lineWidth=1; ctx.stroke();
     ctx.beginPath(); ctx.arc(cx, cy, Math.abs(xb2)*sc, 0, Math.PI*2);
@@ -659,7 +693,7 @@ function drawGravedad() {
   })();
 }
 
-// ── Preview: Óptica lente ─────────────────────────────────────────────────────
+// â”€â”€ Preview: Ã“ptica lente â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawOptica() {
   const c = document.getElementById('prev-optica');
   if (!c) return;
@@ -685,7 +719,7 @@ function drawOptica() {
     const ix = lx + si;
     const oh = 28, ih = oh * (si/so);
 
-    // Eje óptico
+    // Eje Ã³ptico
     ctx.beginPath(); ctx.moveTo(20,oy); ctx.lineTo(W-20,oy);
     ctx.strokeStyle='rgba(74,90,122,0.4)'; ctx.lineWidth=1;
     ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
@@ -747,7 +781,7 @@ function drawOptica() {
   })();
 }
 
-// ── Preview: Onda armónica ────────────────────────────────────────────────────
+// â”€â”€ Preview: Onda armÃ³nica â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawOnda() {
   const c = document.getElementById('prev-onda');
   if (!c) return;
@@ -789,11 +823,11 @@ function drawOnda() {
     ctx.shadowColor='#00e5ff'; ctx.shadowBlur=7;
     ctx.stroke(); ctx.shadowBlur=0;
 
-    // Partícula observada
+    // PartÃ­cula observada
     const xP = W * 0.62;
     const yP = cy - A * Math.sin(omega*t - k*xP);
 
-    // Línea vertical
+    // LÃ­nea vertical
     ctx.beginPath(); ctx.moveTo(xP, cy-A-6); ctx.lineTo(xP, cy+A+6);
     ctx.strokeStyle='rgba(255,107,53,0.25)'; ctx.lineWidth=1;
     ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
@@ -807,7 +841,7 @@ function drawOnda() {
   })();
 }
 
-// ── Preview: Espejo esférico ─────────────────────────────────────────────────
+// â”€â”€ Preview: Espejo esfÃ©rico â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawEspejo() {
   const c = document.getElementById('prev-espejo');
   if (!c) return;
@@ -830,12 +864,12 @@ function drawEspejo() {
     const espH = H * 0.36;
     const R = espH * 2.2;
 
-    // Eje óptico
+    // Eje Ã³ptico
     ctx.beginPath(); ctx.moveTo(0,ey); ctx.lineTo(W,ey);
     ctx.strokeStyle = 'rgba(74,90,122,0.4)'; ctx.lineWidth = 1;
     ctx.setLineDash([5,3]); ctx.stroke(); ctx.setLineDash([]);
 
-    // Espejo cóncavo
+    // Espejo cÃ³ncavo
     const angle = Math.asin(espH / R);
     ctx.beginPath();
     ctx.arc(ex + Math.sqrt(R*R - espH*espH), ey, R, Math.PI - angle, Math.PI + angle);
@@ -901,7 +935,7 @@ function drawEspejo() {
   })();
 }
 
-// ── Preview: Efecto Doppler ──────────────────────────────────────────────────
+// â”€â”€ Preview: Efecto Doppler â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawDoppler() {
   const c = document.getElementById('prev-doppler');
   if (!c) return;
@@ -969,7 +1003,7 @@ function drawDoppler() {
   })();
 }
 
-// ── Preview: Inducción magnética ──────────────────────────────────────────────────
+// â”€â”€ Preview: InducciÃ³n magnÃ©tica â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawInduccion() {
   const c = document.getElementById('prev-induccion');
   if (!c) return;
@@ -1008,7 +1042,7 @@ function drawInduccion() {
     const cols = 3, rows = 2;
     for (let r = 0; r < rows; r++)
       for (let cc = 0; cc < cols; cc++)
-        ctx.fillText('×', campoX0 + (cc+0.5)*campoW/cols, campoY0 + (r+0.5)*campoH/rows + 4);
+        ctx.fillText('Ã—', campoX0 + (cc+0.5)*campoW/cols, campoY0 + (r+0.5)*campoH/rows + 4);
 
     // Mover espira
     espiraX += 1.2;
@@ -1032,7 +1066,7 @@ function drawInduccion() {
     ctx.strokeRect(espiraX, espiraY, espW, espH);
     ctx.shadowBlur = 0;
 
-    // Mini gráfica
+    // Mini grÃ¡fica
     const gx = 6, gy = H - 28, gw = W * 0.28, gh = 20;
     ctx.strokeStyle = 'rgba(74,90,122,0.4)';
     ctx.lineWidth = 0.5;
@@ -1051,13 +1085,13 @@ function drawInduccion() {
     ctx.font = '8px Space Mono, monospace';
     ctx.fillStyle = 'rgba(74,90,122,0.7)';
     ctx.textAlign = 'left';
-    ctx.fillText('ε(t)', gx, gy - gh * 0.6);
+    ctx.fillText('Îµ(t)', gx, gy - gh * 0.6);
 
     requestAnimationFrame(tick);
   })();
 }
 
-// ── Preview: Palancas ──────────────────────────────────────────────────────────
+// â”€â”€ Preview: Palancas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawPalancas() {
   const c = document.getElementById('prev-palancas');
   if (!c) return;
@@ -1139,7 +1173,7 @@ function drawPalancas() {
   })();
 }
 
-// ── Preview: Poleas ────────────────────────────────────────────────────────────
+// â”€â”€ Preview: Poleas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawPoleas() {
   const c = document.getElementById('prev-poleas');
   if (!c) return;
@@ -1217,7 +1251,7 @@ function drawPoleas() {
   })();
 }
 
-// ── Preview: Engranajes ────────────────────────────────────────────────────────
+// â”€â”€ Preview: Engranajes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawEngranajes() {
   const c = document.getElementById('prev-engranajes');
   if (!c) return;
@@ -1291,9 +1325,9 @@ function drawEngranajes() {
     ctx.font = '700 18px Space Mono, monospace';
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ff9b45';
-    ctx.fillText('↻', cxA, cy - rA - 22);
+    ctx.fillText('â†»', cxA, cy - rA - 22);
     ctx.fillStyle = '#00e5ff';
-    ctx.fillText('↺', cxB, cy - rB - 22);
+    ctx.fillText('â†º', cxB, cy - rB - 22);
 
     ctx.font = '600 10px Space Mono, monospace';
     ctx.fillStyle = '#ff9b45';
@@ -1309,7 +1343,7 @@ function drawEngranajes() {
   })();
 }
 
-// ── Preview: Correas ───────────────────────────────────────────────
+// â”€â”€ Preview: Correas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawCorreas() {
   const c = document.getElementById('prev-correas');
   if (!c) return;
@@ -1380,7 +1414,7 @@ function drawCorreas() {
   })();
 }
 
-// ── Preview: Triangulación ──────────────────────────────────────────
+// â”€â”€ Preview: TriangulaciÃ³n â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function drawTriangulacion() {
   const c = document.getElementById('prev-triangulacion');
   if (!c) return;
@@ -1448,6 +1482,149 @@ function drawTriangulacion() {
   })();
 }
 
+// ── Preview: Flujo electrico ─────────────────────────────────────────────
+function drawFlujoElectrico() {
+  const c = document.getElementById('prev-flujo_electrico');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+  let electrones = [];
+  for (let i = 0; i < 6; i++) {
+    electrones.push({ x: Math.random(), y: 0.2 + Math.random() * 0.6, wobble: Math.random() * Math.PI * 2 });
+  }
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const margin = W * 0.14;
+    const plateTop = H * 0.22, plateBot = H * 0.78;
+    const xNeg = margin, xPos = W - margin;
+
+    // Placas
+    ctx.save();
+    ctx.shadowColor = '#00e5ff'; ctx.shadowBlur = 8;
+    ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(xNeg, plateTop); ctx.lineTo(xNeg, plateBot); ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.shadowColor = '#ff4d6d'; ctx.shadowBlur = 8;
+    ctx.strokeStyle = '#ff4d6d'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(xPos, plateTop); ctx.lineTo(xPos, plateBot); ctx.stroke();
+    ctx.restore();
+
+    ctx.font = '400 11px Space Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#00e5ff';
+    ctx.fillText('-', xNeg, plateTop - 8);
+    ctx.fillStyle = '#ff4d6d';
+    ctx.fillText('+', xPos, plateTop - 8);
+
+    // Electrones moviendose hacia la positiva
+    electrones.forEach(e => {
+      e.x += 0.004;
+      if (e.x > 1) { e.x = 0; e.y = 0.2 + Math.random() * 0.6; }
+      e.wobble += 0.06;
+      const px = xNeg + 12 + e.x * (xPos - xNeg - 24);
+      const py = plateTop + e.y * (plateBot - plateTop) + Math.sin(e.wobble) * 5;
+      ctx.beginPath();
+      ctx.arc(px, py, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#a8ff3e';
+      ctx.shadowColor = '#a8ff3e'; ctx.shadowBlur = 5;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    requestAnimationFrame(tick);
+  })();
+}
+// ── Preview: Conductores y aislantes ─────────────────────────────────────
+function drawConductoresAislantes() {
+  const c = document.getElementById('prev-conductores_aislantes');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+
+  const COLS = 3, ROWS = 2;
+  let free = [];
+  for (let i = 0; i < 3; i++) {
+    free.push({ col: Math.random() * COLS, row: Math.random() * ROWS, vx: (Math.random()-0.5)*0.03, vy: (Math.random()-0.5)*0.03 });
+  }
+  let boundPhase = [];
+  for (let i = 0; i < COLS * ROWS; i++) boundPhase.push(Math.random() * Math.PI * 2);
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const gap = W * 0.04;
+    const panelW = (W - gap) / 2 - 8;
+    const top = H * 0.22, bot = H * 0.78;
+    const condX0 = 6, aislX0 = W / 2 + gap / 2;
+    const cellW = panelW / COLS, cellH = (bot - top) / ROWS;
+
+    // Conductor: nucleos + electrones libres
+    for (let r = 0; r < ROWS; r++) {
+      for (let col = 0; col < COLS; col++) {
+        const cx = condX0 + cellW * (col + 0.5);
+        const cy = top + cellH * (r + 0.5);
+        ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+        ctx.fillStyle = '#00e5ff18'; ctx.fill();
+        ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1; ctx.stroke();
+      }
+    }
+    free.forEach(e => {
+      e.col += e.vx; e.row += e.vy;
+      if (e.col < 0 || e.col > COLS) e.vx *= -1;
+      if (e.row < 0 || e.row > ROWS) e.vy *= -1;
+      e.col = Math.max(0, Math.min(COLS, e.col));
+      e.row = Math.max(0, Math.min(ROWS, e.row));
+      const px = condX0 + e.col * cellW, py = top + e.row * cellH;
+      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = '#a8ff3e'; ctx.shadowColor = '#a8ff3e'; ctx.shadowBlur = 5; ctx.fill(); ctx.shadowBlur = 0;
+    });
+
+    // Aislante: nucleos + electrones ligados (vibran)
+    for (let r = 0; r < ROWS; r++) {
+      for (let col = 0; col < COLS; col++) {
+        const idx = r * COLS + col;
+        const cx = aislX0 + cellW * (col + 0.5);
+        const cy = top + cellH * (r + 0.5);
+        ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI*2);
+        ctx.fillStyle = '#ff4d6d18'; ctx.fill();
+        ctx.strokeStyle = '#ff4d6d'; ctx.lineWidth = 1; ctx.stroke();
+
+        boundPhase[idx] += 0.07;
+        const ex = cx + Math.cos(boundPhase[idx]) * 2.5;
+        const ey = cy + Math.sin(boundPhase[idx]*1.3) * 2.5;
+        ctx.beginPath(); ctx.arc(ex, ey, 2.5, 0, Math.PI*2);
+        ctx.fillStyle = '#ff9b45'; ctx.shadowColor = '#ff9b45'; ctx.shadowBlur = 4; ctx.fill(); ctx.shadowBlur = 0;
+      }
+    }
+
+    ctx.font = '400 9px Space Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#a8ff3e';
+    ctx.fillText('CONDUCTOR', condX0 + panelW/2, top - 8);
+    ctx.fillStyle = '#ff4d6d';
+    ctx.fillText('AISLANTE', aislX0 + panelW/2, top - 8);
+
+    requestAnimationFrame(tick);
+  })();
+}
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
@@ -1461,8 +1638,14 @@ window.addEventListener('load', () => {
   drawEngranajes();
   drawCorreas();
   drawTriangulacion();
+  drawFlujoElectrico();
+  drawConductoresAislantes();
 });
 </script>
 
 </body>
 </html>
+
+
+
+

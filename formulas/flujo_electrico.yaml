@@ -1,0 +1,101 @@
+id: flujo_electrico
+title: Flujo electrico
+renderer: flujo_electrico
+description: >
+  La corriente electrica no se produce porque haya "mas electrones en un
+  lado". Se produce porque las cargas negativas repelen a los electrones
+  y las cargas positivas los atraen. Esa fuerza electrica es la que pone
+  a los electrones en movimiento.
+description_short: >
+  Los electrones se mueven porque son repelidos por las cargas negativas
+  y atraidos por las positivas. No porque "falten" electrones en un lado.
+formula_simbolica: "Fuerza = f(carga_negativa, carga_positiva, distancia)"
+formula_resuelta: "Fuerza = {fuerza}     Campo = {campo}     Velocidad = {velocidad}"
+
+variables:
+  carga_negativa:
+    label: Carga negativa
+    unit: ""
+    min: 1
+    max: 10
+    step: 1
+    default: 5
+  carga_positiva:
+    label: Carga positiva
+    unit: ""
+    min: 1
+    max: 10
+    step: 1
+    default: 5
+  distancia:
+    label: Distancia entre polos
+    unit: ""
+    min: 1
+    max: 10
+    step: 1
+    default: 5
+
+formulas:
+  - id: campo
+    label: Intensidad del campo
+    expression: (carga_negativa + carga_positiva) / distancia
+    unit: ""
+    highlighted: false
+  - id: fuerza
+    label: Fuerza sobre los electrones
+    expression: (carga_negativa * carga_positiva) / (distancia * distancia)
+    unit: ""
+    highlighted: true
+  - id: velocidad
+    label: Velocidad de deriva
+    expression: fuerza * 0.6
+    unit: ""
+    highlighted: true
+
+insights:
+  - when: distancia <= 3
+    text: >
+      Cuando acercas los polos, el campo electrico es mas intenso y los
+      electrones se mueven con mas facilidad.
+  - when: distancia >= 8
+    text: >
+      Cuando alejas los polos, el campo electrico se debilita y los
+      electrones se mueven con mas dificultad.
+  - when: carga_negativa > carga_positiva
+    text: >
+      La carga negativa repele con mas fuerza de la que atrae la positiva.
+      Aun asi, los electrones se mueven hacia el polo positivo: el sentido
+      del movimiento lo determina la atraccion/repulsion, no cual de las
+      dos cargas es mayor.
+  - when: carga_negativa == carga_positiva
+    text: >
+      Ojo: los electrones no se mueven "porque hay menos electrones" en el
+      polo positivo. Se mueven porque son repelidos por la carga negativa
+      y atraidos por la positiva. Esa es la causa real.
+
+connections:
+  - when: fuerza > 5
+    priority: 100
+    text: >-
+      Esto es lo que ocurre dentro de una pila: la diferencia de carga
+      entre sus polos genera la fuerza que pone a los electrones en
+      movimiento por el circuito.
+  - when: distancia <= 3
+    priority: 90
+    text: >-
+      Los rayos se producen cuando la distancia entre una nube cargada y
+      el suelo se reduce lo suficiente para que el campo electrico venza
+      la resistencia del aire.
+  - when: distancia >= 8
+    priority: 80
+    text: >-
+      Las lineas de alta tension mantienen los cables muy separados:
+      cuanto mayor es la distancia, menor es la fuerza electrica entre
+      ellos y el riesgo de descarga.
+
+ax0_facts:
+  - Una pila de petaca de 1.5 V genera el mismo tipo de fuerza electrica que un rayo, solo que millones de veces mas debil.
+  - El pelo se "electriza" porque acumula cargas del mismo signo que se repelen entre si.
+  - Los peces electricos generan diferencias de carga de cientos de voltios entre la cabeza y la cola.
+  - Las cargas electricas estaticas pueden hacer que un globo se quede pegado a la pared.
+  - El relampago tarda menos de un segundo en recorrer kilometros de aire.

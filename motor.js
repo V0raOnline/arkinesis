@@ -1,6 +1,6 @@
-/**
+﻿/**
  * motor.js
- * Arkinesis — fisica y tecnologia interactiva
+ * Arkinesis â€” fisica y tecnologia interactiva
  */
 
 const State = {
@@ -108,7 +108,7 @@ function evaluarFormulas(formula, valores) {
   const resultados = {};
   for (const f of formula.formulas) {
     try {
-      const expr = String(f.expr).replace(/·/g, '*').trim();
+      const expr = String(f.expr).replace(/Â·/g, '*').trim();
       const fn   = new Function(...Object.keys(scope), 'return (' + expr + ');');
       const res  = fn(...Object.values(scope));
       if (isFinite(res)) { resultados[f.id] = res; scope[f.id] = res; }
@@ -326,6 +326,8 @@ const FORMULAS_DISPONIBLES = [
   { id: 'engranajes',         label: 'Tecnolog\u00eda \u2014 Engranajes' },
   { id: 'correas',            label: 'Tecnolog\u00eda \u2014 Correas' },
   { id: 'triangulacion',      label: 'Tecnolog\u00eda \u2014 Triangulaci\u00f3n' },
+  { id: 'flujo_electrico',    label: 'Electromag. \u2014 Flujo el\u00e9ctrico' },
+  { id: 'conductores_aislantes', label: 'Electromag. \u2014 Conductores y aislantes' },
 ];
 
 function poblarSelector(activo) {
@@ -380,3 +382,5 @@ function exportState() {
 }
 
 window.exportState = exportState;
+
+
