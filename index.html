@@ -539,6 +539,24 @@ footer {
       </div>
     </a>
 
+    <!-- Circuito basico -->
+    <a class="card" href="selector.html?formula=circuito_basico">
+      <canvas class="card-preview" id="prev-circuito_basico"></canvas>
+      <div class="card-body">
+        <div class="card-tag">electromagnetismo</div>
+        <div class="card-title">Circuito el&eacute;ctrico b&aacute;sico</div>
+        <div class="card-desc">
+          Para que una bombilla se encienda, el circuito debe estar cerrado
+          Y el cableado debe ser conductor. Si falta una de las dos
+          condiciones, no hay corriente.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">Encendida = cerrado AND conductor</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 
 
@@ -1625,6 +1643,79 @@ function drawConductoresAislantes() {
     requestAnimationFrame(tick);
   })();
 }
+// ----- Preview: Circuito basico -----
+function drawCircuitoBasico() {
+  const c = document.getElementById('prev-circuito_basico');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+  let particulas = [];
+  for (let i = 0; i < 6; i++) particulas.push(i / 6);
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const margin = Math.min(W, H) * 0.16;
+    const left = margin, right = W - margin;
+    const top = H * 0.26, bottom = H * 0.78;
+    const bulbX = (left + right) / 2;
+
+    const color = 'rgba(220,232,255,0.85)';
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    // perimetro
+    ctx.beginPath();
+    ctx.moveTo(left, top); ctx.lineTo(bulbX - 12, top);
+    ctx.moveTo(bulbX + 12, top); ctx.lineTo(right, top);
+    ctx.lineTo(right, bottom); ctx.lineTo(left, bottom); ctx.lineTo(left, top);
+    ctx.stroke();
+
+    // bombilla encendida (glow)
+    ctx.save();
+    ctx.shadowColor = '#fff7d6'; ctx.shadowBlur = 14;
+    ctx.fillStyle = 'rgba(255,247,214,0.3)';
+    ctx.beginPath(); ctx.arc(bulbX, top, 9, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#fff7d6'; ctx.lineWidth = 1.5; ctx.shadowBlur = 8;
+    ctx.beginPath(); ctx.arc(bulbX, top, 9, 0, Math.PI*2); ctx.stroke();
+    ctx.restore();
+
+    // particulas
+    const segs = [
+      { from: [left, top], to: [bulbX-12, top] },
+      { from: [bulbX+12, top], to: [right, top] },
+      { from: [right, top], to: [right, bottom] },
+      { from: [right, bottom], to: [left, bottom] },
+      { from: [left, bottom], to: [left, top] },
+    ];
+    const lens = segs.map(s => Math.hypot(s.to[0]-s.from[0], s.to[1]-s.from[1]));
+    const total = lens.reduce((a,b)=>a+b,0);
+    particulas.forEach(t => {
+      let d = ((t % 1)+1)%1 * total;
+      let px, py;
+      for (let i=0;i<segs.length;i++) {
+        if (d <= lens[i]) {
+          const f = lens[i]>0 ? d/lens[i] : 0;
+          const s = segs[i];
+          px = s.from[0]+(s.to[0]-s.from[0])*f;
+          py = s.from[1]+(s.to[1]-s.from[1])*f;
+          break;
+        }
+        d -= lens[i];
+      }
+      ctx.beginPath(); ctx.arc(px, py, 2.5, 0, Math.PI*2);
+      ctx.fillStyle = '#a8ff3e'; ctx.shadowColor = '#a8ff3e'; ctx.shadowBlur = 5; ctx.fill(); ctx.shadowBlur = 0;
+    });
+    particulas = particulas.map(t => t + 0.004);
+
+    requestAnimationFrame(tick);
+  })();
+}
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
@@ -1640,11 +1731,14 @@ window.addEventListener('load', () => {
   drawTriangulacion();
   drawFlujoElectrico();
   drawConductoresAislantes();
+  drawCircuitoBasico();
 });
 </script>
 
 </body>
 </html>
+
+
 
 
 

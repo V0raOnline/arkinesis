@@ -1,6 +1,6 @@
 ﻿/**
  * motor.js
- * Arkinesis â€” fisica y tecnologia interactiva
+ * Arkinesis Ã¢â‚¬â€ fisica y tecnologia interactiva
  */
 
 const State = {
@@ -108,7 +108,7 @@ function evaluarFormulas(formula, valores) {
   const resultados = {};
   for (const f of formula.formulas) {
     try {
-      const expr = String(f.expr).replace(/Â·/g, '*').trim();
+      const expr = String(f.expr).replace(/Ã‚Â·/g, '*').trim();
       const fn   = new Function(...Object.keys(scope), 'return (' + expr + ');');
       const res  = fn(...Object.values(scope));
       if (isFinite(res)) { resultados[f.id] = res; scope[f.id] = res; }
@@ -279,6 +279,7 @@ function onCambio() {
   }
   updateURL();
 }
+window._onCambio = onCambio;
 
 async function init() {
   const urlParams = getURLParams();
@@ -328,6 +329,7 @@ const FORMULAS_DISPONIBLES = [
   { id: 'triangulacion',      label: 'Tecnolog\u00eda \u2014 Triangulaci\u00f3n' },
   { id: 'flujo_electrico',    label: 'Electromag. \u2014 Flujo el\u00e9ctrico' },
   { id: 'conductores_aislantes', label: 'Electromag. \u2014 Conductores y aislantes' },
+  { id: 'circuito_basico',    label: 'Electromag. \u2014 Circuito basico' },
 ];
 
 function poblarSelector(activo) {
@@ -382,5 +384,6 @@ function exportState() {
 }
 
 window.exportState = exportState;
+
 
 

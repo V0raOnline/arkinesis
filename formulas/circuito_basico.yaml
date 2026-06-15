@@ -1,0 +1,111 @@
+id: circuito_basico
+title: Circuito electrico basico
+renderer: circuito_basico
+description: >
+  Un circuito electrico necesita dos cosas para funcionar: un camino
+  cerrado por el que pueda circular la corriente, y un material conductor
+  en ese camino. Si falta cualquiera de las dos, la bombilla no se
+  enciende, aunque el circuito "parezca" correcto.
+description_short: >
+  Para que la bombilla se encienda, el circuito debe estar cerrado Y el
+  cableado debe ser de un material conductor. Si falta cualquiera de las
+  dos condiciones, no hay corriente.
+formula_simbolica: "Bombilla encendida = circuito_cerrado AND material_conductor"
+formula_resuelta: "Circuito = {estado_circuito}     Material = {estado_material}     Resultado = {bombilla_encendida}"
+
+variables:
+  componente_hueco:
+    label: Elemento central
+    type: select
+    default: vacio
+    options:
+      - id: vacio
+        label: Vacio (circuito abierto)
+      - id: interruptor_abierto
+        label: Interruptor abierto
+      - id: interruptor_cerrado
+        label: Interruptor cerrado
+  material:
+    label: Material del cableado
+    type: select
+    default: cobre
+    options:
+      - id: cobre
+        label: Cobre
+        conductive: true
+      - id: aluminio
+        label: Aluminio
+        conductive: true
+      - id: plastico
+        label: Plastico
+        conductive: false
+      - id: madera
+        label: Madera
+        conductive: false
+
+formulas:
+  - id: circuito_cerrado
+    label: Circuito cerrado
+    expression: "(componente_hueco === 'interruptor_cerrado') ? 1 : 0"
+    unit: ""
+    highlighted: false
+  - id: material_conductor
+    label: Material conductor
+    expression: "(material === 'cobre' || material === 'aluminio') ? 1 : 0"
+    unit: ""
+    highlighted: false
+  - id: bombilla_encendida
+    label: Bombilla encendida
+    expression: "(circuito_cerrado && material_conductor) ? 1 : 0"
+    unit: ""
+    highlighted: true
+
+insights:
+  - when: "componente_hueco === 'vacio'"
+    text: >
+      El circuito esta abierto: falta un elemento que conecte la pila con
+      la bombilla. La corriente no puede completar el recorrido, sin
+      importar de que material sea el resto del cableado.
+  - when: "componente_hueco === 'interruptor_abierto'"
+    text: >
+      Un interruptor abierto interrumpe el circuito en ese punto, igual
+      que si faltara un cable. Cierra el interruptor para completar el
+      camino.
+  - when: circuito_cerrado == 1 && material_conductor == 0
+    text: >
+      El circuito esta cerrado, pero el cableado es de un material
+      aislante. Aunque la conexion "parezca" correcta, los electrones no
+      pueden desplazarse por este material y la corriente no circula.
+  - when: circuito_cerrado == 1 && material_conductor == 1
+    text: >
+      Circuito cerrado y material conductor: las dos condiciones
+      necesarias se cumplen. La corriente circula y la bombilla se
+      enciende.
+
+connections:
+  - when: circuito_cerrado == 1 && material_conductor == 1
+    priority: 100
+    text: >-
+      Recuerda el modulo de Flujo electrico: la pila genera una diferencia
+      de carga entre sus polos. Esa fuerza es la que empuja a los
+      electrones por todo el circuito cuando el camino esta cerrado.
+  - when: material_conductor == 0
+    priority: 100
+    text: >-
+      Recuerda el modulo de Conductores y aislantes: en el cobre, los
+      electrones externos pueden saltar libremente entre atomos. En el
+      plastico o la madera permanecen ligados a su atomo, por eso la
+      corriente no puede circular aunque el circuito este cerrado.
+  - when: "componente_hueco === 'interruptor_abierto'"
+    priority: 80
+    text: >-
+      Todos los interruptores de tu casa funcionan exactamente asi: al
+      abrirlos, interrumpen el camino del circuito en ese punto, sin
+      necesidad de desconectar nada mas.
+
+ax0_facts:
+  - El primer interruptor electrico practico se patento en 1884 y usaba un mecanismo de palanca similar a los actuales.
+  - Los fusibles funcionan al reves que un interruptor: se "abren" solos cuando detectan demasiada corriente, protegiendo el circuito.
+  - Las pilas alcalinas comunes proporcionan 1.5 voltios, pero conectadas en serie pueden sumar su tension.
+  - El cobre se usa en el cableado domestico porque combina buena conductividad con un coste razonable, a diferencia de la plata, que conduce mejor pero es mucho mas cara.
+  - Un circuito abierto no es peligroso por si mismo, pero un circuito cerrado por accidente (cortocircuito) puede generar calor suficiente para iniciar un incendio.
