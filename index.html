@@ -557,6 +557,23 @@ footer {
       </div>
     </a>
 
+    <!-- Ley de Ohm -->
+    <a class="card" href="selector.html?formula=ley_ohm">
+      <canvas class="card-preview" id="prev-ley_ohm"></canvas>
+      <div class="card-body">
+        <div class="card-tag">electromagnetismo</div>
+        <div class="card-title">Ley de Ohm</div>
+        <div class="card-desc">
+          V = I &middot; R. Elige qu&eacute; variable calcular y ajusta las otras
+          dos. El glow de la bombilla refleja la intensidad de corriente.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">V = I &middot; R &nbsp;&middot;&nbsp; I = V/R &nbsp;&middot;&nbsp; R = V/I</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 
 
@@ -1716,6 +1733,76 @@ function drawCircuitoBasico() {
     requestAnimationFrame(tick);
   })();
 }
+// ----- Preview: Ley de Ohm -----
+function drawLeyOhm() {
+  const c = document.getElementById('prev-ley_ohm');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+  let particulas = [];
+  for (let i = 0; i < 7; i++) particulas.push(i / 7);
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)'; ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += 36) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (let y = 0; y < H; y += 36) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    const margin = Math.min(W,H)*0.14;
+    const left=margin, right=W-margin, top=H*0.24, bottom=H*0.8;
+    const bulbX=(left+right)/2, pilaX=left+(right-left)*0.22;
+    const iNorm = 0.55 + Math.sin(frame*0.03)*0.35;
+
+    // Cables
+    ctx.save();
+    ctx.shadowColor='#a8ff3e'; ctx.shadowBlur=4+iNorm*10;
+    ctx.strokeStyle=`rgba(168,255,62,${0.3+iNorm*0.6})`; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(left,top); ctx.lineTo(bulbX-10,top); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bulbX+10,top); ctx.lineTo(right,top); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(right,top); ctx.lineTo(right,bottom); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(right,bottom); ctx.lineTo(left,bottom); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(left,bottom); ctx.lineTo(left,top); ctx.stroke();
+    ctx.restore();
+
+    // Bombilla
+    const r=10;
+    const gR=200+Math.round(iNorm*55), gG=180+Math.round(iNorm*67), gB=Math.round(iNorm*20);
+    ctx.save();
+    ctx.shadowColor=`rgb(${gR},${gG},${gB})`; ctx.shadowBlur=6+iNorm*20;
+    ctx.fillStyle=`rgba(${gR},${gG},${gB},${0.1+iNorm*0.3})`;
+    ctx.beginPath(); ctx.arc(bulbX,top,r,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=`rgb(${gR},${gG},${gB})`; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(bulbX,top,r,0,Math.PI*2); ctx.stroke();
+    const k=r*0.6;
+    ctx.beginPath(); ctx.moveTo(bulbX-k,top-k); ctx.lineTo(bulbX+k,top+k);
+    ctx.moveTo(bulbX+k,top-k); ctx.lineTo(bulbX-k,top+k); ctx.stroke();
+    ctx.restore();
+
+    // Particulas
+    const segs = [
+      {from:[left,top],to:[bulbX-10,top]},{from:[bulbX+10,top],to:[right,top]},
+      {from:[right,top],to:[right,bottom]},{from:[right,bottom],to:[left,bottom]},
+      {from:[left,bottom],to:[left,top]}
+    ];
+    const lens=segs.map(s=>Math.hypot(s.to[0]-s.from[0],s.to[1]-s.from[1]));
+    const total=lens.reduce((a,b)=>a+b,0);
+    particulas = particulas.map(t => t - (0.002 + iNorm*0.005));
+    particulas.forEach(t => {
+      let d=((t%1)+1)%1*total, px, py;
+      for(let i=0;i<segs.length;i++){
+        if(d<=lens[i]){const f=lens[i]>0?d/lens[i]:0;const s=segs[i];px=s.from[0]+(s.to[0]-s.from[0])*f;py=s.from[1]+(s.to[1]-s.from[1])*f;break;}
+        d-=lens[i];
+      }
+      ctx.beginPath(); ctx.arc(px,py,2,0,Math.PI*2);
+      ctx.fillStyle='#a8ff3e'; ctx.shadowColor='#a8ff3e'; ctx.shadowBlur=4+iNorm*6; ctx.fill(); ctx.shadowBlur=0;
+    });
+
+    requestAnimationFrame(tick);
+  })();
+}
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
@@ -1732,11 +1819,14 @@ window.addEventListener('load', () => {
   drawFlujoElectrico();
   drawConductoresAislantes();
   drawCircuitoBasico();
+  drawLeyOhm();
 });
 </script>
 
 </body>
 </html>
+
+
 
 
 

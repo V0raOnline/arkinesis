@@ -1,4 +1,4 @@
-window.Renderers = window.Renderers || {};
+﻿window.Renderers = window.Renderers || {};
 
 window.Renderers.circuito_basico = (() => {
   let c1, c2, ctx1, ctx2, frame = 0;
@@ -252,8 +252,8 @@ window.Renderers.circuito_basico = (() => {
     // â”€â”€ Label material â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     ctx1.font = `400 ${11 + _F}px Space Mono, monospace`;
     ctx1.fillStyle = materialConductor ? '#a8ff3e' : '#ff9b45';
-    ctx1.textAlign = 'center';
-    ctx1.fillText('cableado: ' + materialLabel(valores.material), (left + right) / 2, bottom + 26);
+    ctx1.textAlign = 'left';
+    ctx1.fillText('cableado: ' + materialLabel(valores.material), left, top - 14);
 
     // â”€â”€ Titulo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     ctx1.font = `400 ${12 + _F}px Space Mono, monospace`;

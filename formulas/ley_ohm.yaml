@@ -1,0 +1,119 @@
+id: ley_ohm
+title: Ley de Ohm
+renderer: ley_ohm
+description: >
+  La Ley de Ohm describe la relacion entre tres magnitudes electricas:
+  tension (V), intensidad (I) y resistencia (R). Si conoces dos de ellas,
+  puedes calcular la tercera. V = I x R.
+description_short: >
+  V = I x R. Mas tension con la misma resistencia produce mas corriente.
+  Mas resistencia con la misma tension produce menos corriente.
+formula_simbolica: "V = I &middot; R"
+formula_resuelta: "V = {V} V &nbsp;&nbsp; I = {I} A &nbsp;&nbsp; R = {R} &Omega;"
+
+nota: >
+  Advertencia: los valores de esta simulacion son didacticos. En la
+  realidad, la relacion V=IxR es exacta para resistencias ohmicas
+  (materiales que cumplen la ley de Ohm). Algunos componentes como
+  diodos o bombillas reales no son estrictamente ohmicos.
+
+variables:
+  calcular:
+    label: Calcular
+    type: select
+    default: I
+    options:
+      - id: I
+        label: "Intensidad (I)"
+      - id: V
+        label: "Tension (V)"
+      - id: R
+        label: "Resistencia (R)"
+  tension:
+    label: "Tension (V)"
+    unit: V
+    min: 1
+    max: 24
+    step: 1
+    default: 12
+  intensidad:
+    label: "Intensidad (I)"
+    unit: A
+    min: 0.1
+    max: 10
+    step: 0.1
+    default: 2
+  resistencia:
+    label: "Resistencia (R)"
+    unit: "Ohm"
+    min: 1
+    max: 100
+    step: 1
+    default: 6
+
+formulas:
+  - id: V
+    label: "Tension"
+    expression: "(calcular === 'V') ? intensidad * resistencia : tension"
+    unit: V
+    highlighted: false
+  - id: I
+    label: "Intensidad"
+    expression: "(calcular === 'I') ? tension / resistencia : intensidad"
+    unit: A
+    highlighted: true
+  - id: R
+    label: "Resistencia"
+    expression: "(calcular === 'R') ? tension / intensidad : resistencia"
+    unit: "Ohm"
+    highlighted: false
+  - id: potencia
+    label: "Potencia"
+    expression: "(calcular === 'V') ? (intensidad * resistencia) * intensidad : (calcular === 'R') ? tension * (tension / intensidad) : tension * (tension / resistencia)"
+    unit: W
+    highlighted: false
+
+insights:
+  - when: "calcular === 'I' && resistencia >= 50"
+    text: >
+      Con una resistencia tan alta, la corriente es muy pequena aunque la
+      tension sea elevada. Asi funcionan los fusibles: una resistencia que
+      se funde cuando la corriente supera un limite.
+  - when: "calcular === 'I' && tension >= 20 && resistencia <= 5"
+    text: >
+      Tension alta y resistencia baja producen una corriente muy elevada.
+      En la practica, esto generaria mucho calor en el componente.
+  - when: "calcular === 'V'"
+    text: >
+      Estas calculando la tension necesaria para que circule una
+      intensidad concreta por una resistencia dada. Asi se disenan
+      fuentes de alimentacion.
+  - when: "calcular === 'R'"
+    text: >
+      Estas calculando la resistencia necesaria para limitar la corriente
+      a un valor deseado con una tension fija. Asi se calculan las
+      resistencias de proteccion de LEDs y otros componentes.
+
+connections:
+  - when: "calcular === 'I' && I < 0.5"
+    priority: 100
+    text: >-
+      Con corrientes tan bajas trabajamos en electronica de baja potencia:
+      circuitos de sensores, microcontroladores y LEDs de indicacion.
+  - when: "calcular === 'I' && I > 5"
+    priority: 100
+    text: >-
+      Corrientes superiores a 5 A se encuentran en motores electricos,
+      cargadores rapidos y sistemas de audio de alta potencia.
+  - when: "calcular === 'R' && R < 10"
+    priority: 90
+    text: >-
+      Las resistencias de pocos ohmios se usan para medir corriente
+      (shunt) o proteger componentes delicados como LEDs.
+
+ax0_facts:
+  - Georg Simon Ohm publico su ley en 1827, pero tardo anos en ser aceptada por la comunidad cientifica.
+  - Un cable de cobre de 1 mm de diametro tiene una resistencia de unos 0.02 ohmios por metro.
+  - El cuerpo humano tiene una resistencia de entre 1.000 y 100.000 ohmios segun la humedad de la piel.
+  - Los superconductores tienen resistencia exactamente cero a temperaturas muy bajas.
+  - Una bombilla incandescente de 60 W conectada a 220 V tiene una resistencia de unos 807 ohmios cuando esta caliente.
