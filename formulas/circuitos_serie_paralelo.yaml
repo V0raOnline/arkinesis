@@ -1,0 +1,123 @@
+id: circuitos_serie_paralelo
+title: Serie vs Paralelo
+renderer: circuitos_serie_paralelo
+description: >
+  En un circuito en serie, las bombillas dependen unas de otras: la
+  tension se reparte y si una falla, todas se apagan. En paralelo, cada
+  bombilla recibe la tension completa de la pila y funciona de forma
+  independiente.
+description_short: >
+  Serie: las bombillas dependen entre si. Paralelo: cada una es
+  independiente. La misma pila, las mismas bombillas, resultados muy
+  distintos.
+formula_simbolica: "Serie: V&#8321; = V&#8322; = V/2 &nbsp;&nbsp; Paralelo: V&#8321; = V&#8322; = V"
+formula_resuelta: "V por bombilla = {v_bombilla} V &nbsp;&nbsp; I por bombilla = {i_bombilla} A"
+
+nota: >
+  Simplificacion didactica: se asume que ambas bombillas tienen la misma
+  resistencia (R = 6 ohmios) y que la resistencia interna de la pila es
+  despreciable. Los valores de intensidad se calculan aplicando la Ley
+  de Ohm a cada configuracion.
+
+variables:
+  tipo:
+    label: Tipo de circuito
+    type: select
+    default: serie
+    options:
+      - id: serie
+        label: Serie
+      - id: paralelo
+        label: Paralelo
+  tension:
+    label: Tension de la pila
+    unit: V
+    min: 1
+    max: 24
+    step: 1
+    default: 12
+  averia:
+    label: Estado
+    type: select
+    default: ok
+    options:
+      - id: ok
+        label: Sin averia
+      - id: fundida_1
+        label: Bombilla 1 fundida
+      - id: fundida_2
+        label: Bombilla 2 fundida
+
+formulas:
+  - id: r_bombilla
+    label: Resistencia por bombilla
+    expression: "6"
+    unit: "Ohm"
+    highlighted: false
+  - id: v_bombilla
+    label: Tension por bombilla
+    expression: "(tipo === 'serie') ? tension / 2 : tension"
+    unit: V
+    highlighted: true
+  - id: i_bombilla
+    label: Intensidad por bombilla
+    expression: "(tipo === 'serie') ? tension / (2 * r_bombilla) : tension / r_bombilla"
+    unit: A
+    highlighted: true
+  - id: i_total
+    label: Intensidad total
+    expression: "(tipo === 'serie') ? tension / (2 * r_bombilla) : 2 * tension / r_bombilla"
+    unit: A
+    highlighted: false
+  - id: potencia_bombilla
+    label: Potencia por bombilla
+    expression: "v_bombilla * i_bombilla"
+    unit: W
+    highlighted: false
+
+insights:
+  - when: "tipo === 'serie' && averia === 'ok'"
+    text: >
+      En serie, la tension de la pila se reparte entre las dos bombillas.
+      Cada una recibe la mitad: brillan menos que si estuvieran solas.
+  - when: "tipo === 'paralelo' && averia === 'ok'"
+    text: >
+      En paralelo, cada bombilla esta conectada directamente a los dos
+      polos de la pila. Ambas reciben la tension completa: brillan igual
+      que si estuvieran solas.
+  - when: "tipo === 'serie' && averia !== 'ok'"
+    text: >
+      Una bombilla fundida abre el circuito en ese punto. Como estan en
+      serie, la corriente no puede seguir ningun camino alternativo y
+      ambas se apagan.
+  - when: "tipo === 'paralelo' && averia !== 'ok'"
+    text: >
+      La bombilla fundida abre su propia rama, pero la otra rama sigue
+      intacta. La corriente circula por el camino alternativo y la segunda
+      bombilla sigue encendida con la misma intensidad.
+
+connections:
+  - when: "tipo === 'serie'"
+    priority: 90
+    text: >-
+      Las luces de navidad antiguas usaban circuito en serie. Por eso
+      cuando una se fundia, todas se apagaban y habia que buscar la
+      culpable una por una.
+  - when: "tipo === 'paralelo'"
+    priority: 90
+    text: >-
+      Las instalaciones electricas de las casas usan circuito en paralelo.
+      Cada enchufe y cada lampara recibe los 220 V de la red y funciona
+      de forma independiente.
+  - when: "tipo === 'paralelo' && averia !== 'ok'"
+    priority: 100
+    text: >-
+      Asi funciona la proteccion por fusibles: si un circuito falla, solo
+      salta el diferencial de esa rama. El resto de la casa sigue con luz.
+
+ax0_facts:
+  - Las primeras instalaciones electricas del siglo XIX usaban circuito serie: si una bombilla fallaba, toda la calle se quedaba a oscuras.
+  - Los coches modernos usan circuito paralelo para todas sus luces: una bombilla fundida no apaga las demas.
+  - En un circuito en paralelo, anadir mas bombillas aumenta la corriente total que debe suministrar la pila.
+  - Los pilotos de los aviones tienen sistemas de iluminacion redundantes en paralelo: si falla uno, otro toma el relevo.
+  - La resistencia equivalente de dos resistencias iguales en paralelo es exactamente la mitad que una sola.

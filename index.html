@@ -574,6 +574,23 @@ footer {
       </div>
     </a>
 
+    <!-- Serie vs Paralelo -->
+    <a class="card" href="selector.html?formula=circuitos_serie_paralelo">
+      <canvas class="card-preview" id="prev-circuitos_serie_paralelo"></canvas>
+      <div class="card-body">
+        <div class="card-tag">electromagnetismo</div>
+        <div class="card-title">Serie vs Paralelo</div>
+        <div class="card-desc">
+          Dos bombillas, una pila. En serie dependen entre s&iacute;: si una
+          falla, las dos se apagan. En paralelo cada una es independiente.
+        </div>
+        <div class="card-footer">
+          <span class="card-formulas">Serie: V/2 por bombilla &nbsp;&middot;&nbsp; Paralelo: V completa</span>
+          <span class="card-arrow">&rarr;</span>
+        </div>
+      </div>
+    </a>
+
   </div>
 
 
@@ -1803,6 +1820,66 @@ function drawLeyOhm() {
     requestAnimationFrame(tick);
   })();
 }
+// ----- Preview: Serie vs Paralelo -----
+function drawSerieParalelo() {
+  const c = document.getElementById('prev-circuitos_serie_paralelo');
+  if (!c) return;
+  resizeCanvas(c);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  let frame = 0;
+  let p1 = Array.from({length:5},(_,i)=>i/5);
+  let p2 = Array.from({length:5},(_,i)=>i/5+0.5);
+
+  (function tick() {
+    frame++;
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(26,37,64,0.45)'; ctx.lineWidth = 0.5;
+    for (let x=0;x<W;x+=36){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for (let y=0;y<H;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    const m=W*0.1, left=m, right=W-m, top=H*0.2, bot=H*0.8;
+    const b1X=left+(right-left)*0.32, b2X=left+(right-left)*0.68;
+    const iNorm=0.7;
+
+    // Cables
+    ctx.save();
+    ctx.strokeStyle=`rgba(168,255,62,0.7)`; ctx.lineWidth=2;
+    ctx.shadowColor='#a8ff3e'; ctx.shadowBlur=6;
+    [[[left,top],[b1X-10,top]],[[b1X+10,top],[b2X-10,top]],[[b2X+10,top],[right,top]],
+     [[right,top],[right,bot]],[[right,bot],[left,bot]],[[left,bot],[left,top]]].forEach(([a,b])=>{
+      ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();
+    });
+    ctx.restore();
+
+    // Bombillas
+    [b1X, b2X].forEach(bx => {
+      const gR=220,gG=200,gB=10;
+      ctx.save();
+      ctx.shadowColor=`rgb(${gR},${gG},${gB})`; ctx.shadowBlur=12;
+      ctx.fillStyle=`rgba(${gR},${gG},${gB},0.2)`;
+      ctx.beginPath();ctx.arc(bx,top,9,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=`rgb(${gR},${gG},${gB})`; ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.arc(bx,top,9,0,Math.PI*2);ctx.stroke();
+      const k=5;
+      ctx.beginPath();ctx.moveTo(bx-k,top-k);ctx.lineTo(bx+k,top+k);
+      ctx.moveTo(bx+k,top-k);ctx.lineTo(bx-k,top+k);ctx.stroke();
+      ctx.restore();
+    });
+
+    // Particulas
+    const segs=[{from:[left,top],to:[b1X-10,top]},{from:[b1X+10,top],to:[b2X-10,top]},
+      {from:[b2X+10,top],to:[right,top]},{from:[right,top],to:[right,bot]},
+      {from:[right,bot],to:[left,bot]},{from:[left,bot],to:[left,top]}];
+    const lens=segs.map(s=>Math.hypot(s.to[0]-s.from[0],s.to[1]-s.from[1]));
+    const total=lens.reduce((a,b)=>a+b,0);
+    function pt(t){let d=((t%1)+1)%1*total;for(let i=0;i<segs.length;i++){if(d<=lens[i]){const f=lens[i]>0?d/lens[i]:0;const s=segs[i];return[s.from[0]+(s.to[0]-s.from[0])*f,s.from[1]+(s.to[1]-s.from[1])*f];}d-=lens[i];}return segs[0].from;}
+    p1=p1.map(t=>t-0.003);
+    p1.forEach(t=>{const[px,py]=pt(t);ctx.beginPath();ctx.arc(px,py,2,0,Math.PI*2);ctx.fillStyle='#a8ff3e';ctx.shadowColor='#a8ff3e';ctx.shadowBlur=4;ctx.fill();ctx.shadowBlur=0;});
+
+    requestAnimationFrame(tick);
+  })();
+}
 window.addEventListener('load', () => {
   drawCampo();
   drawGravedad();
@@ -1820,11 +1897,14 @@ window.addEventListener('load', () => {
   drawConductoresAislantes();
   drawCircuitoBasico();
   drawLeyOhm();
+  drawSerieParalelo();
 });
 </script>
 
 </body>
 </html>
+
+
 
 
 

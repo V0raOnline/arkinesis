@@ -331,6 +331,7 @@ const FORMULAS_DISPONIBLES = [
   { id: 'conductores_aislantes', label: 'Electromag. \u2014 Conductores y aislantes' },
   { id: 'circuito_basico',    label: 'Electromag. \u2014 Circuito basico' },
   { id: 'ley_ohm',           label: 'Electromag. \u2014 Ley de Ohm' },
+  { id: 'circuitos_serie_paralelo', label: 'Electromag. \u2014 Serie vs Paralelo' },
 ];
 
 function poblarSelector(activo) {
@@ -385,6 +386,7 @@ function exportState() {
 }
 
 window.exportState = exportState;
+
 
 
 
