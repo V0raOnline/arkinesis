@@ -1,6 +1,6 @@
 ![ARKINESIS Logo](logo.png)
 
-#ARKINESIS
+# ARKINESIS
 
 **Motor de exploración educativa interactiva.**
 
