@@ -1,4 +1,4 @@
-![logo.png](https://github.com/V0raOnline/arkinesis\logo.png)
+![logo.png](https://github.com/V0raOnline/arkinesis/logo.png)
 
 #ARKINESIS
 
