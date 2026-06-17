@@ -1,4 +1,4 @@
-![logo.png](G:\GHU%20Codexsphere\01%20GitHub%20repos\arkinesis%20core\logo.png)
+![logo.png](.\logo.png)
 
 #ARKINESIS
 
