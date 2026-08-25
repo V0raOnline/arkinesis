@@ -329,12 +329,20 @@ git tag BACH.1.26
 3. Listo. La URL será `https://[usuario].github.io/[repo]/`
 
 No necesita build, no necesita servidor, funciona con ficheros estáticos.
-## License philosophy
+## Licencia
 
-This simulator is released under GPL-3.0 to guarantee that it remains free and accessible.
+Publicado bajo **CC BY-NC-SA 4.0** — la misma que ya indican las páginas del
+simulador.
 
-You may use, modify and redistribute it, including commercially, 
-but any distributed version must also provide the complete source code 
-under the same license.
+Puedes usarlo, modificarlo y redistribuirlo con tres condiciones:
 
-If you build upon this work, please contribute improvements back to the project.
+- **Reconocimiento** — cita la fuente y enlaza al original.
+- **NoComercial** — no puedes venderlo ni usarlo con fines comerciales.
+- **CompartirIgual** — si lo adaptas, lo compartes con esta misma licencia.
+
+Cubre el código, los textos, las ilustraciones y a AX0.
+
+Si construyes algo sobre esto, se agradece que devuelvas las mejoras al
+proyecto.
+
+[Texto completo](LICENSE) · [Resumen legible](LICENCIA.md)
