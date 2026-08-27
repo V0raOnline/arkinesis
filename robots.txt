@@ -1,0 +1,6 @@
+# ARKINESIS — https://v0raonline.github.io/arkinesis/
+# Todo el simulador es publico y esta para que se use. Adelante.
+User-agent: *
+Allow: /
+
+Sitemap: https://v0raonline.github.io/arkinesis/sitemap.xml

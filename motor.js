@@ -244,6 +244,10 @@ function actualizarResultados(formula, resultados) {
 
 function actualizarHeader(formula) {
   document.getElementById('formula-titulo').textContent = formula.titulo;
+  // El titulo de la pestaña tambien. Un enlace compartido con los valores
+  // puestos acaba en el historial y en los marcadores de alguien: alli
+  // "ARKINESIS" a secas no dice cual de las diecisiete era.
+  document.title = `${formula.titulo} — ARKINESIS`;
   const descEl = document.getElementById('formula-desc');
   if (descEl) descEl.textContent = formula.descripcion || '';
 }

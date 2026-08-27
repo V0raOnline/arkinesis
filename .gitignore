@@ -1,0 +1,18 @@
+# ── Materiales internos / fuentes de trabajo ──
+_Misc/
+
+# ── Sistema operativo ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editores ──
+.vscode/
+*.code-workspace
+
+# ── Node (por si acaso) ──
+node_modules/
+
+# ── Archivos temporales ──
+*.tmp
+*.bak

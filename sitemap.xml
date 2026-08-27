@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Solo van las tres paginas reales. Las diecisiete simulaciones viven en
+  selector.html?formula=<id>, que devuelve siempre el mismo HTML y se rellena
+  desde JavaScript: listarlas seria mandar diecisiete duplicados, y ademas
+  selector.html ya declara su canonical. Lo que se rastrea de cada simulacion
+  -titulo, descripcion y formula- esta en index.html, en texto.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://v0raonline.github.io/arkinesis/</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://v0raonline.github.io/arkinesis/selector.html</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://v0raonline.github.io/arkinesis/about.html</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

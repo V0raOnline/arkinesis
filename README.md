@@ -6,6 +6,8 @@
 
 ARKINESIS es una plataforma basada en simulaciones que permite aprender observando fenómenos, modificando variables y construyendo comprensión a partir de la experimentación.
 
+**▶ [Abrir el simulador](https://v0raonline.github.io/arkinesis/)** — diecisiete simulaciones de física y tecnología, en el navegador, sin instalar nada y sin crear ninguna cuenta.
+
 No es un curso.
 
 No es un sistema de evaluación.
@@ -245,7 +247,7 @@ La URL generada carga la herramienta con esos valores precargados.
 Ejemplo:
 
 ```
-https://[usuario].github.io/fisica-interactiva/?formula=campo_magnetico&B=0.5&v=2&theta=60
+https://v0raonline.github.io/arkinesis/selector.html?formula=campo_magnetico&B=0.5&v=2&theta=60
 ```
 
 ## Añadir una nueva fórmula
@@ -329,6 +331,15 @@ git tag BACH.1.26
 3. Listo. La URL será `https://[usuario].github.io/[repo]/`
 
 No necesita build, no necesita servidor, funciona con ficheros estáticos.
+## ⭐ Si te sirve, deja una estrella
+
+No cuesta nada, no me da tu correo y no te suscribe a nada. Es la única señal
+que me llega de que al otro lado hay alguien: una manera muy estúpida de decir
+"te he visto, y me gusta lo que estás haciendo".
+
+Si te has llevado algo de aquí — una simulación para una clase, un enlace para
+un examen, el motor entero para montar otra cosa — déjala. Se tarda un segundo.
+
 ## Licencia
 
 Publicado bajo **CC BY-NC-SA 4.0** — la misma que ya indican las páginas del
