@@ -340,6 +340,20 @@ que me llega de que al otro lado hay alguien: una manera muy estúpida de decir
 Si te has llevado algo de aquí — una simulación para una clase, un enlace para
 un examen, el motor entero para montar otra cosa — déjala. Se tarda un segundo.
 
+## ☕ Invitar a un café
+
+Todo esto es gratis y va a seguir siéndolo. Detrás no hay una startup: hay una
+madre robando horas de sueño y pagando suscripciones.
+
+Si algo de aquí te ha servido, te ha ahorrado tiempo o te ha salvado un examen,
+puedes invitarme a un café.
+
+**[ko-fi.com/v0raonline](https://ko-fi.com/v0raonline)**
+
+Una cosa importante: las propinas no te suscriben a nada. No uso, exporto ni
+almaceno los emails de quien apoya el proyecto. Solo quiero café, no que seamos
+amigos para siempre.
+
 ## Licencia
 
 Publicado bajo **CC BY-NC-SA 4.0** — la misma que ya indican las páginas del

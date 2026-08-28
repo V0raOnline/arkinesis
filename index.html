@@ -291,6 +291,54 @@ main {
   color: var(--muted);
 }
 
+/* ── Cafe ─────────────────────────────────────────────────────────────────────
+   Traido de happypuking-lab. Alli la caja es redondeada y la llamada va en
+   magenta; aqui no hay un solo border-radius en la pagina, asi que va cuadrada
+   como todo lo demas, y el color es --accent2, el unico de la paleta que no
+   estaba usandose en esta pagina. En cian se confundiria con los controles. */
+.cafe {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+  padding: 1.3rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid rgba(255,77,109,0.22);
+  background-image: linear-gradient(135deg,
+    rgba(255,77,109,0.06) 0%, rgba(255,77,109,0.02) 55%, transparent 100%);
+}
+/* Los parrafos van juntos en su propia caja: colgando directos del flex, el
+   gap del contenedor se suma a su separacion y quedan despegados. */
+.cafe-parrafos { flex: 1; min-width: 240px; }
+.cafe-texto {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.cafe-texto + .cafe-texto { margin-top: 0.4rem; }
+.cafe-boton {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;              /* es un control, no un adorno */
+  padding: 0 1.3rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--accent2);
+  background: rgba(255,77,109,0.10);
+  border: 1px solid rgba(255,77,109,0.45);
+  transition: background 0.2s, border-color 0.2s;
+}
+.cafe-boton:hover {
+  background: rgba(255,77,109,0.20);
+  border-color: var(--accent2);
+}
+
 .card-arrow {
   font-family: 'Space Mono', monospace;
   font-size: 0.65rem;
@@ -640,6 +688,20 @@ footer {
 
   </div>
 
+  <!-- Ko-fi y nada mas. Sin pasarela propia, sin formulario y sin recoger un
+       solo dato: este sitio no tiene backend ni base de datos y eso tiene que
+       seguir siendo verdad. Texto de V0ra. -->
+  <section class="cafe">
+    <div class="cafe-parrafos">
+      <p class="cafe-texto">Todo esto es gratis y va a seguir si&eacute;ndolo. Detr&aacute;s no hay
+        una startup: hay una madre robando horas de sue&ntilde;o y pagando suscripciones.</p>
+      <p class="cafe-texto">Si algo de aqu&iacute; te ha servido, te ha ahorrado tiempo o te ha
+        salvado un examen, puedes invitarme a un caf&eacute;.</p>
+    </div>
+    <a class="cafe-boton" href="https://ko-fi.com/v0raonline" target="_blank" rel="noopener">
+      <span aria-hidden="true">&#9749;</span> Necesito caf&eacute;
+    </a>
+  </section>
 
 </main>
 
