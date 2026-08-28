@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  ARKINESIS  ·  https://v0raonline.github.io/arkinesis/
+  Copyright (c) 2024-2026 V0ra (v0raonline)
+  Licencia CC BY-NC-SA 4.0 — sin fines comerciales.
+-->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -42,6 +47,21 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Foco visible ─────────────────────────────────────────────────────────────
+   Ver donde esta el teclado es parte de poder usarlo: sin esto se tabula a
+   ciegas. `:focus-visible` y no `:focus` a proposito: el navegador solo lo
+   pinta cuando la navegacion es por teclado, asi que quien usa raton no ve
+   recuadros al hacer clic. */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 
 body {
   background: var(--bg);
@@ -247,6 +267,16 @@ select#formula-selector:hover { border-color: var(--accent); }
   cursor: pointer;
   user-select: none;
   padding: 0.9rem 1.1rem;
+  /* Son <button> de verdad, no <div>, para que se abran con teclado. Un boton
+     no hereda la tipografia ni se estira al ancho del panel, asi que hay que
+     devolverle lo que el navegador le quita por defecto.
+     V0-ark ef23a8f9-0b0a-4ddd-a1ef-7c01efe44b23 */
+  width: 100%;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
 }
 .panel-collapsible-header:hover { background: rgba(0,229,255,0.03); }
 .panel-collapsible-title {
@@ -279,9 +309,16 @@ input[type=range] {
   -webkit-appearance: none;
   width: 100%; height: 2px;
   background: var(--border);
-  outline: none;
   cursor: pointer;
 }
+input[type=range]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 8px;
+}
+input[type=range]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgba(0,229,255,0.30), 0 0 8px var(--accent);
+}
+
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 11px; height: 11px;
@@ -304,6 +341,18 @@ input[type=range]::-webkit-slider-thumb {
 }
 .select-control:hover { border-color: var(--accent); }
 .select-control:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+
+/* Los dos <select> se quedaban sin anillo: los dos traen `outline: none`,
+   y el del cabecero encima lo pone con un id, que gana a cualquier regla
+   por elemento. Hay que igualar la fuerza para poder ganarle.
+   Aqui el anillo importa mas que en ningun otro control: con el foco en
+   un select cerrado, las flechas cambian el valor directamente. Si no se
+   ve que has llegado, la simulacion cambia sola sin previo aviso. */
+select#formula-selector:focus-visible,
+.select-control:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* ── Resultados ── */
 #resultados-container { display: grid; gap: 0.5rem; }
@@ -393,9 +442,28 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
   user-select: none;
   padding: 0.9rem 1.1rem;
+  /* Mismo caso que .panel-collapsible-header. Ojo al orden: el `border: 0`
+     tiene que ir ANTES del border-bottom o se lo lleva por delante. */
+  width: 100%;
+  background: none;
+  border: 0;
   border-bottom: 1px solid var(--border);
+  color: inherit;
+  font: inherit;
+  text-align: left;
 }
 .koru-header:hover { background: rgba(0,229,255,0.03); }
+
+/* Sin esto se puede tabular pero no se ve donde estas, que es tan inservible
+   como no poder tabular. `focus-visible` solo lo pinta para el teclado: quien
+   usa raton no ve el recuadro al hacer clic. El offset negativo lo mete hacia
+   dentro para que no lo recorte el borde del panel.
+   V0-ark ef23a8f9-0b0a-4ddd-a1ef-7c01efe44b23 */
+.panel-collapsible-header:focus-visible,
+.koru-header:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
 .koru-title {
   font-family: 'Space Mono', monospace;
   font-size: 0.72rem;
@@ -548,12 +616,28 @@ footer {
 
   <div class="panel">
 
+    <!-- ══ PANELES PLEGABLES ═══════════════════════════════════════════════
+         Las cuatro cabeceras eran <div> con un escuchador de click. Se veian
+         y funcionaban igual, pero con el teclado no habia forma de abrirlas:
+         Parametros, Resultados, Contexto y KORU quedaban fuera del alcance de
+         quien no usa raton, que es la mitad del panel.
+
+         Son <button> porque un boton ya trae de fabrica Enter, Espacio, foco
+         y el anuncio en lector de pantalla. No hay que programar nada de eso,
+         y lo que se programa a mano se programa a medias.
+
+         `aria-expanded` dice si esta abierto y `aria-controls` que abre. Los
+         chevrones van `aria-hidden`: son un dibujo, el estado ya lo cuenta el
+         atributo.  V0-ark ef23a8f9-0b0a-4ddd-a1ef-7c01efe44b23
+    ═════════════════════════════════════════════════════════════════════ -->
+
     <!-- 1. Par&aacute;metros -->
     <div class="panel-collapsible">
-      <div class="panel-collapsible-header" id="parametros-toggle">
+      <button type="button" class="panel-collapsible-header" id="parametros-toggle"
+              aria-expanded="true" aria-controls="parametros-body">
         <span class="panel-collapsible-title">Par&aacute;metros</span>
-        <span class="koru-chevron open" id="parametros-chevron">&#9654;</span>
-      </div>
+        <span class="koru-chevron open" id="parametros-chevron" aria-hidden="true">&#9654;</span>
+      </button>
       <div class="panel-collapsible-body open" id="parametros-body">
         <div id="sliders-container"></div>
       </div>
@@ -561,10 +645,11 @@ footer {
 
     <!-- 2. Resultados -->
     <div class="panel-collapsible" id="resultados-section">
-      <div class="panel-collapsible-header" id="resultados-toggle">
+      <button type="button" class="panel-collapsible-header" id="resultados-toggle"
+              aria-expanded="false" aria-controls="resultados-body">
         <span class="panel-collapsible-title">Resultados</span>
-        <span class="koru-chevron" id="resultados-chevron">&#9654;</span>
-      </div>
+        <span class="koru-chevron" id="resultados-chevron" aria-hidden="true">&#9654;</span>
+      </button>
       <div class="panel-collapsible-body" id="resultados-body">
         <div id="resultados-container"></div>
       </div>
@@ -572,10 +657,11 @@ footer {
 
     <!-- 3. Contexto -->
     <div class="panel-collapsible" id="insights-section">
-      <div class="panel-collapsible-header" id="insights-toggle">
+      <button type="button" class="panel-collapsible-header" id="insights-toggle"
+              aria-expanded="false" aria-controls="insights-body">
         <span class="panel-collapsible-title">Contexto</span>
-        <span class="koru-chevron" id="insights-chevron">&#9654;</span>
-      </div>
+        <span class="koru-chevron" id="insights-chevron" aria-hidden="true">&#9654;</span>
+      </button>
       <div class="panel-collapsible-body" id="insights-body">
         <div id="nota-container"></div>
       </div>
@@ -588,17 +674,18 @@ footer {
 
     <!-- 5. KORU -->
     <div id="koru-section">
-      <div class="koru-header" id="koru-toggle">
+      <button type="button" class="koru-header" id="koru-toggle"
+              aria-expanded="false" aria-controls="koru-body">
         <span class="koru-title">
-          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" style="flex-shrink:0;display:block">
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none" style="flex-shrink:0;display:block" aria-hidden="true" focusable="false">
             <path d="M15 15 L25 15 L25 5 L5 5 L5 25 L22 25 L22 8 L8 8 L8 22 L19 22 L19 11 L11 11 L11 19 L15 19"
                   stroke="currentColor" stroke-width="1.5"
                   stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           KORU · Pregunta
         </span>
-        <span class="koru-chevron" id="koru-chevron">&#9654;</span>
-      </div>
+        <span class="koru-chevron" id="koru-chevron" aria-hidden="true">&#9654;</span>
+      </button>
       <div class="koru-body" id="koru-body">
         <p class="koru-desc">Genera una pregunta estructurada para consultar en un LLM externo.</p>
         <p class="koru-steps">&#9312; Elige el tipo &nbsp;&#9313; Genera contexto &nbsp;&#9314; Pega en tu chatbot favorito</p>
@@ -608,9 +695,15 @@ footer {
           <button class="koru-btn" data-koru="exam_mode">Ay&uacute;dame para el examen</button>
         </div>
         <hr class="koru-divider">
-        <div class="koru-free-label">Pregunta libre</div>
+        <!-- El placeholder no vale como etiqueta: desaparece al escribir y no
+             todos los lectores de pantalla lo anuncian. Se apunta al rotulo
+             que YA esta en pantalla en vez de inventar un aria-label que
+             diga otra cosa distinta de lo que se lee. -->
+        <div class="koru-free-label" id="koru-free-label">Pregunta libre</div>
         <p class="koru-desc" style="margin-bottom:0.5rem">Genera una pregunta estructurada con tu propia duda.</p>
-        <textarea class="koru-input" id="koru-free-input" rows="2" placeholder="&iquest;Qu&eacute; quieres preguntar?"></textarea>
+        <textarea class="koru-input" id="koru-free-input" rows="2"
+                  aria-labelledby="koru-free-label"
+                  placeholder="&iquest;Qu&eacute; quieres preguntar?"></textarea>
         <button class="koru-generate" id="koru-generate-btn">
           <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="vertical-align:middle;margin-right:0.3rem">
             <path d="M7 7 L11 7 L11 3 L3 3 L3 11 L9 11 L9 5 L5 5 L5 9 L7 9"
@@ -799,17 +892,21 @@ window._actualizarAX0 = actualizarAX0externo;
     const c = document.getElementById(cid);
     if (!t || !b) return;
     t.addEventListener('click', () => {
-      b.classList.toggle('open');
+      // classList.toggle devuelve si la clase ha quedado puesta.
+      const abierto = b.classList.toggle('open');
       if (c) c.classList.toggle('open');
+      t.setAttribute('aria-expanded', abierto ? 'true' : 'false');
     });
   });
 })();
 
 // ── KORU ──────────────────────────────────────────────────────────────────────
 (function initKoru() {
-  document.getElementById('koru-toggle').addEventListener('click', () => {
-    document.getElementById('koru-body').classList.toggle('open');
+  const koruToggle = document.getElementById('koru-toggle');
+  koruToggle.addEventListener('click', () => {
+    const abierto = document.getElementById('koru-body').classList.toggle('open');
     document.getElementById('koru-chevron').classList.toggle('open');
+    koruToggle.setAttribute('aria-expanded', abierto ? 'true' : 'false');
   });
 
   function buildPrompt(template, freeText) {

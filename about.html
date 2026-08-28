@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  ARKINESIS  ·  https://v0raonline.github.io/arkinesis/
+  Copyright (c) 2024-2026 V0ra (v0raonline)
+  Licencia CC BY-NC-SA 4.0 — sin fines comerciales.
+-->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -41,6 +46,21 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Foco visible ─────────────────────────────────────────────────────────────
+   Ver donde esta el teclado es parte de poder usarlo: sin esto se tabula a
+   ciegas. `:focus-visible` y no `:focus` a proposito: el navegador solo lo
+   pinta cuando la navegacion es por teclado, asi que quien usa raton no ve
+   recuadros al hacer clic. */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 
 body {
   background: var(--bg);

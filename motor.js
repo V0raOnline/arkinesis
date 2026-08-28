@@ -246,7 +246,7 @@ function actualizarHeader(formula) {
   document.getElementById('formula-titulo').textContent = formula.titulo;
   // El titulo de la pestaña tambien. Un enlace compartido con los valores
   // puestos acaba en el historial y en los marcadores de alguien: alli
-  // "ARKINESIS" a secas no dice cual de las diecisiete era.
+  // "ARKINESIS" a secas no dice cual de las diecisiete era.  V0-ark ef23a8f9-0b0a-4ddd-a1ef-7c01efe44b23
   document.title = `${formula.titulo} — ARKINESIS`;
   const descEl = document.getElementById('formula-desc');
   if (descEl) descEl.textContent = formula.descripcion || '';
@@ -348,9 +348,54 @@ function poblarSelector(activo) {
     if (f.id === activo) opt.selected = true;
     sel.appendChild(opt);
   }
-  sel.addEventListener('change', () => {
+  // ── Recorrer la lista con el teclado sin que salte de pagina ────────────────
+  // Cambiar de simulacion recarga la pagina entera. Con el raton da igual: solo
+  // hay un `change`, al soltar. Pero un <select> cerrado cambia de valor a cada
+  // flecha y dispara `change` en cada una, asi que con el teclado la primera
+  // flecha te tira a otra pagina, pierdes el foco y apareces arriba del todo:
+  // recorrer la lista es imposible.  V0-ark ef23a8f9-0b0a-4ddd-a1ef-7c01efe44b23
+  //
+  // La salida no es tocar el control, sino distinguir de donde viene el cambio.
+  // Mientras recorres con las flechas se aplaza la navegacion; se confirma con
+  // Enter o al salir con Tab, y se cancela con Escape. El raton nunca enciende
+  // la bandera, asi que sigue navegando al instante igual que antes.
+  //
+  // Alt+Flecha abajo despliega la lista y ahi las flechas ya NO llegan aqui, se
+  // las queda el desplegable del navegador. Por eso esa combinacion se excluye:
+  // si encendiera la bandera, el Enter que confirma no navegaria nunca.
+  const TECLAS_DE_RECORRIDO = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight',
+                               'Home', 'End', 'PageUp', 'PageDown'];
+  let recorriendo   = false;
+  let valorDePartida = sel.value;
+
+  function irALaSimulacion() {
+    const destino = sel.value;
+    recorriendo = false;
+    // Volver a donde ya estabas solo sirve para perder el sitio.
+    if (destino === valorDePartida) return;
     if (State.animId) cancelAnimationFrame(State.animId);
-    window.location.search = `?formula=${sel.value}`;
+    window.location.search = `?formula=${destino}`;
+  }
+
+  sel.addEventListener('keydown', (e) => {
+    if (TECLAS_DE_RECORRIDO.includes(e.key) && !e.altKey) {
+      // El valor se guarda al EMPEZAR a recorrer, no al recibir el foco: el
+      // evento `focus` no siempre llega -no llega, por ejemplo, si la ventana
+      // no es la activa del sistema- y sin el la vuelta atras de Escape se
+      // queda sin punto al que volver.
+      if (!recorriendo) { valorDePartida = sel.value; recorriendo = true; }
+      return;
+    }
+    if (!recorriendo) return;
+    if (e.key === 'Enter')  { irALaSimulacion(); return; }
+    if (e.key === 'Escape') { sel.value = valorDePartida; recorriendo = false; }
+  });
+
+  sel.addEventListener('blur', () => { if (recorriendo) irALaSimulacion(); });
+
+  sel.addEventListener('change', () => {
+    if (recorriendo) return;   // sigues eligiendo: todavia no
+    irALaSimulacion();
   });
 }
 
